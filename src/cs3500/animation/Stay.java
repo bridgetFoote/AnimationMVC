@@ -22,7 +22,7 @@ public class Stay extends ShapeAction {
    */
   public Stay(int startTick, int endTick, List<Integer> startPoint,
               List<Integer> endPoint, RGBColor startColor,
-              RGBColor endColor, double endWidth, double endHeight) {
+              RGBColor endColor, int endWidth, int endHeight) {
     super(startTick, endTick, startPoint, endPoint, startColor, endColor, endWidth, endHeight);
     if ((startPoint.get(0) != endPoint.get(0)) || (startPoint.get(1) != endPoint.get(1))) {
       throw new IllegalArgumentException("The starting position is not the same "

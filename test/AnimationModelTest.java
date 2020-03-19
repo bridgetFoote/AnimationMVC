@@ -1,7 +1,6 @@
 import cs3500.animation.AnimationModel;
-import cs3500.animation.SimpleShape;
+import cs3500.animation.AbstractShape;
 import cs3500.animation.Rectangle;
-import cs3500.animation.Circle;
 import cs3500.animation.RGBColor;
 import cs3500.animation.ShapeAction;
 import cs3500.animation.Move;
@@ -24,7 +23,7 @@ public class AnimationModelTest {
 
   @Test (expected = IllegalArgumentException.class)
   public void testNoOverlappingActions() {
-    SimpleShape r = new Rectangle(new RGBColor(0, 0, 255),
+    AbstractShape r = new Rectangle(new RGBColor(0, 0, 255),
             3.1, 2.4, "blueRectangle");
     ShapeAction a = new Move(1, 6, Arrays.asList(0, 0),
             Arrays.asList(5, 5), new RGBColor(0, 0, 255),
@@ -36,11 +35,11 @@ public class AnimationModelTest {
             Arrays.asList(5, 5), new RGBColor(0, 0, 255),
             new RGBColor(0, 0, 255), 3.1, 2.4);
     m.addShape(r);
-    List<SimpleShape> sList = new ArrayList<SimpleShape>();
+    List<AbstractShape> sList = new ArrayList<AbstractShape>();
     sList.add(r);
     assertEquals(sList, m.getShapes());
     m.addShapeAction(r, a);
-    HashMap<SimpleShape, List<ShapeAction>> map = new HashMap<SimpleShape, List<ShapeAction>>();
+    HashMap<AbstractShape, List<ShapeAction>> map = new HashMap<AbstractShape, List<ShapeAction>>();
     map.put(r, Arrays.asList(a));
     assertEquals(map, m.getShapeActions());
     m.addShapeAction(r, b);
@@ -52,7 +51,7 @@ public class AnimationModelTest {
 
   @Test (expected = IllegalArgumentException.class)
   public void testNoTeleportation() {
-    SimpleShape r = new Rectangle(new RGBColor(0, 0, 255),
+    AbstractShape r = new Rectangle(new RGBColor(0, 0, 255),
             3.1, 2.4, "blueRectangle");
     ShapeAction a = new Move(1, 6, Arrays.asList(0, 0),
             Arrays.asList(5, 5), new RGBColor(0, 0, 255),
@@ -64,11 +63,11 @@ public class AnimationModelTest {
             Arrays.asList(5, 5), new RGBColor(0, 0, 255),
             new RGBColor(0, 0, 255), 3.1, 2.4);
     m.addShape(r);
-    List<SimpleShape> sList = new ArrayList<SimpleShape>();
+    List<AbstractShape> sList = new ArrayList<AbstractShape>();
     sList.add(r);
     assertEquals(sList, m.getShapes());
     m.addShapeAction(r, a);
-    HashMap<SimpleShape, List<ShapeAction>> map = new HashMap<SimpleShape, List<ShapeAction>>();
+    HashMap<AbstractShape, List<ShapeAction>> map = new HashMap<AbstractShape, List<ShapeAction>>();
     map.put(r, Arrays.asList(a));
     assertEquals(map, m.getShapeActions());
     m.addShapeAction(r, b);
@@ -80,9 +79,9 @@ public class AnimationModelTest {
 
   @Test (expected = IllegalArgumentException.class)
   public void noOverlappingShapes() {
-    SimpleShape r = new Rectangle(new RGBColor(0, 0, 255),
+    AbstractShape r = new Rectangle(new RGBColor(0, 0, 255),
             3.1, 2.4, "blueRectangle");
-    SimpleShape c = new Circle(new RGBColor(255, 0, 0),
+    AbstractShape c = new Circle(new RGBColor(255, 0, 0),
             2.0, 2.0, "redCircle");
     ShapeAction a = new Move(1, 6, Arrays.asList(0, 0),
             Arrays.asList(5, 5), new RGBColor(0, 0, 255),
@@ -97,7 +96,7 @@ public class AnimationModelTest {
             Arrays.asList(5, 4), new RGBColor(255, 0, 0),
             new RGBColor(255, 0, 0), 2.0, 2.0);
     m.addShape(r);
-    List<SimpleShape> sList = new ArrayList<SimpleShape>();
+    List<AbstractShape> sList = new ArrayList<AbstractShape>();
     sList.add(r);
     assertEquals(sList, m.getShapes());
     m.addShape(c);
@@ -106,7 +105,7 @@ public class AnimationModelTest {
     sList.add(r);
     assertEquals(sList, m.getShapes());
     m.addShapeAction(r, a);
-    HashMap<SimpleShape, List<ShapeAction>> map = new HashMap<SimpleShape, List<ShapeAction>>();
+    HashMap<AbstractShape, List<ShapeAction>> map = new HashMap<AbstractShape, List<ShapeAction>>();
     map.put(r, Arrays.asList(a));
     assertEquals(map, m.getShapeActions());
     m.addShapeAction(r, b);
@@ -135,9 +134,9 @@ public class AnimationModelTest {
             + "shape blueRectangle rectangle\n"
             + "motion bluRectangle 1 0 0 3.1 2.4 0 0 255  6 5 5 3.1 2.4 0 0 255\n"
             + "motion bluRectangle 6 5 5 3.1 2.4 0 0 255  11 5 5 3.1 2.4 0 0 255\n\n";
-    SimpleShape r = new Rectangle(new RGBColor(0, 0, 255),
+    AbstractShape r = new Rectangle(new RGBColor(0, 0, 255),
             3.1, 2.4, "blueRectangle");
-    SimpleShape c = new Circle(new RGBColor(255, 0, 0),
+    AbstractShape c = new Circle(new RGBColor(255, 0, 0),
             2.0, 2.0, "redCircle");
     ShapeAction a = new Move(1, 6, Arrays.asList(0, 0),
             Arrays.asList(5, 5), new RGBColor(0, 0, 255),

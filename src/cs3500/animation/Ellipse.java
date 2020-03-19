@@ -4,7 +4,7 @@ package cs3500.animation;
  * Represents the ellipse shape, has two dimensions fields, one for
  * length and the other for width.
  */
-public class Ellipse extends SimpleShape {
+public class Ellipse extends AbstractShape {
 
   /**
    * Constructor for an ellipse.
@@ -14,20 +14,16 @@ public class Ellipse extends SimpleShape {
    * @param height is the height for this ellipse.
    * @param name is the name of this shape.
    */
-  public Ellipse(RGBColor rGBColor, double width, double height, String name) {
+  public Ellipse(RGBColor rGBColor, int width, int height, String name) {
     super(rGBColor, width, height, name);
+    this.shapeType = ShapeType.ELLIPSE;
   }
 
   @Override
-  SimpleShape returnCopy() {
+  public IShape returnCopy() {
     return new Ellipse(new RGBColor(this.getColorGradient("red"),
             this.getColorGradient("green"), this.getColorGradient("blue")),
-            this.getShapeWidth(), this.getShapeHeight(), this.getName());
+            this.getWidth(), this.getHeight(), this.getName());
   }
 
-
-  @Override
-  void setShapeType() {
-    this.shapeType = "ellipse";
-  }
 }

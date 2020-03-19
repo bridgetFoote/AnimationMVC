@@ -21,7 +21,7 @@ public class Move extends ShapeAction {
    */
   public Move(int startTick, int endTick, List<Integer> startPoint,
               List<Integer> endPoint, RGBColor startColor,
-              RGBColor endColor, double endWidth, double endHeight) {
+              RGBColor endColor, int endWidth, int endHeight) {
     super(startTick, endTick, startPoint, endPoint, startColor, endColor, endWidth, endHeight);
   }
 

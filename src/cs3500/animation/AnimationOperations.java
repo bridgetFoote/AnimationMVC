@@ -23,7 +23,7 @@ public interface AnimationOperations {
    *
    * @return a list of the shapes in this animation, list is empty if there are no shapes.
    */
-  List<SimpleShape> getShapes();
+  List<IShape> getShapes();
 
   /**
    * Returns a map of the shapes in this animation with their corresponding actions.
@@ -32,5 +32,14 @@ public interface AnimationOperations {
    *         returns an empty map if there are no shapes, and the value for a shape with
    *         no actions is the empty list.
    */
-  HashMap<SimpleShape, List<ShapeAction>> getShapeActions();
+  HashMap<IShape, List<ShapeAction>> getShapeActions();
+
+  /**
+   * Returns a list of all the shapes at the given tick.
+   *
+   * @param tick the tick to get the shapes at.
+   * @return a list of all the shapes, empty if there are no shapes in this animation.
+   * @throws IllegalArgumentException if the tick is invalid.
+   */
+  List<IShape> getShapesAtTick(int tick);
 }

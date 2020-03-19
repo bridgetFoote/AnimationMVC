@@ -9,7 +9,7 @@ import java.util.Objects;
  * Abstract class to represent a shape. Has fields for the
  * actions associated with this shape and the color of this shape.
  */
-public abstract class SimpleShape {
+public abstract class AbstractShape implements IShape {
 
   /**
    * Constructor for a shape, calls the setDimensions function from
@@ -20,7 +20,7 @@ public abstract class SimpleShape {
    * @param name is the name of the shape.
    * @throws IllegalArgumentException if any of the parameters are invalid.
    */
-  public SimpleShape(RGBColor rGBColor, double width, double height, String name) {
+  public AbstractShape(RGBColor rGBColor, int width, int height, String name) {
     this.actions = new ArrayList<ShapeAction>();
     this.rGBColor = rGBColor;
     if (name.equals("")) {
@@ -35,15 +35,14 @@ public abstract class SimpleShape {
       throw new IllegalArgumentException("The width cannot be less than or equal to zero.");
     }
     this.height = height;
-    this.setShapeType();
   }
 
   private List<ShapeAction> actions;
   private RGBColor rGBColor;
   private String name;
-  protected String shapeType;
-  private double width;
-  private double height;
+  protected ShapeType shapeType;
+  private int width;
+  private int height;
 
   /**
    * Returns a copy of the list of actions for this shape.
@@ -59,25 +58,12 @@ public abstract class SimpleShape {
     return actions;
   }
 
-  /**
-   * Returns a copy of this shape.
-   *
-   * @return a copy of this shape.
-   */
-  abstract SimpleShape returnCopy();
+  @Override
+  public IShape returnCopy() {
+    return null;
+  }
 
-  /**
-   * Sets the shape type for this shape.
-   */
-  abstract void setShapeType();
-
-  /**
-   * Adds an action to this shape's list of actions if it does
-   * not already exist.
-   * @param action is the ShapeAction to add.
-   * @throws IllegalArgumentException if the given shape action overlaps with
-   *                                  a shape action already in the list.
-   */
+  @Override
   public void addShapeAction(ShapeAction action) {
     if (this.actions.size() == 0) {
       this.actions.add(action);
@@ -101,31 +87,13 @@ public abstract class SimpleShape {
     }
   }
 
-  /**
-   * Removes an action from this shape's list of actions if it exists.
-   * @param action is the ShapeAction to remove.
-   */
-  public void removeShapeAction(ShapeAction action) {
-    if (this.actions.contains(action)) {
-      this.actions.remove(action);
-    }
-  }
-
-  /**
-   * Gets the width of this shape.
-   *
-   * @return the double value for the width of this shape.
-   */
-  public double getShapeWidth() {
+  @Override
+  public int getWidth() {
     return this.width;
   }
 
-  /**
-   * Gets the height of this shape.
-   *
-   * @return  the double value for the height of this shape.
-   */
-  public double getShapeHeight() {
+  @Override
+  public int getHeight() {
     return this.height;
   }
 
@@ -142,32 +110,17 @@ public abstract class SimpleShape {
     return out;
   }
 
-  /**
-   * Returns the name of this shape.
-   * @return the string of the name of this shape.
-   */
+  @Override
   public String getName() {
     return this.name;
   }
 
-  /**
-   * Returns the value for the given color gradient.
-   *
-   * @param gradientType is the gradient type to return.
-   * @return integer value of the requested gradient type.
-   * @throws IllegalArgumentException if the gradient type is not valid.
-   */
+  @Override
   public int getColorGradient(String gradientType) {
     return this.rGBColor.getColorGradient(gradientType);
   }
 
-  /**
-   * Determines whether the given action can be added to this shape.
-   *
-   * @param action is the action to validate.
-   * @return true if it can be added, false otherwise.
-   * @throws IllegalArgumentException is the action is null.
-   */
+  @Override
   public boolean validateAction(ShapeAction action) {
     if (Objects.isNull(action)) {
       throw new IllegalArgumentException("The given action is null.");
@@ -185,10 +138,10 @@ public abstract class SimpleShape {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof SimpleShape)) {
+    if (!(other instanceof AbstractShape)) {
       return false;
     }
-    SimpleShape s = (SimpleShape)other;
+    AbstractShape s = (AbstractShape)other;
     if (s.actions.size() != this.actions.size()) {
       return false;
     }
@@ -210,13 +163,7 @@ public abstract class SimpleShape {
             this.shapeType, this.width, this.height);
   }
 
-  /**
-   * Returns the position of this shape at the given tick.
-   *
-   * @param tick is the tick at which to check this shape's location.
-   * @return the list of integers representing the shape's position.
-   * @throws IllegalArgumentException if the shape does not have an action at the tick.
-   */
+  @Override
   public List<Integer> getPosition(int tick) {
     if (this.actions.size() == 0) {
       throw new IllegalArgumentException("This shape does not have an action at the"

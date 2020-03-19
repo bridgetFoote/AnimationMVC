@@ -26,7 +26,7 @@ public abstract class ShapeAction {
    */
   public ShapeAction(int startTick, int endTick, List<Integer> startPoint,
                      List<Integer> endPoint, RGBColor startColor,
-                     RGBColor endColor, double endWidth, double endHeight) {
+                     RGBColor endColor, int endWidth, int endHeight) {
     if (startTick < 0) {
       throw new IllegalArgumentException("The starting time cannot be negative.");
     }
@@ -73,8 +73,8 @@ public abstract class ShapeAction {
   protected ActionType actionType;
   protected RGBColor startColor;
   protected RGBColor endColor;
-  protected double endWidth;
-  protected double endHeight;
+  protected int endWidth;
+  protected int endHeight;
 
   /**
    * Changes the timing of this action.
@@ -88,6 +88,21 @@ public abstract class ShapeAction {
     }
     this.startTick = startTick;
     this.endTick = endTick;
+  }
+
+  /**
+   * Determines whether the given ticks are valid.
+   *
+   * @param startTick is the start tick.
+   * @param endTick is the end tick.
+   * @return true if the ticks are valid, false if either one is
+   *         negative or if the end tick is less than the start tick.
+   */
+  public boolean validateTicks(int startTick, int endTick) {
+    if ((startTick < 0) || (endTick < 0) || (endTick < startTick)) {
+      return false;
+    }
+    return true;
   }
 
   abstract ActionType getActionType();
@@ -120,28 +135,17 @@ public abstract class ShapeAction {
   }
 
   /**
-   * Returns true if the given starting and ending ticks are valid for this type
-   * of shape action.
-   * @param startTick is the starting tick.
-   * @param endTick is the ending tick.
-   * @return true if the ticks are valid, false otherwise.
-   */
-  public boolean validateTicks(int startTick, int endTick) {
-    return true;
-  }
-
-  /**
    * Renders this shape action as a string with the given shape.
    *
    * @param shape is the shape to attach this action to.
    * @return the string representing this action.
    */
-  public String toString(SimpleShape shape) {
+  public String toString(AbstractShape shape) {
     String out = "motion" + " " + shape.getName() + " "
             + Integer.toString(this.startTick) + " " + Integer.toString(this.startPoint.get(0))
             + " " + Integer.toString(this.startPoint.get(1)) + " "
-            + Double.toString(shape.getShapeWidth())
-            + " " + Double.toString(shape.getShapeHeight()) + " "
+            + Double.toString(shape.getWidth())
+            + " " + Double.toString(shape.getHeight()) + " "
             + Integer.toString(shape.getColorGradient("red"))
             + " " + Integer.toString(shape.getColorGradient("green")) + " "
             + Integer.toString(shape.getColorGradient("blue"))
@@ -258,38 +262,6 @@ public abstract class ShapeAction {
     } else {
       return false;
     }
-  }
-
-  /**
-   * Determines whether adding this action to the given shape will causes an overlap
-   * at some point in the animation with the given list of shapes.
-   *
-   * @param shape the shape to add this action to.
-   * @param shapesAndActions the other shapes already in the animation and their actions.
-   * @return true if no overlap will occur, false otherwise.
-   */
-  public boolean causesOverlap(SimpleShape shape, HashMap<SimpleShape,
-          List<ShapeAction>> shapesAndActions) {
-    for (SimpleShape s: shapesAndActions.keySet()) {
-      if (!s.equals(shape)) {
-        for (ShapeAction a: shapesAndActions.get(s)) {
-          if ((a.startTick > this.startTick) && (a.startTick < this.endTick)) {
-            for (int i = a.startTick; i <= this.endTick; i++) {
-              if (s.getPosition(i).equals(a.getPosition(i))) {
-                return true;
-              }
-            }
-          } else if ((a.endTick > this.startTick) && (a.endTick < this.endTick)) {
-            for (int i = this.startTick; i <= a.endTick; i++) {
-              if (s.getPosition(i).equals(a.getPosition(i))) {
-                return true;
-              }
-            }
-          }
-        }
-      }
-    }
-    return false;
   }
 
   /**
