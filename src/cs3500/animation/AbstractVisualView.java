@@ -6,9 +6,15 @@ import java.util.Objects;
 /**
  * Represents a general animation view.
  */
-public class AbstractView extends JFrame implements AnimationView {
+public class AbstractVisualView extends JFrame implements AnimationView {
 
-  public AbstractView(String windowTitle, AnimationOperations readOnlyModel) {
+  /**
+   * Creates a new visual view with the given window title and based off of the given model.
+   *
+   * @param windowTitle is the window title.
+   * @param readOnlyModel is the model to base off of.
+   */
+  public AbstractVisualView(String windowTitle, AnimationOperations readOnlyModel) {
     super(windowTitle);
     if (Objects.isNull(readOnlyModel)) {
       throw new IllegalArgumentException("The read-only model can't be null.");
@@ -19,7 +25,6 @@ public class AbstractView extends JFrame implements AnimationView {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 
-  @Override
   public void refresh() {
     this.repaint();
   }

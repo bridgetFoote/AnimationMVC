@@ -1,12 +1,10 @@
 package cs3500.animation;
 
-import javax.swing.*;
-
 /**
  * Represents an animation view displayed textually,
  * with each shape listed with their movements underneath organized by tick.
  */
-public class TextView extends AbstractView {
+public class TextView extends AbstractTextualView {
 
   /**
    * Creates a text display animation view that displays this animation
