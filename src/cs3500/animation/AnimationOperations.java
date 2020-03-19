@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Interface to represent an animation of shapes.
+ * Interface to represent an animation of shapes, does not contain any methods
+ * necessary to modify the model.
  */
 public interface AnimationOperations {
 
@@ -16,24 +17,6 @@ public interface AnimationOperations {
    * @return string representing the animation.
    */
   String getTextDescription();
-
-  /**
-   * Adds a new shape to the animation.
-   * @param shape is the shape to be added.
-   * @throws IllegalArgumentException if the given shape is null or if
-   *                                  the given shape has the same name
-   *                                  as a shape already in this animation.
-   */
-  void addShape(SimpleShape shape);
-
-  /**
-   * Adds a new shape action to the animation.
-   * @param shape is the shape to add the action to.
-   * @param action is the action to add.
-   * @throws IllegalArgumentException if either of the arguments are null
-   *                                  or if the given shape is not in this animation.
-   */
-  void addShapeAction(SimpleShape shape, ShapeAction action);
 
   /**
    * Returns the list of shapes in this animation.

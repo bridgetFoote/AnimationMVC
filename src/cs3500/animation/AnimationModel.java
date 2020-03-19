@@ -10,7 +10,7 @@ import java.util.Objects;
  * Has information about shape size, color,
  * and movement over a period of time.
  */
-public class AnimationModel implements AnimationOperations {
+public class AnimationModel implements AnimationOperations, AnimationEditOperations {
 
   /**
    * Creates a new AnimationModel with an empty list of shapes.

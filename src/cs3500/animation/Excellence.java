@@ -20,10 +20,12 @@ public final class Excellence {
         case "-in":
           inputFile = args[i + 1];
         case "-view":
-          if (args[i + 1].equals("string")) {
-            typeOfView = ViewType.STRINGVIEW;
-          } else if (args[i + 1].equals("animation")) {
-            typeOfView = ViewType.ANIMATIONVIEW;
+          if (args[i + 1].equals("text")) {
+            typeOfView = ViewType.TEXTVIEW;
+          } else if (args[i + 1].equals("visual")) {
+            typeOfView = ViewType.VISUALVIEW;
+          } else if (args[i + 1].equals("svg")) {
+            typeOfView = ViewType.SVGVIEW;
           } else {
             JOptionPane.showMessageDialog(new JDialog(), "Given view type is not valid.");
             return;
