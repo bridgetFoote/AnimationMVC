@@ -17,9 +17,6 @@ public class AbstractView extends JFrame implements AnimationView {
     setSize(400, 300);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    this.panel = new AnimationPanel(readOnlyModel);
-    this.add(this.panel);
   }
 
   @Override
