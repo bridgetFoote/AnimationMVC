@@ -7,7 +7,7 @@ import java.util.*;
  * Has information about shape size, color,
  * and movement over a period of time.
  */
-public class AnimationModel implements AnimationOperations, AnimationEditOperations {
+public class AnimationModel implements AnimationOperations {
 
   /**
    * Creates a new AnimationModel with an empty list of shapes.
@@ -20,18 +20,39 @@ public class AnimationModel implements AnimationOperations, AnimationEditOperati
   private HashMap<String, IShape> shapes;
   private TreeMap<IShape, List<Integer>> orderedShapes;
 
-  @Override
-  public String getTextDescription() {
-    if (this.shapes.size() == 0) {
-      return "";
+  /**
+   * Builds an AnimationOperations model from a text file
+   */
+  public static final class Builder implements AnimationBuilder<AnimationOperations> {
+
+    @Override
+    public AnimationOperations build() {
+      return null;
     }
 
-    String out = "";
-    for (IShape s: this.shapes.values()) {
-      out = out.concat(s.toString() +  "\n");
+    @Override
+    public AnimationBuilder<AnimationOperations> setBounds(int x, int y, int width, int height) {
+      return null;
     }
 
-    return out;
+    @Override
+    public AnimationBuilder<AnimationOperations> declareShape(String name, String type) {
+      return null;
+    }
+
+    @Override
+    public AnimationBuilder<AnimationOperations> addMotion(String name, int t1, int x1,
+                                                           int y1, int w1, int h1, int r1, int g1,
+                                                           int b1, int t2, int x2, int y2, int w2,
+                                                           int h2, int r2, int g2, int b2) {
+      return null;
+    }
+
+    @Override
+    public AnimationBuilder<AnimationOperations> addKeyframe(String name, int t, int x, int y,
+                                                             int w, int h, int r, int g, int b) {
+      return null;
+    }
   }
 
   @Override
@@ -57,8 +78,8 @@ public class AnimationModel implements AnimationOperations, AnimationEditOperati
   public void addShapeAction(String shapeName, int startTick, int endTick, int startPointX,
                              int startPointY, int endPointX, int endPointY, int startRedGradient,
                              int startGreenGradient, int startBlueGradient, int endRedGradient,
-                             int endGreenGradient, int endBlueGradient, double endWidth,
-                             double endHeight) {
+                             int endGreenGradient, int endBlueGradient, int endWidth,
+                             int endHeight) {
     if (!this.shapes.containsKey(shapeName)) {
       throw new IllegalArgumentException("The given shape does not exist in this animation.");
     }

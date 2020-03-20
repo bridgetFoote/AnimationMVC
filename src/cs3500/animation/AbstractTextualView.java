@@ -1,6 +1,8 @@
 package cs3500.animation;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,17 +15,42 @@ public class AbstractTextualView extends JFrame implements AnimationView {
    * given model.
    *
    * @param windowTitle is the window title.
-   * @param readOnlyModel is the model to base the view off of.
+   * @param model is the model to base the view off of.
    */
-  public AbstractTextualView(String windowTitle, AnimationOperations readOnlyModel) {
+  public AbstractTextualView(String windowTitle, AnimationOperations model) {
     super(windowTitle);
-    if (Objects.isNull(readOnlyModel)) {
+    if (Objects.isNull(model)) {
       throw new IllegalArgumentException("The read-only model can't be null.");
     }
+
+    this.model = model;
 
     setSize(400, 300);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  }
+
+  private AnimationOperations model;
+
+  /**
+   * Returns a text description of the movement and properties
+   * of each shape in the animation over the entire duration
+   * of time.
+   *
+   * @return string representing the animation.
+   */
+  protected String getTextDescription() {
+    List<IShape> shapes = this.model.getShapes();
+    if (shapes.size() == 0) {
+      return "";
+    }
+
+    String out = "";
+    for (IShape s: shapes) {
+      out = out.concat(s.toString() +  "\n");
+    }
+
+    return out;
   }
 
   @Override
