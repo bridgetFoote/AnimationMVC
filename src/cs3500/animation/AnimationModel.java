@@ -19,25 +19,33 @@ public class AnimationModel implements AnimationOperations {
 
   private HashMap<String, IShape> shapes;
   private TreeMap<IShape, List<Integer>> orderedShapes;
+  private int xMin;
+  private int yMin;
+  private int canvasWidth;
+  private int canvasHeight;
 
   /**
    * Builds an AnimationOperations model from a text file
    */
   public static final class Builder implements AnimationBuilder<AnimationOperations> {
 
+    public AnimationOperations model = new AnimationModel();
+
     @Override
     public AnimationOperations build() {
-      return null;
+      return model;
     }
 
     @Override
     public AnimationBuilder<AnimationOperations> setBounds(int x, int y, int width, int height) {
-      return null;
+      model.setBounds(x, y, width, height);
+      return this;
     }
 
     @Override
     public AnimationBuilder<AnimationOperations> declareShape(String name, String type) {
-      return null;
+      model.addShape(name, type);
+      return this;
     }
 
     @Override
@@ -45,24 +53,24 @@ public class AnimationModel implements AnimationOperations {
                                                            int y1, int w1, int h1, int r1, int g1,
                                                            int b1, int t2, int x2, int y2, int w2,
                                                            int h2, int r2, int g2, int b2) {
-      return null;
+      model.addShapeAction(name, t1, t2, x1, y1, x2, y2, r1, g1, b1, r2, g2, b2, w2, h2);
+      return this;
     }
 
     @Override
     public AnimationBuilder<AnimationOperations> addKeyframe(String name, int t, int x, int y,
                                                              int w, int h, int r, int g, int b) {
-      return null;
+      return this;
     }
   }
 
   @Override
-  public void addShape(int redGradient, int greenGradient, int blueGradient,
-                       int width, int height, String name, String shapeType) {
+  public void addShape(String name, String shapeType) {
     IShape shape;
     if (ShapeType.RECTANGLE.str.equals(shapeType)) {
-      shape = new Rectangle(new RGBColor(redGradient, greenGradient, blueGradient), width, height, name);
+      shape = new Rectangle(name);
     } else if (ShapeType.ELLIPSE.str.equals(shapeType)) {
-      shape = new Ellipse(new RGBColor(redGradient, greenGradient, blueGradient), width, height, name);
+      shape = new Ellipse(name);
     } else {
       throw new IllegalArgumentException("Invalid shape type.");
     }
@@ -102,6 +110,17 @@ public class AnimationModel implements AnimationOperations {
         this.shapes.get(shapeName).addShapeAction(action);
       }
     }
+  }
+
+  @Override
+  public void setBounds(int x, int y, int width, int height) {
+    if ((x < 0) || (y < 0) || (width <= 0) || (height <= 0)) {
+      throw new IllegalArgumentException("Invalid parameters.");
+    }
+    this.xMin = x;
+    this.yMin = y;
+    this.canvasWidth = width;
+    this.canvasHeight = height;
   }
 
   @Override

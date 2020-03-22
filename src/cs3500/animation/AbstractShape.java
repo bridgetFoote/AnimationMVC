@@ -14,35 +14,21 @@ public abstract class AbstractShape implements IShape {
   /**
    * Constructor for a shape, calls the setDimensions function from
    * the extended class.
-   * @param rGBColor is the color of the shape.
-   * @param width is the width for this shape.
-   * @param height is the height for this shape.
    * @param name is the name of the shape.
+   * @param type is the type of the shape.
    * @throws IllegalArgumentException if any of the parameters are invalid.
    */
-  public AbstractShape(RGBColor rGBColor, int width, int height, String name) {
+  public AbstractShape(String name, ShapeType type) {
     this.actions = new ArrayList<ShapeAction>();
-    this.rGBColor = rGBColor;
     if (name.equals("")) {
       throw new IllegalArgumentException("The name of this shape cannot be the empty string.");
     }
     this.name = name;
-    if (width <= 0) {
-      throw new IllegalArgumentException("The length cannot be less than or equal to zero.");
-    }
-    this.width = width;
-    if (height <= 0) {
-      throw new IllegalArgumentException("The width cannot be less than or equal to zero.");
-    }
-    this.height = height;
   }
 
   private List<ShapeAction> actions;
-  private RGBColor rGBColor;
   private String name;
   protected ShapeType shapeType;
-  private int width;
-  private int height;
 
   /**
    * Returns a copy of the list of actions for this shape.
@@ -88,13 +74,35 @@ public abstract class AbstractShape implements IShape {
   }
 
   @Override
-  public int getWidth() {
-    return this.width;
+  public int getWidth(int tick) {
+    for (ShapeAction a: this.actions) {
+      if ((a.startTick <= tick) && (a.endTick >= tick)) {
+        if (Math.abs(a.endWidth - a.startWidth) == 0) {
+          return a.startWidth;
+        } else {
+          int changePerTick = (a.endWidth - a.startWidth) / (a.endTick - a.startTick);
+          int ticksPastStart = tick - a.startTick;
+          return a.startWidth + (ticksPastStart * changePerTick);
+        }
+      }
+    }
+    throw new IllegalArgumentException("This shape does not exist at the given tick.");
   }
 
   @Override
-  public int getHeight() {
-    return this.height;
+  public int getHeight(int tick) {
+    for (ShapeAction a: this.actions) {
+      if ((a.startTick <= tick) && (a.endTick >= tick)) {
+        if (Math.abs(a.endHeight - a.startHeight) == 0) {
+          return a.startHeight;
+        } else {
+          int changePerTick = (a.endHeight - a.startHeight) / (a.endTick - a.startTick);
+          int ticksPastStart = tick - a.startTick;
+          return a.startHeight + (ticksPastStart * changePerTick);
+        }
+      }
+    }
+    throw new IllegalArgumentException("This shape does not exist at the given tick.");
   }
 
   @Override
@@ -116,8 +124,21 @@ public abstract class AbstractShape implements IShape {
   }
 
   @Override
-  public int getColorGradient(String gradientType) {
-    return this.rGBColor.getColorGradient(gradientType);
+  public int getColorGradient(String gradientType, int tick) {
+    for (ShapeAction a: this.actions) {
+      if ((a.startTick <= tick) && (a.endTick >= tick)) {
+        if (Math.abs(a.endColor.getColorGradient(gradientType)
+                - a.startColor.getColorGradient(gradientType)) == 0) {
+          return a.startColor.getColorGradient(gradientType);
+        } else {
+          int changePerTick = (a.endColor.getColorGradient(gradientType)
+                  - a.startColor.getColorGradient(gradientType)) / (a.endTick - a.startTick);
+          int ticksPastStart = tick - a.startTick;
+          return a.startColor.getColorGradient(gradientType) + (ticksPastStart * changePerTick);
+        }
+      }
+    }
+    throw new IllegalArgumentException("This shape does not exist at the given tick.");
   }
 
   @Override
@@ -150,17 +171,12 @@ public abstract class AbstractShape implements IShape {
         return false;
       }
     }
-    return this.rGBColor.equals(s.rGBColor)
-            && this.name.equals(s.name)
-            && this.shapeType.equals(s.shapeType)
-            && (this.width == s.width)
-            && (this.height == s.height);
+    return this.name.equals(s.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.actions, this.rGBColor, this.name,
-            this.shapeType, this.width, this.height);
+    return Objects.hash(this.actions, this.name, this.shapeType);
   }
 
   @Override

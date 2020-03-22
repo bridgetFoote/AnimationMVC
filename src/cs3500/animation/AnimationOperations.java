@@ -10,6 +10,16 @@ import java.util.List;
 public interface AnimationOperations {
 
   /**
+   * Sets the minimum x and y coordinate values,
+   * as well as width and height for this animation.
+   * @param x minimum x value.
+   * @param y minimum y value.
+   * @param width animation width.
+   * @param height animation height.
+   */
+  public void setBounds(int x, int y, int width, int height);
+
+  /**
    * Returns the list of shapes in this animation.
    *
    * @return a list of the shapes in this animation, list is empty if there are no shapes.
@@ -36,18 +46,12 @@ public interface AnimationOperations {
 
   /**
    * Adds a new shape to the animation.
-   * @param redGradient is the amount of red in the shape's color.
-   * @param greenGradient is the amount of red in the shape's color.
-   * @param blueGradient is the amount of red in the shape's color.
-   * @param width is the width of the shape.
-   * @param height is the height of the shape.
    * @param name is the shape's name
    * @throws IllegalArgumentException if a shape already in this animation
    *                                  has the given name or if the
    *                                  parameters are invalid.
    */
-  void addShape(int redGradient, int greenGradient, int blueGradient,
-                int width, int height, String name, String shapeType);
+  void addShape(String name, String shapeType);
 
   /**
    * Adds a new shape action to the animation.

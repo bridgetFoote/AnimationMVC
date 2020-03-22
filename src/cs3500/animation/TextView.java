@@ -1,5 +1,7 @@
 package cs3500.animation;
 
+import javax.swing.*;
+
 /**
  * Represents an animation view displayed textually,
  * with each shape listed with their movements underneath organized by tick.
@@ -16,6 +18,7 @@ public class TextView extends AbstractTextualView {
    */
   public TextView(String windowTitle, AnimationOperations readOnlyModel) {
     super(windowTitle, readOnlyModel);
-
+    JLabel label = new JLabel(this.getTextDescription());
+    this.add(label);
   }
 }
