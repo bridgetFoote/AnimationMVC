@@ -95,5 +95,11 @@ public interface IShape {
    */
   void addShapeAction(ShapeAction action);
 
+  /**
+   * Returns the string of this shape's type.
+   *
+   * @return string value of the shape type.
+   */
+  String getShapeType();
 
 }

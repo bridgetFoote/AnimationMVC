@@ -88,4 +88,18 @@ public interface AnimationOperations {
                       int startGreenGradient, int startBlueGradient, int endRedGradient,
                       int endGreenGradient, int endBlueGradient, int endWidth,
                       int endHeight);
+
+  /**
+   * Returns the width of the canvas for this animation.
+   *
+   * @return integer value of the width of this canvas.
+   */
+  int getCanvasWidth();
+
+  /**
+   * Returns the height of the canvas for this animation.
+   *
+   * @return integer value of the height of this canvas.
+   */
+  int getCanvasHeight();
 }

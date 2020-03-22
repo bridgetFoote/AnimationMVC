@@ -212,4 +212,13 @@ public abstract class AbstractShape implements IShape {
     }
     throw new IllegalArgumentException("This shape does not have an action at the given tick.");
   }
+
+  @Override
+  public String getShapeType() {
+    if (this.shapeType.equals(ShapeType.RECTANGLE)) {
+      return "rect";
+    } else {
+      return "ellipse";
+    }
+  }
 }

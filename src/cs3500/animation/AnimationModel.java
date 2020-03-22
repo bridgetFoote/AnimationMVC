@@ -113,6 +113,16 @@ public class AnimationModel implements AnimationOperations {
   }
 
   @Override
+  public int getCanvasWidth() {
+    return this.canvasWidth;
+  }
+
+  @Override
+  public int getCanvasHeight() {
+    return this.canvasHeight;
+  }
+
+  @Override
   public void setBounds(int x, int y, int width, int height) {
     if ((x < 0) || (y < 0) || (width <= 0) || (height <= 0)) {
       throw new IllegalArgumentException("Invalid parameters.");

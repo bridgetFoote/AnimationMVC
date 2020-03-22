@@ -17,12 +17,20 @@ public class AbstractTextualView extends JFrame implements AnimationView {
    * @param windowTitle is the window title.
    * @param model is the model to base the view off of.
    */
-  public AbstractTextualView(String windowTitle, AnimationOperations model) {
+  public AbstractTextualView(String windowTitle, AnimationOperations model, String outFile, int tempo) {
     super(windowTitle);
     if (Objects.isNull(model)) {
       throw new IllegalArgumentException("The read-only model can't be null.");
     }
+    if (outFile.equals("")) {
+      throw new IllegalArgumentException("The output file is not valid.");
+    }
+    if (tempo <= 0) {
+      throw new IllegalArgumentException("The tempo is not valid.");
+    }
 
+    this.outFile = outFile;
+    this.tempo = tempo;
     this.model = model;
 
     setSize(400, 300);
@@ -30,7 +38,9 @@ public class AbstractTextualView extends JFrame implements AnimationView {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 
-  private AnimationOperations model;
+  protected String outFile;
+  protected int tempo;
+  protected AnimationOperations model;
 
   /**
    * Returns a text description of the movement and properties
