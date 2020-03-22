@@ -1,70 +1,52 @@
 package cs3500.animation;
 
+import javax.naming.OperationNotSupportedException;
 import javax.swing.*;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents a textual view of an animation in either string or SVG form.
  */
-public class AbstractTextualView extends JFrame implements AnimationView {
+public class AbstractTextualView implements AnimationView {
+
+  private AnimationOperations model;
 
   /**
    * Creates a new textual view with the given window title and based on the
    * given model.
    *
-   * @param windowTitle is the window title.
-   * @param model is the model to base the view off of.
+   * @param readOnlyModel is the model to base the view off of.
    */
-  public AbstractTextualView(String windowTitle, AnimationOperations model, String outFile, int tempo) {
-    super(windowTitle);
-    if (Objects.isNull(model)) {
+  public AbstractTextualView(AnimationOperations readOnlyModel) {
+    if (Objects.isNull(readOnlyModel)) {
       throw new IllegalArgumentException("The read-only model can't be null.");
     }
-    if (outFile.equals("")) {
-      throw new IllegalArgumentException("The output file is not valid.");
-    }
-    if (tempo <= 0) {
-      throw new IllegalArgumentException("The tempo is not valid.");
-    }
-
-    this.outFile = outFile;
-    this.tempo = tempo;
-    this.model = model;
-
-    setSize(400, 300);
-    setLocation(200, 200);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  }
-
-  protected String outFile;
-  protected int tempo;
-  protected AnimationOperations model;
-
-  /**
-   * Returns a text description of the movement and properties
-   * of each shape in the animation over the entire duration
-   * of time.
-   *
-   * @return string representing the animation.
-   */
-  protected String getTextDescription() {
-    List<IShape> shapes = this.model.getShapes();
-    if (shapes.size() == 0) {
-      return "";
-    }
-
-    String out = "";
-    for (IShape s: shapes) {
-      out = out.concat(s.toString() +  "\n");
-    }
-
-    return out;
+    this.model = readOnlyModel;
   }
 
   @Override
   public void makeVisible() {
-    this.setVisible(true);
+    // Do nothing, don't need to make anything visible.
+  }
+
+  @Override
+  public String getTextualDescription() {
+    String out = "";
+    Map<IShape, List<ShapeAction>> actions = model.getShapeActions();
+    Set aKeys = actions.keySet();
+    for (Object s: aKeys) {
+      if (s instanceof IShape) {
+        out = out.concat(s.toString());
+      }
+    }
+    return out;
+  }
+
+  @Override
+  public String getXMLText() {
+    return null;
   }
 }

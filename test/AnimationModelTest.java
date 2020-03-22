@@ -1,10 +1,4 @@
-import cs3500.animation.AnimationModel;
-import cs3500.animation.AbstractShape;
-import cs3500.animation.Rectangle;
-import cs3500.animation.RGBColor;
-import cs3500.animation.ShapeAction;
-import cs3500.animation.Move;
-import cs3500.animation.Stay;
+import cs3500.animation.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,7 +15,7 @@ public class AnimationModelTest {
 
   AnimationModel m = new AnimationModel();
 
-  @Test (expected = IllegalArgumentException.class)
+  /*@Test (expected = IllegalArgumentException.class)
   public void testNoOverlappingActions() {
     AbstractShape r = new Rectangle(new RGBColor(0, 0, 255),
             3.1, 2.4, "blueRectangle");
@@ -116,43 +110,23 @@ public class AnimationModelTest {
     m.addShapeAction(c, e);
     map.get(c).add(e);
     assertEquals(map, m.getShapeActions());
-  }
+  }*/
 
   @Test
   public void testTextDescription() {
-    String output = "";
-    output = output.concat("shape redCircle circle\n");
-    output = output.concat("motion redCircle 0 1 1 2.0 2.0 255 0 0  8 5 4 2.0 2.0 255 0 0\n");
-    output = output.concat("\n");
-    output = output.concat("shape blueRectangle rectangle\n");
-    output = output.concat("motion blueRectangle 1 0 0 3.1 2.4 0 0 255  6 5 5 3.1 2.4 0 0 255\n");
-    output = output.concat("motion blueRectangle 6 5 5 3.1 2.4 0 0 255  11 5 5 3.1 2.4 0 0 255\n");
-    output = output.concat("\n");
-    String out1 = "shape redCircle circle\n"
-            + "motion redCircle 0 1 1 2.0 2.0 255 0 0  8 5 4 2.0 2.0 255 0 0\n"
-            + "\n"
-            + "shape blueRectangle rectangle\n"
-            + "motion bluRectangle 1 0 0 3.1 2.4 0 0 255  6 5 5 3.1 2.4 0 0 255\n"
-            + "motion bluRectangle 6 5 5 3.1 2.4 0 0 255  11 5 5 3.1 2.4 0 0 255\n\n";
-    AbstractShape r = new Rectangle(new RGBColor(0, 0, 255),
-            3.1, 2.4, "blueRectangle");
-    AbstractShape c = new Circle(new RGBColor(255, 0, 0),
-            2.0, 2.0, "redCircle");
-    ShapeAction a = new Move(1, 6, Arrays.asList(0, 0),
-            Arrays.asList(5, 5), new RGBColor(0, 0, 255),
-            new RGBColor(0, 0, 255), 3.1, 2.4);
-    ShapeAction b = new Stay(6, 11, Arrays.asList(5, 5),
-            Arrays.asList(5, 5), new RGBColor(0, 0, 255),
-            new RGBColor(0, 0, 255), 3.1, 2.4);
-    ShapeAction e = new Move(0, 8, Arrays.asList(1, 1),
-            Arrays.asList(5, 4), new RGBColor(255, 0, 0),
-            new RGBColor(255, 0, 0), 2.0, 2.0);
-    m.addShape(r);
-    m.addShape(c);
-    m.addShapeAction(r, a);
-    m.addShapeAction(r, b);
-    assertEquals(2, m.getShapeActions().get(r).size());
-    m.addShapeAction(c, e);
-    assertEquals(output, m.getTextDescription());
+    m.addShape(255, 0, 0, 50, 60,
+            "R1", ShapeType.RECTANGLE.toString());
+    m.addShapeAction("R1", 1, 5, 9, 9, 10, 10
+    , 255, 0, 0, 255, 0, 0
+    , 50, 60);
+    m.addShape(100, 0, 0, 100, 200,
+            "R2", ShapeType.RECTANGLE.toString());
+    m.addShapeAction("R2", 5, 8, 100, 100, 200, 10
+            , 100, 0, 0, 255, 0, 0
+            , 100, 200);
+    AnimationView v = new TextView(m);
+    System.out.println(v.getTextualDescription());
+    AnimationView svg = new SVGView(m);
+    System.out.println(svg.getXMLText());
   }
 }

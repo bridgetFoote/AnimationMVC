@@ -11,4 +11,9 @@ public enum ShapeType {
   }
 
   public String str;
+
+  @Override
+  public String toString() {
+    return this.str;
+  }
 }

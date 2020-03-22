@@ -10,7 +10,7 @@ import java.util.Objects;
  * ending ticks of the action as well as the starting and ending coordinates
  * for the shape.
  */
-public abstract class ShapeAction {
+public abstract class ShapeAction implements IAction{
 
   /**
    * Constructor for a ShapeAction, sets all of the fields.
@@ -26,7 +26,7 @@ public abstract class ShapeAction {
    */
   public ShapeAction(int startTick, int endTick, List<Integer> startPoint,
                      List<Integer> endPoint, RGBColor startColor,
-                     RGBColor endColor, int startWidth, int startHeight, int endWidth, int endHeight) {
+                     RGBColor endColor, int endWidth, int endHeight) {
     if (startTick < 0) {
       throw new IllegalArgumentException("The starting time cannot be negative.");
     }
@@ -49,14 +49,6 @@ public abstract class ShapeAction {
     this.actionType = this.getActionType();
     this.startColor = startColor;
     this.endColor = endColor;
-    if (startWidth <= 0) {
-      throw new IllegalArgumentException("The start width cannot be less than or equal to 0.");
-    }
-    this.startWidth = startWidth;
-    if (startHeight <= 0) {
-      throw new IllegalArgumentException("The start height cannot be less than or equal to 0.");
-    }
-    this.startHeight = startHeight;
     if (endWidth <= 0) {
       throw new IllegalArgumentException("The end width cannot be less than or equal to 0.");
     }
@@ -81,8 +73,6 @@ public abstract class ShapeAction {
   protected ActionType actionType;
   protected RGBColor startColor;
   protected RGBColor endColor;
-  protected int startWidth;
-  protected int startHeight;
   protected int endWidth;
   protected int endHeight;
 
@@ -154,15 +144,15 @@ public abstract class ShapeAction {
     String out = "motion" + " " + shape.getName() + " "
             + Integer.toString(this.startTick) + " " + Integer.toString(this.startPoint.get(0))
             + " " + Integer.toString(this.startPoint.get(1)) + " "
-            + Double.toString(this.startWidth)
-            + " " + Double.toString(this.startHeight) + " "
+            + Double.toString(shape.getWidth())
+            + " " + Double.toString(shape.getHeight()) + " "
             + Integer.toString(shape.getColorGradient("red"))
             + " " + Integer.toString(shape.getColorGradient("green")) + " "
             + Integer.toString(shape.getColorGradient("blue"))
             + "  " + Integer.toString(this.endTick) + " " + Integer.toString(this.endPoint.get(0))
             + " " + Integer.toString(this.endPoint.get(1)) + " "
-            + Integer.toString(this.endWidth)
-            + " " + Integer.toString(this.endHeight) + " "
+            + Double.toString(this.endWidth)
+            + " " + Double.toString(this.endHeight) + " "
             + Integer.toString(endColor.getColorGradient("red"))
             + " " + Integer.toString(endColor.getColorGradient("green")) + " "
             + Integer.toString(endColor.getColorGradient("blue"));

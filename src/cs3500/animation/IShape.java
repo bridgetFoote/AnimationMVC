@@ -25,18 +25,16 @@ public interface IShape {
   /**
    * Returns the width of this shape.
    *
-   * @param tick is the tick to return the width at.
    * @return integer value of the width.
    */
-  int getWidth(int tick);
+  int getWidth();
 
   /**
    * Returns the height of this shape.
    *
-   * @param tick is the tick to return the height at.
    * @return integer value of the height.
    */
-  int getHeight(int tick);
+  int getHeight();
 
   @Override
   String toString();
@@ -52,10 +50,9 @@ public interface IShape {
    * Returns the indicated color gradient value.
    *
    * @param redGreenOrBlue is which gradient value to return.
-   * @param tick is the tick to get the color at.
    * @return the indicated integer gradient value.
    */
-  int getColorGradient(String redGreenOrBlue, int tick);
+  int getColorGradient(String redGreenOrBlue);
 
   /**
    * Determines whether the given action can be added to this
@@ -95,11 +92,5 @@ public interface IShape {
    */
   void addShapeAction(ShapeAction action);
 
-  /**
-   * Returns the string of this shape's type.
-   *
-   * @return string value of the shape type.
-   */
-  String getShapeType();
 
 }
