@@ -1,5 +1,6 @@
 package cs3500.animation;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +71,13 @@ public abstract class AbstractShape implements IShape {
         }
       }
       this.actions.add(action);
+    }
+  }
+
+  @Override
+  public void removeShapeAction(ShapeAction a) {
+    if (this.actions.contains(a)) {
+      this.actions.remove(a);
     }
   }
 

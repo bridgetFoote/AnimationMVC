@@ -54,6 +54,40 @@ public interface AnimationOperations {
   void addShape(String name, String shapeType);
 
   /**
+   * Removes the given shape from this animation if it exists.
+   *
+   * @param name is the name of the shape to remove.
+   */
+  void removeShape(String name);
+
+  /**
+   * Removes the given shape action from this animation if it exists.
+   *
+   * @param shapeName is the name of the shape this action belongs to.
+   * @param startTick is the start tick for this action.
+   * @param endTick is the end tick for this action.
+   * @param startPointX is the x coordinate of the start point.
+   * @param startPointY is the y coordinate of the start point.
+   * @param endPointX is the x coordinate of the end point.
+   * @param endPointY is the y coordinate of the end point.
+   * @param startRedGradient is the red value of the starting color.
+   * @param startGreenGradient is the green value of the starting color.
+   * @param startBlueGradient is the blue value of the starting color.
+   * @param endRedGradient is the red value of the ending color.
+   * @param endGreenGradient is the green value of the ending color.
+   * @param endBlueGradient is the blue value of the ending color.
+   * @param startWidth is the starting width of the shape.
+   * @param startHeight is the starting height of the shape.
+   * @param endWidth is the end width of the shape.
+   * @param endHeight is the end height of the shape.
+   */
+  void removeShapeAction(String shapeName, int startTick, int endTick, int startPointX,
+                         int startPointY, int endPointX, int endPointY, int startRedGradient,
+                         int startGreenGradient, int startBlueGradient, int endRedGradient,
+                         int endGreenGradient, int endBlueGradient, int startWidth, int startHeight,
+                         int endWidth, int endHeight);
+
+  /**
    * Adds a new shape action to the animation.
    * @param shapeName is the name of the shape to add the action to.
    * @param startTick is the start tick for the action to add.
@@ -78,6 +112,8 @@ public interface AnimationOperations {
    *                         action to add.
    * @param endBlueGradient is the ending blue gradient value for the
    *                        action to add.
+   * @param startWidth is the starting width for the action to add.
+   * @param startHeight is the starting height for the action to add.
    * @param endWidth is the ending width for the action to add.
    * @param endHeight is the ending height for the action to add.
    * @throws IllegalArgumentException if any of the arguments are invalid
@@ -86,8 +122,8 @@ public interface AnimationOperations {
   void addShapeAction(String shapeName, int startTick, int endTick, int startPointX,
                       int startPointY, int endPointX, int endPointY, int startRedGradient,
                       int startGreenGradient, int startBlueGradient, int endRedGradient,
-                      int endGreenGradient, int endBlueGradient, int endWidth,
-                      int endHeight);
+                      int endGreenGradient, int endBlueGradient, int startWidth, int startHeight,
+                      int endWidth, int endHeight);
 
   /**
    * Returns the width of the canvas for this animation.

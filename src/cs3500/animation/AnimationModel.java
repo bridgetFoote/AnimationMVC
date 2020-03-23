@@ -53,7 +53,7 @@ public class AnimationModel implements AnimationOperations {
                                                            int y1, int w1, int h1, int r1, int g1,
                                                            int b1, int t2, int x2, int y2, int w2,
                                                            int h2, int r2, int g2, int b2) {
-      model.addShapeAction(name, t1, t2, x1, y1, x2, y2, r1, g1, b1, r2, g2, b2, w2, h2);
+      model.addShapeAction(name, t1, t2, x1, y1, x2, y2, r1, g1, b1, r2, g2, b2, w1, h1, w2, h2);
       return this;
     }
 
@@ -83,11 +83,56 @@ public class AnimationModel implements AnimationOperations {
   }
 
   @Override
+  public void removeShape(String name) {
+    if (this.shapes.containsKey(name)) {
+      this.orderedShapes.remove(this.shapes.get(name));
+      this.shapes.remove(name);
+    }
+  }
+
+  @Override
+  public void removeShapeAction(String shapeName, int startTick, int endTick,
+                                int startPointX, int startPointY, int endPointX,
+                                int endPointY, int startRedGradient, int startGreenGradient,
+                                int startBlueGradient, int endRedGradient, int endGreenGradient,
+                                int endBlueGradient, int startWidth, int startHeight,
+                                int endWidth, int endHeight) {
+    if ((startTick < 0) || (endTick < 0) || (endTick < startTick) || (startPointX < 0)
+            || (startPointY < 0) || (endPointX < 0)
+            || (endPointY < 0) || (startRedGradient < 0) || (startRedGradient > 255)
+            || (startGreenGradient < 0) || (startGreenGradient > 255)
+            || (startBlueGradient < 0) || (startBlueGradient > 255) || (endRedGradient < 0)
+            || (endRedGradient > 255) || (endGreenGradient < 0)
+            || (endGreenGradient > 255) || (endBlueGradient < 0) || (endBlueGradient > 255)
+            || (startWidth <= 0) || (startHeight <=  0)
+            || (endWidth <= 0) || (endHeight <= 0)) {
+      throw new IllegalArgumentException("Action inputs are not valid.");
+    }
+    if (this.shapes.containsKey(shapeName)) {
+      ShapeAction a;
+      if ((startPointX == endPointX) && (startPointY == endPointY)) {
+        a = new Stay(startTick, endTick, Arrays.asList(startPointX, startPointY), Arrays.asList(endPointX, endPointY),
+                new RGBColor(startRedGradient, startGreenGradient, startBlueGradient),
+                new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
+                startWidth, startHeight, endWidth, endHeight);
+      } else {
+        a = new Move(startTick, endTick, Arrays.asList(startPointX, startPointY), Arrays.asList(endPointX, endPointY),
+                new RGBColor(startRedGradient, startGreenGradient, startBlueGradient),
+                new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
+                startWidth, startHeight, endWidth, endHeight);
+      }
+      if (this.shapes.get(shapeName).getActions().contains(a)) {
+        this.shapes.get(shapeName).removeShapeAction(a);
+      }
+    }
+  }
+
+  @Override
   public void addShapeAction(String shapeName, int startTick, int endTick, int startPointX,
                              int startPointY, int endPointX, int endPointY, int startRedGradient,
                              int startGreenGradient, int startBlueGradient, int endRedGradient,
-                             int endGreenGradient, int endBlueGradient, int endWidth,
-                             int endHeight) {
+                             int endGreenGradient, int endBlueGradient, int startWidth, int startHeight,
+                             int endWidth, int endHeight) {
     if (!this.shapes.containsKey(shapeName)) {
       throw new IllegalArgumentException("The given shape does not exist in this animation.");
     }
@@ -96,12 +141,12 @@ public class AnimationModel implements AnimationOperations {
       action = new Move(startTick, endTick, Arrays.asList(startPointX, startPointY),
               Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
-              endWidth, endHeight);
+              startWidth, startHeight, endWidth, endHeight);
     } else {
       action = new Stay(startTick, endTick, Arrays.asList(startPointX, startPointY),
               Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
-              endWidth, endHeight);
+              startWidth, startHeight, endWidth, endHeight);
     }
 
 

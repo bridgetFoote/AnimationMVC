@@ -102,4 +102,11 @@ public interface IShape {
    */
   String getShapeType();
 
+  /**
+   * Removes the given action from this shape if it exists.
+   *
+   * @param action the action to remove.
+   */
+  void removeShapeAction(ShapeAction action);
+
 }
