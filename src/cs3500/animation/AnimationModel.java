@@ -149,6 +149,17 @@ public class AnimationModel implements AnimationOperations {
     return false;
   }
 
+  public AnimationModel returnCopy() {
+    AnimationModel returnThis = new AnimationModel();
+    returnThis.topX = this.topX;
+    returnThis.topY = this.topY;
+    returnThis.canvasHeight = this.canvasHeight;
+    returnThis.canvasWidth = this.canvasWidth;
+    returnThis.shapes = this.shapes;
+    returnThis.orderedShapes = this.orderedShapes;
+    return returnThis;
+  }
+
   /**
    * Determines the type of the action with the given starting and ending coordinates.
    *
@@ -170,11 +181,10 @@ public class AnimationModel implements AnimationOperations {
    * Builds an Animation.
    */
   public static final class Builder implements AnimationBuilder<AnimationOperations> {
-    private AnimationOperations model;
+    private AnimationOperations model = new AnimationModel();
 
     @Override
     public AnimationOperations build() {
-      this.model = new AnimationModel();
       return this.model;
     }
 

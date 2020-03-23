@@ -63,7 +63,6 @@ public final class Excellence {
     }
     // ------------ Launch the program ----------------------
     AnimationModel.Builder b = new AnimationModel.Builder();
-    b.build();
     try {
       // Use parseFile to build the model (complete with shapes).
       FileReader inFileReader = new FileReader(inFile);
@@ -74,7 +73,7 @@ public final class Excellence {
       // Check the view type, construct it, and launch the relevant method!
       if (vType.equals(ViewType.TEXTVIEW)) {
         view = new TextView(model);
-        view.getTextualDescription();
+        System.out.println(view.getTextualDescription());
       }
       else if (vType.equals(ViewType.SVGVIEW)) {
         view = new SVGView(model);
