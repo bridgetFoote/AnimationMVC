@@ -156,9 +156,9 @@ public abstract class ShapeAction {
             + " " + Integer.toString(this.startPoint.get(1)) + " "
             + Double.toString(this.startWidth)
             + " " + Double.toString(this.startHeight) + " "
-            + Integer.toString(shape.getColorGradient("red"))
-            + " " + Integer.toString(shape.getColorGradient("green")) + " "
-            + Integer.toString(shape.getColorGradient("blue"))
+            + Integer.toString(this.startColor.getColorGradient("red"))
+            + " " + Integer.toString(this.startColor.getColorGradient("green")) + " "
+            + Integer.toString(this.startColor.getColorGradient("blue"))
             + "  " + Integer.toString(this.endTick) + " " + Integer.toString(this.endPoint.get(0))
             + " " + Integer.toString(this.endPoint.get(1)) + " "
             + Integer.toString(this.endWidth)
@@ -306,4 +306,30 @@ public abstract class ShapeAction {
     }
     throw new IllegalArgumentException("The given tick does not occur within this action.");
   }
+
+  /**
+   * Determines whether this shape action consists of a color change.
+   *
+   * @return true if the color changes, false otherwise.
+   */
+  public boolean colorChange() {
+    return (this.startColor != this.endColor);
+  }
+
+  /**
+   * Determines whether this shape action consists of a size change.
+   *
+   * @return true if the size of the shape changes, false otherwise.
+   */
+  public boolean sizeChange(String dim) {
+    if (dim.equals("width")) {
+      return this.startWidth != this.endWidth;
+    } else if (dim.equals("height")) {
+      return this.startHeight != this.endHeight;
+    } else {
+      throw new IllegalArgumentException("Dimension is invalid.");
+    }
+  }
+
+  abstract boolean changeInCoord(String coord);
 }

@@ -21,18 +21,30 @@ public class Move extends ShapeAction {
    */
   public Move(int startTick, int endTick, List<Integer> startPoint,
               List<Integer> endPoint, RGBColor startColor,
-              RGBColor endColor, int endWidth, int endHeight) {
-    super(startTick, endTick, startPoint, endPoint, startColor, endColor, endWidth, endHeight);
+              RGBColor endColor, int startWidth, int startHeight, int endWidth, int endHeight) {
+    super(startTick, endTick, startPoint, endPoint, startColor, endColor,
+            startWidth, startHeight, endWidth, endHeight);
   }
 
   @Override
   ShapeAction returnCopy() {
     return new Move(this.startTick, this.endTick, this.startPoint, this.endPoint,
-            this.startColor, this.endColor, this.endWidth, this.endHeight);
+            this.startColor, this.endColor, this.startWidth, this.startHeight, this.endWidth, this.endHeight);
   }
 
   @Override
   public ActionType getActionType() {
     return ActionType.MOVE;
+  }
+
+  @Override
+  boolean changeInCoord(String coord) {
+    if (coord.equals("x")) {
+      return this.startPoint.get(0) != this.endPoint.get(0);
+    } else if (coord.equals("y")) {
+      return this.startPoint.get(1) != this.endPoint.get(1);
+    } else {
+      throw new IllegalArgumentException("Invalid coordinate.");
+    }
   }
 }
