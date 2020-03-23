@@ -38,16 +38,29 @@ public class SVGView extends AbstractTextualView {
       return;
     }
     try {
-      writer.append("<" + shape.getShapeType() + " id='" + shape.getName()
-              + "' x='" + Integer.toString(this.sortedShapes.get(shape).get(0).startPoint.get(0))
-              + "' y='" + Integer.toString(this.sortedShapes.get(shape).get(0).startPoint.get(1))
-              + "' width='" + Integer.toString(this.sortedShapes.get(shape).get(0).startWidth)
-              + "' height='" + Integer.toString(this.sortedShapes.get(shape).get(0).startHeight)
-              + "' fill='rgb("
-              + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("red"))
-              + "," + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("green"))
-              + "," + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("blue"))
-              + ")' visibility='visible' >\n");
+      if (shape.getShapeType().equals("rect")) {
+        writer.append("<" + shape.getShapeType() + " id='" + shape.getName()
+                + "' x='" + Integer.toString(this.sortedShapes.get(shape).get(0).startPoint.get(0))
+                + "' y='" + Integer.toString(this.sortedShapes.get(shape).get(0).startPoint.get(1))
+                + "' width='" + Integer.toString(this.sortedShapes.get(shape).get(0).startWidth)
+                + "' height='" + Integer.toString(this.sortedShapes.get(shape).get(0).startHeight)
+                + "' fill='rgb("
+                + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("red"))
+                + "," + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("green"))
+                + "," + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("blue"))
+                + ")' visibility='visible' >\n");
+      } else {
+        writer.append("<" + shape.getShapeType() + " id='" + shape.getName()
+                + "' cx='" + Integer.toString(this.sortedShapes.get(shape).get(0).startPoint.get(0))
+                + "' cy='" + Integer.toString(this.sortedShapes.get(shape).get(0).startPoint.get(1))
+                + "' rx='" + Integer.toString(this.sortedShapes.get(shape).get(0).startWidth / 2)
+                + "' ry='" + Integer.toString(this.sortedShapes.get(shape).get(0).startHeight / 2)
+                + "' fill='rgb("
+                + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("red"))
+                + "," + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("green"))
+                + "," + Integer.toString(this.sortedShapes.get(shape).get(0).startColor.getColorGradient("blue"))
+                + ")' visibility='visible' >\n");
+      }
       for (ShapeAction action: this.sortedShapes.get(shape)) {
         String prefix = "<animate attributeType='xml' begin='" + Integer.toString(action.getStartTick())
                 + "' dur='" + Integer.toString(action.getEndTick() - action.getStartTick());
@@ -94,14 +107,26 @@ public class SVGView extends AbstractTextualView {
       }
       if (action instanceof Move) {
         if (action.changeInCoord("x")) {
-          writer.append(prefix  + " attributeName='x' from='"
-                  + action.getCoord("x", "start") + "' to='"
-                  + action.getCoord("x", "end") + "' fill='" + fill + "' />\n");
+          if (shape.getShapeType().equals("rect")) {
+            writer.append(prefix  + " attributeName='x' from='"
+                    + action.getCoord("x", "start") + "' to='"
+                    + action.getCoord("x", "end") + "' fill='" + fill + "' />\n");
+          } else {
+            writer.append(prefix  + " attributeName='cx' from='"
+                    + action.getCoord("x", "start") + "' to='"
+                    + action.getCoord("x", "end") + "' fill='" + fill + "' />\n");
+          }
         }
         if (action.changeInCoord("y")) {
-          writer.append(prefix  + " attributeName='y' from='"
-                  + action.getCoord("y", "start") + "' to='"
-                  + action.getCoord("y", "end") + "' fill='" + fill + "' />\n");
+          if (shape.getShapeType().equals("rect")) {
+            writer.append(prefix  + " attributeName='y' from='"
+                    + action.getCoord("y", "start") + "' to='"
+                    + action.getCoord("y", "end") + "' fill='" + fill + "' />\n");
+          } else {
+            writer.append(prefix  + " attributeName='cy' from='"
+                    + action.getCoord("y", "start") + "' to='"
+                    + action.getCoord("y", "end") + "' fill='" + fill + "' />\n");
+          }
         }
       }
       if (action.colorChange()) {
@@ -115,14 +140,26 @@ public class SVGView extends AbstractTextualView {
                 + fill + "' />\n");
       }
       if (action.sizeChange("width")) {
-        writer.append(prefix + " attributeName='width' from='"
-                + action.startWidth + "' to='"
-                + action.endWidth + "' fill='" + fill + "' />\n");
+        if (shape.getShapeType().equals("rect")) {
+          writer.append(prefix + " attributeName='width' from='"
+                  + action.startWidth + "' to='"
+                  + action.endWidth + "' fill='" + fill + "' />\n");
+        } else {
+          writer.append(prefix + " attributeName='rx' from='"
+                  + (action.startWidth / 2) + "' to='"
+                  + (action.endWidth / 2) + "' fill='" + fill + "' />\n");
+        }
       }
       if (action.sizeChange("height")) {
-        writer.append(prefix + " attributeName='height' from='"
-                + action.startHeight + "' to='"
-                + action.endHeight + "' fill='" + fill + "' />\n");
+        if (shape.getShapeType().equals("rect")) {
+          writer.append(prefix + " attributeName='height' from='"
+                  + action.startHeight + "' to='"
+                  + action.endHeight + "' fill='" + fill + "' />\n");
+        } else {
+          writer.append(prefix + " attributeName='ry' from='"
+                  + (action.startHeight / 2) + "' to='"
+                  + (action.endHeight / 2) + "' fill='" + fill + "' />\n");
+        }
       }
     } catch (IOException ioe) {
     }
