@@ -64,7 +64,8 @@ public class SVGView extends AbstractTextualView {
       for (ShapeAction action: this.sortedShapes.get(shape)) {
         String prefix = "<animate attributeType='xml' begin='" + Integer.toString(action.getStartTick())
                 + "' dur='" + Integer.toString(action.getEndTick() - action.getStartTick());
-        this.decomposeAction(shape, action, writer, prefix, this.sortedShapes.get(shape).indexOf(action) == (this.sortedShapes.get(shape).size() - 1));
+        this.decomposeAction(shape, action, writer, prefix,
+                this.sortedShapes.get(shape).indexOf(action) == (this.sortedShapes.get(shape).size() - 1));
       }
       writer.append("</" + shape.getShapeType() + ">\n");
     } catch (IOException ioe) {

@@ -1,6 +1,9 @@
 package cs3500.animation;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Objects;
 
 public final class Excellence {
@@ -48,6 +51,23 @@ public final class Excellence {
     if (Objects.isNull(inputFile) || Objects.isNull(typeOfView)) {
       JOptionPane.showMessageDialog(new JDialog(), "Input file or view type arguments not specified.");
       return;
+    }
+
+    File file = new File(inputFile);
+    AnimationReader ar = new AnimationReader();
+    try {
+      AnimationOperations model = ar.parseFile(new FileReader(file), new AnimationModel.Builder());
+      AnimationView view;
+      if (typeOfView.equals("text")) {
+        view = new TextView("Animation", model, outputFile, ticksPerSecond);
+      } else if (typeOfView.equals("svg")) {
+        view = new SVGView("Animation", model, outputFile, ticksPerSecond);
+      } else {
+        view = new VisualView("Animation", model, ticksPerSecond);
+      }
+      view.makeVisible();
+    } catch (FileNotFoundException fnfe) {
+      JOptionPane.showMessageDialog(new JDialog(), "File not found.");
     }
   }
 }

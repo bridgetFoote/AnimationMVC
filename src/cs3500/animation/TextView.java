@@ -15,9 +15,11 @@ public class TextView extends AbstractTextualView {
    * @param windowTitle is the title of the window.
    * @param readOnlyModel is the read only version of the model associated with
    *                      this animation.
+   * @param outFile is the path to the output file.
+   * @param tempo is the ticks per second speed of the animation.
    */
-  public TextView(String windowTitle, AnimationOperations readOnlyModel) {
-    super(windowTitle, readOnlyModel);
+  public TextView(String windowTitle, AnimationOperations readOnlyModel, String outFile, int tempo) {
+    super(windowTitle, readOnlyModel, outFile, tempo);
     JLabel label = new JLabel(this.getTextDescription());
     this.add(label);
   }
