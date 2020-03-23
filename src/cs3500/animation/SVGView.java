@@ -27,6 +27,7 @@ public class SVGView extends AbstractTextualView {
         this.shapeToSVG(s, writer);
       }
       writer.append("</svg>");
+      writer.close();
     } catch (IOException ioe) {
     }
   }
