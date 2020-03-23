@@ -10,6 +10,16 @@ import java.util.List;
 public interface AnimationOperations {
 
   /**
+   * Set the canvas for the views.
+   * @param x the top x coordinate
+   * @param y the top y coordinate
+   * @param width the width of the canvas
+   * @param height the height of the canvas
+   * @throws IllegalArgumentException if any of the params are negative
+   */
+  public void setCanvas(int x, int y, int width, int height);
+
+  /**
    * Returns the list of shapes in this animation.
    *
    * @return a list of the shapes in this animation, list is empty if there are no shapes.
@@ -37,18 +47,12 @@ public interface AnimationOperations {
 
   /**
    * Adds a new shape to the animation.
-   * @param redGradient is the amount of red in the shape's color.
-   * @param greenGradient is the amount of red in the shape's color.
-   * @param blueGradient is the amount of red in the shape's color.
-   * @param width is the width of the shape.
-   * @param height is the height of the shape.
    * @param name is the shape's name
    * @throws IllegalArgumentException if a shape already in this animation
    *                                  has the given name or if the
    *                                  parameters are invalid.
    */
-  void addShape(int redGradient, int greenGradient, int blueGradient,
-                int width, int height, String name, String shapeType);
+  void addShape(String name, String shapeType);
 
   /**
    * Adds a new shape action to the animation.
@@ -83,6 +87,6 @@ public interface AnimationOperations {
   void addShapeAction(String shapeName, int startTick, int endTick, int startPointX,
                       int startPointY, int endPointX, int endPointY, int startRedGradient,
                       int startGreenGradient, int startBlueGradient, int endRedGradient,
-                      int endGreenGradient, int endBlueGradient, int endWidth,
-                      int endHeight);
+                      int endGreenGradient, int endBlueGradient, int startWidth,
+                      int startHeight, int endWidth, int endHeight);
 }

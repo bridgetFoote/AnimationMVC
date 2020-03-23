@@ -114,16 +114,14 @@ public class AnimationModelTest {
 
   @Test
   public void testTextDescription() {
-    m.addShape(255, 0, 0, 50, 60,
-            "R1", ShapeType.RECTANGLE.toString());
-    m.addShapeAction("R1", 1, 5, 9, 9, 10, 10
-    , 255, 0, 0, 255, 0, 0
-    , 50, 60);
-    m.addShape(100, 0, 0, 100, 200,
-            "R2", ShapeType.RECTANGLE.toString());
-    m.addShapeAction("R2", 5, 8, 100, 100, 200, 10
-            , 100, 0, 0, 255, 0, 0
-            , 100, 200);
+    m.addShape("R1", ShapeType.RECTANGLE.toString());
+    m.addShape("E1", ShapeType.ELLIPSE.toString());
+    m.addShapeAction("R1", 1, 5, 100, 10, 400, 10,
+            255, 0, 0, 0,0,255,
+            100, 200, 100, 200);
+    m.addShapeAction("E1", 1, 5, 400, 10, 100, 10,
+            255, 0, 0, 255,0,0,
+            100, 200, 100, 200);
     AnimationView v = new TextView(m);
     System.out.println(v.getTextualDescription());
     AnimationView svg = new SVGView(m);

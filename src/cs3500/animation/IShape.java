@@ -22,19 +22,6 @@ public interface IShape {
    */
   IShape returnCopy();
 
-  /**
-   * Returns the width of this shape.
-   *
-   * @return integer value of the width.
-   */
-  int getWidth();
-
-  /**
-   * Returns the height of this shape.
-   *
-   * @return integer value of the height.
-   */
-  int getHeight();
 
   @Override
   String toString();
@@ -45,14 +32,6 @@ public interface IShape {
    * @return string of the name of the shape.
    */
   String getName();
-
-  /**
-   * Returns the indicated color gradient value.
-   *
-   * @param redGreenOrBlue is which gradient value to return.
-   * @return the indicated integer gradient value.
-   */
-  int getColorGradient(String redGreenOrBlue);
 
   /**
    * Determines whether the given action can be added to this

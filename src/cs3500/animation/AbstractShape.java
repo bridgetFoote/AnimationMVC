@@ -14,35 +14,21 @@ public abstract class AbstractShape implements IShape {
   /**
    * Constructor for a shape, calls the setDimensions function from
    * the extended class.
-   * @param rGBColor is the color of the shape.
-   * @param width is the width for this shape.
-   * @param height is the height for this shape.
    * @param name is the name of the shape.
    * @throws IllegalArgumentException if any of the parameters are invalid.
    */
-  public AbstractShape(RGBColor rGBColor, int width, int height, String name) {
-    this.actions = new ArrayList<ShapeAction>();
-    this.rGBColor = rGBColor;
+  public AbstractShape(String name, ShapeType type) {
     if (name.equals("")) {
-      throw new IllegalArgumentException("The name of this shape cannot be the empty string.");
+      throw new IllegalArgumentException("Name cannot be empty");
     }
+    this.actions = new ArrayList<ShapeAction>();
     this.name = name;
-    if (width <= 0) {
-      throw new IllegalArgumentException("The length cannot be less than or equal to zero.");
-    }
-    this.width = width;
-    if (height <= 0) {
-      throw new IllegalArgumentException("The width cannot be less than or equal to zero.");
-    }
-    this.height = height;
+    this.shapeType = type;
   }
 
-  private List<ShapeAction> actions;
-  private RGBColor rGBColor;
   private String name;
+  private List<ShapeAction> actions;
   protected ShapeType shapeType;
-  private int width;
-  private int height;
 
   /**
    * Returns a copy of the list of actions for this shape.
@@ -87,15 +73,6 @@ public abstract class AbstractShape implements IShape {
     }
   }
 
-  @Override
-  public int getWidth() {
-    return this.width;
-  }
-
-  @Override
-  public int getHeight() {
-    return this.height;
-  }
 
   @Override
   public String toString() {
@@ -115,10 +92,7 @@ public abstract class AbstractShape implements IShape {
     return this.name;
   }
 
-  @Override
-  public int getColorGradient(String gradientType) {
-    return this.rGBColor.getColorGradient(gradientType);
-  }
+
 
   @Override
   public boolean validateAction(ShapeAction action) {
@@ -150,17 +124,15 @@ public abstract class AbstractShape implements IShape {
         return false;
       }
     }
-    return this.rGBColor.equals(s.rGBColor)
-            && this.name.equals(s.name)
-            && this.shapeType.equals(s.shapeType)
-            && (this.width == s.width)
-            && (this.height == s.height);
+    return this.name.equals(s.name)
+            && this.shapeType.equals(s.shapeType);
+
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.actions, this.rGBColor, this.name,
-            this.shapeType, this.width, this.height);
+    return Objects.hash(this.name,
+            this.shapeType);
   }
 
   @Override

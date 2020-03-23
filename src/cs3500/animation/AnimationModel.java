@@ -15,20 +15,44 @@ public class AnimationModel implements AnimationOperations {
   public AnimationModel() {
     shapes = new HashMap<String, IShape>();
     orderedShapes = new TreeMap<IShape, List<Integer>>();
+    // Default values for now
+    topX = 0;
+    topY = 0;
+    canvasHeight = 0;
+    canvasWidth = 0;
   }
 
   private HashMap<String, IShape> shapes;
   private TreeMap<IShape, List<Integer>> orderedShapes;
-
+  private int topX;
+  private int topY;
+  private int canvasWidth;
+  private int canvasHeight;
 
   @Override
-  public void addShape(int redGradient, int greenGradient, int blueGradient,
-                       int width, int height, String name, String shapeType) {
+  public void setCanvas(int x, int y, int width, int height) {
+    if (x <0 || y < 0 || width < 0 || height < 0) {
+      throw new IllegalArgumentException("Canvas arguments must be positive.");
+    }
+    this.topX = x;
+    this.topY = y;
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+  }
+
+  /**
+   * Add a shape to the model.
+   * @param name is the shape's name
+   * @param shapeType the type of shape
+   */
+
+  @Override
+  public void addShape(String name, String shapeType) {
     IShape shape;
     if (ShapeType.RECTANGLE.str.equals(shapeType)) {
-      shape = new Rectangle(new RGBColor(redGradient, greenGradient, blueGradient), width, height, name);
+      shape = new Rectangle(name);
     } else if (ShapeType.ELLIPSE.str.equals(shapeType)) {
-      shape = new Ellipse(new RGBColor(redGradient, greenGradient, blueGradient), width, height, name);
+      shape = new Ellipse(name);
     } else {
       throw new IllegalArgumentException("Invalid shape type.");
     }
@@ -44,8 +68,8 @@ public class AnimationModel implements AnimationOperations {
   public void addShapeAction(String shapeName, int startTick, int endTick, int startPointX,
                              int startPointY, int endPointX, int endPointY, int startRedGradient,
                              int startGreenGradient, int startBlueGradient, int endRedGradient,
-                             int endGreenGradient, int endBlueGradient, int endWidth,
-                             int endHeight) {
+                             int endGreenGradient, int endBlueGradient, int startWidth,
+                             int startHeight, int endWidth, int endHeight) {
     if (!this.shapes.containsKey(shapeName)) {
       throw new IllegalArgumentException("The given shape does not exist in this animation.");
     }
@@ -54,12 +78,12 @@ public class AnimationModel implements AnimationOperations {
       action = new Move(startTick, endTick, Arrays.asList(startPointX, startPointY),
               Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
-              endWidth, endHeight);
+              startWidth, startHeight, endWidth, endHeight);
     } else {
       action = new Stay(startTick, endTick, Arrays.asList(startPointX, startPointY),
               Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
-              endWidth, endHeight);
+              startWidth, startHeight, endWidth, endHeight);
     }
 
 
@@ -132,6 +156,48 @@ public class AnimationModel implements AnimationOperations {
       return ActionType.STAY;
     } else {
       return ActionType.MOVE;
+    }
+  }
+
+  /**
+   * Builds an Animation.
+   */
+  public static final class Builder implements AnimationBuilder<AnimationOperations> {
+    private AnimationOperations model;
+
+    @Override
+    public AnimationOperations build() {
+      this.model = new AnimationModel();
+      return this.model;
+    }
+
+    @Override
+    public AnimationBuilder<AnimationOperations> setBounds(int x, int y, int width, int height) {
+      this.model.setCanvas(x, y, width, height);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<AnimationOperations> declareShape(String name, String type) {
+      this.model.addShape(name, type);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<AnimationOperations> addMotion(String name, int t1, int x1, int y1,
+                                                           int w1, int h1, int r1,
+                                                           int g1, int b1, int t2,
+                                                           int x2, int y2, int w2, int h2,
+                                                           int r2, int g2, int b2) {
+      this.model.addShapeAction(name, t1, t2, x1, y1, x2, y2 ,r1, g1, b1, r2, g2, b2, w1, h1, w2,h2);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<AnimationOperations> addKeyframe(String name, int t, int x, int y,
+                                                             int w, int h, int r, int g, int b) {
+      // Apparently not needed for this assignment.
+      return this;
     }
   }
 }
