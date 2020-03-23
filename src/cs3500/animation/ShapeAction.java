@@ -10,7 +10,7 @@ import java.util.Objects;
  * ending ticks of the action as well as the starting and ending coordinates
  * for the shape.
  */
-public abstract class ShapeAction implements IAction{
+public abstract class ShapeAction implements IAction {
 
   /**
    * Constructor for a ShapeAction, sets all of the fields.
@@ -36,7 +36,7 @@ public abstract class ShapeAction implements IAction{
     if ((endTick - startTick) < 0) {
       throw new IllegalArgumentException("The ending time cannot be before the starting time.");
     }
-    if (!this.validateCoordinates(startPoint, endPoint)) {
+    if (!(this.validateCoordinates(startPoint, endPoint))) {
       throw new IllegalArgumentException("The given coordinates are not valid.");
     }
     if (!this.validateTicks(startTick, endTick)) {
@@ -123,7 +123,7 @@ public abstract class ShapeAction implements IAction{
    * Returns true if the given coordinates are valid for the type of ShapeAction.
    * @param startPoint is the start point.
    * @param endPoint if the end point.
-   * @return true if the coordinates are valid, false otherwise.
+   * @return true if the coordinates are valid
    * @throws IllegalArgumentException if the coordinates are not valid.
    */
   public boolean validateCoordinates(List<Integer> startPoint, List<Integer> endPoint) {

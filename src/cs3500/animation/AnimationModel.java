@@ -174,6 +174,7 @@ public class AnimationModel implements AnimationOperations {
 
     @Override
     public AnimationOperations build() {
+      this.model = new AnimationModel();
       return this.model;
     }
 

@@ -45,7 +45,7 @@ public final class Excellence {
             return;
           }
           break;
-        case "speed":
+        case "-speed":
           try {
             speed = Integer.parseInt(args[i + 1]);
             if (speed <=0) {
@@ -63,10 +63,12 @@ public final class Excellence {
     }
     // ------------ Launch the program ----------------------
     AnimationModel.Builder b = new AnimationModel.Builder();
+    b.build();
     try {
       // Use parseFile to build the model (complete with shapes).
       FileReader inFileReader = new FileReader(inFile);
       AnimationReader reader = new AnimationReader();
+
       AnimationOperations model = reader.parseFile(inFileReader, b);
       AnimationView view;
       // Check the view type, construct it, and launch the relevant method!

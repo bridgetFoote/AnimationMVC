@@ -40,7 +40,7 @@ public class AbstractVisualView extends JFrame implements AnimationView {
   }
 
   @Override
-  public String getXMLText() {
-    return "";
+  public void writeXML() {
+    // Do nothing. This is only required for the SVGView
   }
 }

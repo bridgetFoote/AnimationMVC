@@ -25,7 +25,7 @@ public class Stay extends ShapeAction {
               RGBColor endColor, int startWidth, int startHeight, int endWidth, int endHeight) {
     super(startTick, endTick, startPoint, endPoint, startColor, endColor,startWidth, startHeight,
             endWidth, endHeight);
-    if ((startPoint.get(0) != endPoint.get(0)) || (startPoint.get(1) != endPoint.get(1))) {
+    if ((!startPoint.get(0).equals(endPoint.get(0))) || (!startPoint.get(1).equals(endPoint.get(1)))) {
       throw new IllegalArgumentException("The starting position is not the same "
               + "as the ending position.");
     }
@@ -44,6 +44,6 @@ public class Stay extends ShapeAction {
 
   @Override
   public boolean validateCoordinates(List<Integer> startPoint, List<Integer> endPoint) {
-    return !((startPoint.get(0) != endPoint.get(0)) || (startPoint.get(1) != endPoint.get(1)));
+    return !((!startPoint.get(0).equals(endPoint.get(0))) || (!startPoint.get(1).equals(endPoint.get(1))));
   }
 }
