@@ -20,11 +20,12 @@ public class SVGView extends AbstractTextualView {
    * view the animation in a browser.
    * @return A string representation of the XML that can be written to a file.
    */
-  @Override
-  public String getXMLText() {
+
+  private String getXMLText() {
     String description = this.getTextualDescription();
-    String output = "<svg width=\"700\" height=\"500\" version=\"1.1\" " +
-            "xmlns=\"http://www.w3.org/2000/svg\">\n";
+    String[] canvasString = description.split("\n")[0].split(" ");
+    String output = String.format("<svg width=\"%s\" height=\"%s\" version=\"1.1\" " +
+            "xmlns=\"http://www.w3.org/2000/svg\">\n", canvasString[3], canvasString[4]);
     // FLOW: Split the description string by lines, find the shape/motion tags and build the XML string
     String[] lines = description.split("\n");
     String currentShapeType = "";
@@ -142,9 +143,7 @@ public class SVGView extends AbstractTextualView {
     }
   }
 
-  /**
-   * Use the getXMLText method to write the XML string to a file for viewing in a browser.
-   */
+  @Override
   public void writeXML() {
     String xml = this.getXMLText();
     try {
@@ -153,7 +152,7 @@ public class SVGView extends AbstractTextualView {
       writer.close();
     }
     catch (IOException e) {
-      // TODO
+      // Do nothing.
     }
   }
 

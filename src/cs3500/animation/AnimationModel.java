@@ -29,6 +29,13 @@ public class AnimationModel implements AnimationOperations {
   private int canvasWidth;
   private int canvasHeight;
 
+
+  @Override
+  public String toString() {
+    return String.format("canvas %d %d %d %d\n", this.topX, this.topY,
+            this.canvasWidth, this.canvasHeight);
+  }
+
   @Override
   public void setCanvas(int x, int y, int width, int height) {
     if (x <0 || y < 0 || width < 0 || height < 0) {
@@ -167,7 +174,6 @@ public class AnimationModel implements AnimationOperations {
 
     @Override
     public AnimationOperations build() {
-      this.model = new AnimationModel();
       return this.model;
     }
 

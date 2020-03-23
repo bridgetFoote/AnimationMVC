@@ -1,53 +1,98 @@
 package cs3500.animation;
 
 import javax.swing.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Objects;
+import java.util.logging.FileHandler;
 
 public final class Excellence {
   public static void main(String[] args) {
-    if ((args.length < 4) || ((args.length % 2) != 0)) {
-      JOptionPane.showMessageDialog(new JDialog(), "Invalid input length.");
+
+    // Validate the argument length and that the arguments come in pairs
+    if (args.length < 4 || args.length %2 != 0) {
+      System.out.println("Invalid argument length");
       return;
     }
 
-    String inputFile = null;
-    ViewType typeOfView = null;
-    String outputFile = null;
-    Integer ticksPerSecond = null;
-
+    String inFile = "";
+    String outFile = "";
+    ViewType vType = null;
+    int speed;
+    // Assign values to the above variables.
+    // TODO: Change back to JOptionPane
     for (int i = 0; i < args.length; i = i + 2) {
-      switch (args[i]) {
+      String argType = args[i];
+      switch(argType) {
         case "-in":
-          inputFile = args[i + 1];
+          inFile = args[i + 1];
+          break;
+        case "-out":
+          outFile = args[i + 1];
+          break;
         case "-view":
           if (args[i + 1].equals("text")) {
-            typeOfView = ViewType.TEXTVIEW;
-          } else if (args[i + 1].equals("visual")) {
-            typeOfView = ViewType.VISUALVIEW;
-          } else if (args[i + 1].equals("svg")) {
-            typeOfView = ViewType.SVGVIEW;
-          } else {
-            JOptionPane.showMessageDialog(new JDialog(), "Given view type is not valid.");
+            vType = ViewType.TEXTVIEW;
+          }
+          else if (args[i + 1].equals("svg")) {
+            vType = ViewType.SVGVIEW;
+          }
+          else if (args[i + 1].equals("visual")) {
+            vType = ViewType.VISUALVIEW;
+          }
+          else {
+            System.out.println("Invalid view type");
             return;
           }
-        case "-out":
-          outputFile = args[i + 1];
-        case "-speed":
+          break;
+        case "speed":
           try {
-            ticksPerSecond = Integer.parseInt(args[i + 1]);
-          } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(new JDialog(), "Given speed is not valid");
-            return;
+            speed = Integer.parseInt(args[i + 1]);
+            if (speed <=0) {
+              System.out.println("Speed must be a positive integer");
+              return;
+            }
           }
+          catch (NumberFormatException e) {
+            System.out.println("Speed must be a positive integer");
+          }
+          break;
         default:
-          JOptionPane.showMessageDialog(new JDialog(), "Given argument tag is not valid.");
-          return;
-        }
+          System.out.println("Invalid arguments, please try again");
+      }
+    }
+    // ------------ Launch the program ----------------------
+    AnimationModel.Builder b = new AnimationModel.Builder();
+    try {
+      // Use parseFile to build the model (complete with shapes).
+      FileReader inFileReader = new FileReader(inFile);
+      AnimationReader reader = new AnimationReader();
+      AnimationOperations model = reader.parseFile(inFileReader, b);
+      AnimationView view;
+      // Check the view type, construct it, and launch the relevant method!
+      if (vType.equals(ViewType.TEXTVIEW)) {
+        view = new TextView(model);
+        view.getTextualDescription();
+      }
+      else if (vType.equals(ViewType.SVGVIEW)) {
+        view = new SVGView(model);
+        view.writeXML();
+      }
+      else if (vType.equals(ViewType.VISUALVIEW)) {
+        view = new VisualView(String.format("User's animation for %s", inFile), model);
+        view.makeVisible();
+      }
+      else {
+        System.out.println("Invalid view");
       }
 
-    if (Objects.isNull(inputFile) || Objects.isNull(typeOfView)) {
-      JOptionPane.showMessageDialog(new JDialog(), "Input file or view type arguments not specified.");
-      return;
     }
+    catch (FileNotFoundException e) {
+      System.out.println("File not found.");
+    }
+
+
   }
+
+
 }

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AnimationModelTest {
 
-  AnimationModel m = new AnimationModel();
+  AnimationOperations m = new AnimationModel();
 
   /*@Test (expected = IllegalArgumentException.class)
   public void testNoOverlappingActions() {
@@ -114,6 +114,7 @@ public class AnimationModelTest {
 
   @Test
   public void testTextDescription() {
+    m.setCanvas(0,0,500,400);
     m.addShape("R1", ShapeType.RECTANGLE.toString());
     m.addShape("E1", ShapeType.ELLIPSE.toString());
     m.addShapeAction("R1", 1, 5, 100, 10, 400, 10,

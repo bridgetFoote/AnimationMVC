@@ -34,7 +34,7 @@ public class AbstractTextualView implements AnimationView {
 
   @Override
   public String getTextualDescription() {
-    String out = "";
+    String out = model.toString();
     Map<IShape, List<ShapeAction>> actions = model.getShapeActions();
     Set aKeys = actions.keySet();
     for (Object s: aKeys) {
@@ -46,7 +46,8 @@ public class AbstractTextualView implements AnimationView {
   }
 
   @Override
-  public String getXMLText() {
-    return null;
+  public void writeXML() {
+    // Do nothing. Will be overridden in SVGView
   }
+
 }
