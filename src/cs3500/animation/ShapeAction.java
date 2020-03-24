@@ -36,8 +36,14 @@ public abstract class ShapeAction {
     if ((endTick - startTick) < 0) {
       throw new IllegalArgumentException("The ending time cannot be before the starting time.");
     }
-    if (!this.validateCoordinates(startPoint, endPoint)) {
+    if ((startPoint.size() != 2) || (endPoint.size() != 2)) {
       throw new IllegalArgumentException("The given coordinates are not valid.");
+    }
+    if ((startPoint.get(0) < 0) || (startPoint.get(1) < 0)) {
+      throw new IllegalArgumentException("The given start point is not valid.");
+    }
+    if ((endPoint.get(0) < 0) || (endPoint.get(1) < 0)) {
+      throw new IllegalArgumentException("The given start point is not valid.");
     }
     if (!this.validateTicks(startTick, endTick)) {
       throw new IllegalArgumentException("The given ticks are not valid.");
@@ -87,20 +93,6 @@ public abstract class ShapeAction {
   protected int endHeight;
 
   /**
-   * Changes the timing of this action.
-   * @param startTick is the new starting tick.
-   * @param endTick is the new ending tick.
-   * @throws IllegalArgumentException if the new starting and ending ticks are not valid.
-   */
-  public void changeActionTime(int startTick, int endTick) {
-    if ((startTick < 0) || (endTick < 0) || ((endTick - startTick) < 0)) {
-      throw new IllegalArgumentException("The given starting and ending times are invalid.");
-    }
-    this.startTick = startTick;
-    this.endTick = endTick;
-  }
-
-  /**
    * Determines whether the given ticks are valid.
    *
    * @param startTick is the start tick.
@@ -108,7 +100,7 @@ public abstract class ShapeAction {
    * @return true if the ticks are valid, false if either one is
    *         negative or if the end tick is less than the start tick.
    */
-  public boolean validateTicks(int startTick, int endTick) {
+  private boolean validateTicks(int startTick, int endTick) {
     if ((startTick < 0) || (endTick < 0) || (endTick < startTick)) {
       return false;
     }

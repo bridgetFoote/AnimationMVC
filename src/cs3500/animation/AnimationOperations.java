@@ -138,4 +138,18 @@ public interface AnimationOperations {
    * @return integer value of the height of this canvas.
    */
   int getCanvasHeight();
+
+  /**
+   * Returns the minimum x value for this animation.
+   *
+   * @return integer value of the minimum x value.
+   */
+  int getXMin();
+
+  /**
+   * returns the minimum y value for this animation.
+   *
+   * @return integer value of the minimum y value.
+   */
+  int getYMin();
 }

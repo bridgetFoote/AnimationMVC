@@ -1,7 +1,8 @@
 package cs3500.animation;
 
 import javax.swing.*;
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +24,12 @@ public class AbstractTextualView extends JFrame implements AnimationView {
       throw new IllegalArgumentException("The read-only model can't be null.");
     }
     if (outFile.equals("")) {
-      throw new IllegalArgumentException("The output file is not valid.");
+      File out = new File("Animation.txt");
+      try {
+        out.createNewFile();
+      } catch (IOException ioe) {
+      }
+      outFile = out.getAbsolutePath();
     }
     if (tempo <= 0) {
       throw new IllegalArgumentException("The tempo is not valid.");

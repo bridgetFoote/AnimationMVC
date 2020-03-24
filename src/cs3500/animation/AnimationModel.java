@@ -138,13 +138,13 @@ public class AnimationModel implements AnimationOperations {
     }
     ShapeAction action;
     if (this.determineActionType(startPointX, startPointY, endPointX, endPointY).equals(ActionType.MOVE)) {
-      action = new Move(startTick, endTick, Arrays.asList(startPointX, startPointY),
-              Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
+      action = new Move(startTick, endTick, Arrays.asList(startPointX - this.xMin, startPointY - this.yMin),
+              Arrays.asList(endPointX - this.xMin, endPointY - this.yMin), new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
               startWidth, startHeight, endWidth, endHeight);
     } else {
-      action = new Stay(startTick, endTick, Arrays.asList(startPointX, startPointY),
-              Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
+      action = new Stay(startTick, endTick, Arrays.asList(startPointX - this.xMin, startPointY - this.yMin),
+              Arrays.asList(endPointX - this.xMin, endPointY - this.yMin), new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
               startWidth, startHeight, endWidth, endHeight);
     }
@@ -165,6 +165,16 @@ public class AnimationModel implements AnimationOperations {
   @Override
   public int getCanvasHeight() {
     return this.canvasHeight;
+  }
+
+  @Override
+  public int getXMin() {
+    return this.xMin;
+  }
+
+  @Override
+  public int getYMin() {
+    return this.yMin;
   }
 
   @Override

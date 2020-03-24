@@ -22,5 +22,6 @@ public class TextView extends AbstractTextualView {
     super(windowTitle, readOnlyModel, outFile, tempo);
     JLabel label = new JLabel(this.getTextDescription());
     this.add(label);
+    this.setVisible(true);
   }
 }

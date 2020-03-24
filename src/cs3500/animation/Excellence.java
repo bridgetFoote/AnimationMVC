@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public final class Excellence {
@@ -18,39 +20,50 @@ public final class Excellence {
     String outputFile = null;
     Integer ticksPerSecond = null;
 
-    for (int i = 0; i < args.length; i = i + 2) {
-      switch (args[i]) {
+    List<String> l = new ArrayList<String>();
+    for (int i = 0; i < args.length; i++) {
+      l.add(args[i]);
+    }
+
+    int i = 0;
+    while (i < l.size()) {
+      switch (l.get(i)) {
         case "-in":
-          inputFile = args[i + 1];
+          inputFile = l.get(i + 1);
+          i = i + 2;
         case "-view":
-          if (args[i + 1].equals("text")) {
+          if (l.get(i + 1).equals("text")) {
             typeOfView = ViewType.TEXTVIEW;
-          } else if (args[i + 1].equals("visual")) {
+            i = i + 2;
+          } else if (l.get(i + 1).equals("visual")) {
             typeOfView = ViewType.VISUALVIEW;
-          } else if (args[i + 1].equals("svg")) {
+            i = i + 2;
+          } else if (l.get(i + 1).equals("svg")) {
             typeOfView = ViewType.SVGVIEW;
+            i = i + 2;
           } else {
             JOptionPane.showMessageDialog(new JDialog(), "Given view type is not valid.");
-            return;
           }
         case "-out":
-          outputFile = args[i + 1];
+          outputFile = l.get(i + 1);
+          i = i + 2;
         case "-speed":
           try {
-            ticksPerSecond = Integer.parseInt(args[i + 1]);
+            ticksPerSecond = Integer.parseInt(l.get(i + 1));
+            i = i + 2;
           } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(new JDialog(), "Given speed is not valid");
             return;
           }
-        default:
-          JOptionPane.showMessageDialog(new JDialog(), "Given argument tag is not valid.");
-          return;
-        }
       }
+    }
 
     if (Objects.isNull(inputFile) || Objects.isNull(typeOfView)) {
       JOptionPane.showMessageDialog(new JDialog(), "Input file or view type arguments not specified.");
       return;
+    }
+    if (Objects.isNull(ticksPerSecond)) {
+      ticksPerSecond = 1;
     }
 
     File file = new File(inputFile);
@@ -58,9 +71,9 @@ public final class Excellence {
     try {
       AnimationOperations model = ar.parseFile(new FileReader(file), new AnimationModel.Builder());
       AnimationView view;
-      if (typeOfView.equals("text")) {
+      if (typeOfView.compareTo(ViewType.TEXTVIEW) == 0) {
         view = new TextView("Animation", model, outputFile, ticksPerSecond);
-      } else if (typeOfView.equals("svg")) {
+      } else if (typeOfView.compareTo(ViewType.SVGVIEW) == 0) {
         view = new SVGView("Animation", model, outputFile, ticksPerSecond);
       } else {
         view = new VisualView("Animation", model, ticksPerSecond);
