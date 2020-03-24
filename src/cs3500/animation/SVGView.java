@@ -62,8 +62,9 @@ public class SVGView extends AbstractTextualView {
         // Add the initial position from the next line. Add try-catch if no animation exists.
         try {
           String[] tmp2 = lines[i + 1].split(" ");
-          output = output.concat(String.format(" cx=\"%s\" cy=\"%s\" rx=\"%s\" ry=\"%s\" " +
-                          "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4], tmp2[5], tmp2[6],
+          output = output.concat(String.format(" cx=\"%s\" cy=\"%s\" rx=\"%d\" ry=\"%d\" " +
+                          "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4],
+                  Integer.parseInt(tmp2[5])/2, Integer.parseInt(tmp2[6])/2,
                   tmp2[7], tmp2[8], tmp2[9]));
         }
         catch (IndexOutOfBoundsException e) {
@@ -118,13 +119,13 @@ public class SVGView extends AbstractTextualView {
                         "fill=\"freeze\" /> \n",t1, dt,tmp[4], tmp[13]));
 
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
-                        "dur=\"%.2fms\" attributeName=\"rx\" from=\"%s\" to=\"%s\" " +
+                        "dur=\"%.2fms\" attributeName=\"rx\" from=\"%d\" to=\"%d\" " +
                         "fill=\"freeze\" /> \n",
-                t1, dt,tmp[5], tmp[14]));
+                t1, dt, Integer.parseInt(tmp[5])/2, Integer.parseInt(tmp[14])/2));
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
-                        "dur=\"%.2fms\" attributeName=\"ry\" from=\"%s\" to=\"%s\" " +
+                        "dur=\"%.2fms\" attributeName=\"ry\" from=\"%d\" to=\"%d\" " +
                         "fill=\"freeze\" /> \n",
-                t1, dt,tmp[6], tmp[15]));
+                t1, dt,Integer.parseInt(tmp[6])/2,Integer.parseInt(tmp[15])/2));
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
                         "dur=\"%.2fms\" attributeName=\"fill\" from=\"rgb(%s,%s,%s)\" " +
                         "to=\"rgb(%s,%s,%s)\" fill=\"freeze\" /> \n",

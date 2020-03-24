@@ -156,8 +156,8 @@ public abstract class ShapeAction implements IAction {
             + Integer.toString(this.startColor.getColorGradient("blue"))
             + "  " + Integer.toString(this.endTick) + " " + Integer.toString(this.endPoint.get(0))
             + " " + Integer.toString(this.endPoint.get(1)) + " "
-            + Double.toString(this.endWidth)
-            + " " + Double.toString(this.endHeight) + " "
+            + Integer.toString(this.endWidth)
+            + " " + Integer.toString(this.endHeight) + " "
             + Integer.toString(endColor.getColorGradient("red"))
             + " " + Integer.toString(endColor.getColorGradient("green")) + " "
             + Integer.toString(endColor.getColorGradient("blue"));
