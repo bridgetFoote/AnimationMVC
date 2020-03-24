@@ -95,9 +95,10 @@ public class AnimationModel implements AnimationOperations {
 
 
     if (this.shapes.get(shapeName).validateAction(action)) {
-      if (this.shapes.get(shapeName).getActions().size() == 0) {
+      /*if (this.shapes.get(shapeName).getActions().size() == 0) {
         this.shapes.get(shapeName).addShapeAction(action);
-      }
+      }*/
+      this.shapes.get(shapeName).addShapeAction(action);
     }
   }
 

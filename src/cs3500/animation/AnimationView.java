@@ -22,7 +22,10 @@ public interface AnimationView {
    * Write the SVG file from the getTextualDescription method above.
    * Uses a private helper to convert the textual description to XML.
    * N.B. for a {@link VisualView} and {@link TextView}, this will do nothing.
+   *
+   * @param fileName the name of the file to write to
+   * @param speed the speed of the animation
    */
-  public void writeXML();
+  public void writeXML(String fileName, int speed);
 
 }

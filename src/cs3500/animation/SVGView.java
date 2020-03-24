@@ -1,4 +1,5 @@
 package cs3500.animation;
+import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.WriteAbortedException;
@@ -21,27 +22,31 @@ public class SVGView extends AbstractTextualView {
    * @return A string representation of the XML that can be written to a file.
    */
 
-  private String getXMLText() {
+  private String getXMLText(int speed) {
+
     String description = this.getTextualDescription();
     String[] canvasString = description.split("\n")[0].split(" ");
     String output = String.format("<svg width=\"%s\" height=\"%s\" version=\"1.1\" " +
             "xmlns=\"http://www.w3.org/2000/svg\">\n", canvasString[3], canvasString[4]);
     // FLOW: Split the description string by lines, find the shape/motion tags and build the XML string
     String[] lines = description.split("\n");
-    String currentShapeType = "";
+    ShapeType currentType = null;
+    boolean doneWithShape = false;
     for (int i = 0; i < lines.length; i++) {
       String[] tmp = lines[i].split(" ");
       // If the line declares a rectangle
       if (tmp[0].equals("shape") && tmp[2].equals("rectangle")) {
         // Create the new shape tag
+        doneWithShape = false;
+        currentType = ShapeType.RECTANGLE;
         output = output.concat(String.format("<%s id=\"%s\"",
                 findShape(tmp[2]), tmp[1]));
         // Add the initial position from the next line. Add try-catch if no animation exists.
         try {
           String[] tmp2 = lines[i + 1].split(" ");
           output = output.concat(String.format(" x=\"%s\" y=\"%s\" width=\"%s\" height=\"%s\" " +
-                  "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[3], tmp2[4], tmp2[5],
-                  tmp2[6], tmp2[7], tmp2[8]));
+                  "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4], tmp2[5], tmp2[6],
+                  tmp2[7], tmp2[8], tmp2[9]));
         }
         catch (IndexOutOfBoundsException e) {
           System.out.println("Index out of bounds");
@@ -50,72 +55,90 @@ public class SVGView extends AbstractTextualView {
       // If the line declares an ellipse
       else if(tmp[0].equals("shape") && tmp[2].equals("ellipse")) {
         // Create the new shape tag
+        doneWithShape = false;
+        currentType = ShapeType.ELLIPSE;
         output = output.concat(String.format("<%s id=\"%s\"",
                 findShape(tmp[2]), tmp[1]));
         // Add the initial position from the next line. Add try-catch if no animation exists.
         try {
           String[] tmp2 = lines[i + 1].split(" ");
           output = output.concat(String.format(" cx=\"%s\" cy=\"%s\" rx=\"%s\" ry=\"%s\" " +
-                          "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[3], tmp2[4], tmp2[5],
-                  tmp2[6], tmp2[7], tmp2[8]));
+                          "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4], tmp2[5], tmp2[6],
+                  tmp2[7], tmp2[8], tmp2[9]));
         }
         catch (IndexOutOfBoundsException e) {
           // Do nothing
         }
       }
       // if the motion is for a rectangle
-      else if (tmp[0].equals("motion") && findShape(lines[i - 1].split(" ")[2]).equals("rect") ) {
+      else if (tmp[0].equals("motion") && !doneWithShape && currentType.equals(ShapeType.RECTANGLE)) {
         // Add an animation tag. Have one animation tag per attribute (might need to change).
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                "dur=\"%d000ms\" attributeName=\"x\" from=\"%s\" to=\"%s\" fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[3], tmp[12]));
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"y\" from=\"%s\" to=\"%s\" " +
-                        "fill=\"freeze\" /> \n", tmp[2],
-                Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[4], tmp[13]));
+        double t1 =  1000 * (double) Integer.parseInt(tmp[2])/speed;
+        double dt =  1000 * ((double)Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]))/speed;
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                "dur=\"%.2fms\" attributeName=\"x\" from=\"%s\" to=\"%s\" fill=\"freeze\" /> \n",
+                t1, dt, tmp[3], tmp[12]));
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"y\" from=\"%s\" to=\"%s\" " +
+                        "fill=\"freeze\" /> \n", t1, dt ,tmp[4], tmp[13]));
 
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"width\" from=\"%s\" to=\"%s\" " +
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"width\" from=\"%s\" to=\"%s\" " +
                         "fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[5], tmp[14]));
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"height\" from=\"%s\" to=\"%s\" " +
+                t1, dt,tmp[5], tmp[14]));
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"height\" from=\"%s\" to=\"%s\" " +
                         "fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[6], tmp[15]));
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"fill\" from=\"rgb(%s,%s,%s)\" " +
+                t1, dt,tmp[6], tmp[15]));
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"fill\" from=\"rgb(%s,%s,%s)\" " +
                         "to=\"rgb(%s,%s,%s)\" fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[7], tmp[8],
-                tmp[9], tmp[16], tmp[17], tmp[18]));
+                t1, dt,tmp[7], tmp[8], tmp[9], tmp[16], tmp[17], tmp[18]));
         // Once all animations have been added, close the shape's tag.
-        output = output.concat(String.format("</%s>\n", "rect"));
+        try {
+          if (lines[i + 1].split(" ")[0].equals("shape")) {
+            doneWithShape = true;
+            output = output.concat(String.format("</%s>\n", "rect"));
+          }
+        }
+        catch (IndexOutOfBoundsException e) {
+          output = output.concat(String.format("</%s>\n", "rect"));
+        }
       }
       // if the motion is for an ellipse
-      else if (tmp[0].equals("motion") && findShape(lines[i - 1].split(" ")[2]).equals("ellipse") ) {
+      else if (tmp[0].equals("motion") && !doneWithShape && currentType.equals(ShapeType.ELLIPSE)) {
         // Add an animation tag. Have one animation tag per attribute (might need to change).
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"cx\" from=\"%s\" to=\"%s\" fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[3], tmp[12]));
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"cy\" from=\"%s\" to=\"%s\" " +
-                        "fill=\"freeze\" /> \n", tmp[2],
-                Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[4], tmp[13]));
+        double t1 =  1000 * (double) Integer.parseInt(tmp[2])/speed;
+        double dt =  1000 * ((double)Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]))/speed;
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"cx\" from=\"%s\" to=\"%s\" fill=\"freeze\" /> \n",
+                t1, dt,tmp[3], tmp[12]));
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"cy\" from=\"%s\" to=\"%s\" " +
+                        "fill=\"freeze\" /> \n",t1, dt,tmp[4], tmp[13]));
 
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"rx\" from=\"%s\" to=\"%s\" " +
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"rx\" from=\"%s\" to=\"%s\" " +
                         "fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[5], tmp[14]));
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"ry\" from=\"%s\" to=\"%s\" " +
+                t1, dt,tmp[5], tmp[14]));
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"ry\" from=\"%s\" to=\"%s\" " +
                         "fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[6], tmp[15]));
-        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%s000ms\" " +
-                        "dur=\"%d000ms\" attributeName=\"fill\" from=\"rgb(%s,%s,%s)\" " +
+                t1, dt,tmp[6], tmp[15]));
+        output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
+                        "dur=\"%.2fms\" attributeName=\"fill\" from=\"rgb(%s,%s,%s)\" " +
                         "to=\"rgb(%s,%s,%s)\" fill=\"freeze\" /> \n",
-                tmp[2], Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]),tmp[7], tmp[8],
-                tmp[9], tmp[16], tmp[17], tmp[18]));
+                t1, dt,tmp[7], tmp[8], tmp[9], tmp[16], tmp[17], tmp[18]));
         // Once all animations have been added, close the shape's tag.
-        output = output.concat(String.format("</%s>\n", "ellipse"));
+        try {
+          if (lines[i + 1].split(" ")[0].equals("shape")) {
+            doneWithShape = true;
+            output = output.concat(String.format("</%s>\n", "ellipse"));
+          }
+        }
+        catch (IndexOutOfBoundsException e) {
+          output = output.concat(String.format("</%s>\n", "ellipse"));
+        }
       }
       else {
         // Do nothing for now.
@@ -139,15 +162,15 @@ public class SVGView extends AbstractTextualView {
     }
     else {
       return "";
-      //throw new IllegalArgumentException("Invalid shape in text description");
     }
   }
 
   @Override
-  public void writeXML() {
-    String xml = this.getXMLText();
+  public void writeXML(String fileName, int speed) {
+    String xml = this.getXMLText(speed);
     try {
-      FileWriter writer = new FileWriter("Shapes.xml", true);
+      FileWriter writer = new FileWriter(String.format("src/cs3500/animation/%s", fileName),
+              false);
       writer.write(xml);
       writer.close();
     }

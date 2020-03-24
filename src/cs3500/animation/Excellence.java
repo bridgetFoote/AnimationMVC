@@ -18,7 +18,7 @@ public final class Excellence {
     String inFile = "";
     String outFile = "";
     ViewType vType = null;
-    int speed;
+    int speed = 0;
     // Assign values to the above variables.
     // TODO: Change back to JOptionPane
     for (int i = 0; i < args.length; i = i + 2) {
@@ -77,7 +77,10 @@ public final class Excellence {
       }
       else if (vType.equals(ViewType.SVGVIEW)) {
         view = new SVGView(model);
-        view.writeXML();
+        if (speed <= 0) {
+          throw new IllegalArgumentException("Speed must be a positive integer");
+        }
+        view.writeXML(outFile, speed);
       }
       else if (vType.equals(ViewType.VISUALVIEW)) {
         view = new VisualView(String.format("User's animation for %s", inFile), model);

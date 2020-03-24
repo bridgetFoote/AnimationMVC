@@ -46,8 +46,8 @@ public class AbstractTextualView implements AnimationView {
   }
 
   @Override
-  public void writeXML() {
-    // Do nothing. Will be overridden in SVGView
+  public void writeXML(String fileName, int speed) {
+    // Do nothing, will be overridden by SVGView
   }
 
 }
