@@ -26,8 +26,9 @@ public class SVGView extends AbstractTextualView {
 
     String description = this.getTextualDescription();
     String[] canvasString = description.split("\n")[0].split(" ");
-    String output = String.format("<svg width=\"%s\" height=\"%s\" version=\"1.1\" " +
-            "xmlns=\"http://www.w3.org/2000/svg\">\n", canvasString[3], canvasString[4]);
+    String output = String.format("<svg viewBox=\"%s %s %s %s\" version=\"1.1\" " +
+            "xmlns=\"http://www.w3.org/2000/svg\">\n",canvasString[1], canvasString[2],
+            canvasString[3], canvasString[4]);
     // FLOW: Split the description string by lines, find the shape/motion tags and build the XML string
     String[] lines = description.split("\n");
     ShapeType currentType = null;

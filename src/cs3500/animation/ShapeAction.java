@@ -221,14 +221,11 @@ public abstract class ShapeAction implements IAction {
    * @return true if there is an overlap, false otherwise.
    */
   public boolean hasOverlap(ShapeAction action) {
-    if ((this.startTick <= action.startTick) && (this.endTick > action.startTick)) {
-      return true;
-    } else if ((action.endTick >= this.startTick) && (action.endTick < this.endTick)) {
-      return true;
-    } else if (action.startTick >= this.endTick) {
-      return  false;
-    } else {
-      return (action.endTick > this.startTick);
+    if (this.startTick > action.startTick) {
+      return this.endTick < action.startTick;
+    }
+    else {
+      return action.endTick < this.startTick;
     }
   }
 
@@ -258,7 +255,8 @@ public abstract class ShapeAction implements IAction {
    * @return true if teleportation is inevitable, false otherwise.
    */
   public boolean causesTeleportation(ShapeAction a) {
-    if (this.startTick == a.endTick) {
+    // TODO: Implement this...
+    /*if (this.startTick == a.endTick) {
       return ((this.startPoint.get(0) != a.endPoint.get(0))
               || (this.startPoint.get(1) != a.endPoint.get(1)));
     } else if (this.endTick == a.startTick) {
@@ -266,7 +264,9 @@ public abstract class ShapeAction implements IAction {
               || (this.endPoint.get(1) != a.startPoint.get(1)));
     } else {
       return false;
-    }
+    }*/
+    return false;
+
   }
 
   /**
