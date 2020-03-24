@@ -1,10 +1,8 @@
 package cs3500.animation;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Abstract class to represent a shape. Has fields for the
@@ -21,6 +19,7 @@ public abstract class AbstractShape implements IShape {
    */
   public AbstractShape(String name, ShapeType type) {
     this.actions = new ArrayList<ShapeAction>();
+    this.sortedActions = new TreeMap<Integer, ShapeAction>();
     if (name.equals("")) {
       throw new IllegalArgumentException("The name of this shape cannot be the empty string.");
     }
@@ -28,6 +27,7 @@ public abstract class AbstractShape implements IShape {
   }
 
   private List<ShapeAction> actions;
+  private TreeMap<Integer, ShapeAction> sortedActions;
   private String name;
   protected ShapeType shapeType;
 
@@ -54,6 +54,7 @@ public abstract class AbstractShape implements IShape {
   public void addShapeAction(ShapeAction action) {
     if (this.actions.size() == 0) {
       this.actions.add(action);
+      this.sortedActions.put(action.endTick, action);
       return;
     }
 
@@ -71,6 +72,7 @@ public abstract class AbstractShape implements IShape {
         }
       }
       this.actions.add(action);
+      this.sortedActions.put(action.endTick, action);
     }
   }
 
@@ -83,6 +85,9 @@ public abstract class AbstractShape implements IShape {
 
   @Override
   public int getWidth(int tick) {
+    if (this.actions.size() == 0) {
+      throw new IllegalArgumentException("This shape has no actions.");
+    }
     for (ShapeAction a: this.actions) {
       if ((a.startTick <= tick) && (a.endTick >= tick)) {
         if (Math.abs(a.endWidth - a.startWidth) == 0) {
@@ -94,11 +99,14 @@ public abstract class AbstractShape implements IShape {
         }
       }
     }
-    throw new IllegalArgumentException("This shape does not exist at the given tick.");
+    return this.sortedActions.lastEntry().getValue().endWidth;
   }
 
   @Override
   public int getHeight(int tick) {
+    if (this.actions.size() == 0) {
+      throw new IllegalArgumentException("This shape has no actions.");
+    }
     for (ShapeAction a: this.actions) {
       if ((a.startTick <= tick) && (a.endTick >= tick)) {
         if (Math.abs(a.endHeight - a.startHeight) == 0) {
@@ -110,7 +118,7 @@ public abstract class AbstractShape implements IShape {
         }
       }
     }
-    throw new IllegalArgumentException("This shape does not exist at the given tick.");
+    return this.sortedActions.lastEntry().getValue().endHeight;
   }
 
   @Override
@@ -133,6 +141,9 @@ public abstract class AbstractShape implements IShape {
 
   @Override
   public int getColorGradient(String gradientType, int tick) {
+    if (this.actions.size() == 0) {
+      throw new IllegalArgumentException("This shape has no actions");
+    }
     for (ShapeAction a: this.actions) {
       if ((a.startTick <= tick) && (a.endTick >= tick)) {
         if (Math.abs(a.endColor.getColorGradient(gradientType)
@@ -146,7 +157,7 @@ public abstract class AbstractShape implements IShape {
         }
       }
     }
-    throw new IllegalArgumentException("This shape does not exist at the given tick.");
+    return this.sortedActions.lastEntry().getValue().endColor.getColorGradient(gradientType);
   }
 
   @Override
@@ -218,7 +229,7 @@ public abstract class AbstractShape implements IShape {
         }
       }
     }
-    throw new IllegalArgumentException("This shape does not have an action at the given tick.");
+    return this.sortedActions.lastEntry().getValue().getPosition(this.sortedActions.lastEntry().getKey());
   }
 
   @Override

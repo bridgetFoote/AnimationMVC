@@ -24,12 +24,14 @@ public class AnimationPanel extends JPanel {
     this.xOffset = model.getXMin();
     this.yOffset = model.getYMin();
     this.tick = 0;
+    this.shapesOnScreen = model.getShapesAtTick(this.tick);
   }
 
   public static int xOffset;
   public static int yOffset;
   private AnimationOperations model;
   private int tick;
+  List<IShape> shapesOnScreen;
 
 
   @Override
@@ -40,9 +42,9 @@ public class AnimationPanel extends JPanel {
 
     g2d.setColor(Color.BLACK);
 
-    List<IShape> shapes = this.model.getShapesAtTick(this.tick);
+    this.shapesOnScreen = this.model.getShapesAtTick(this.tick);
 
-    for (IShape s: shapes) {
+    for (IShape s: this.shapesOnScreen) {
       Shape shape;
       if (s.getShapeType().equals("rect")) {
         shape = new Rectangle2D.Double(s.getPosition(this.tick).get(0),

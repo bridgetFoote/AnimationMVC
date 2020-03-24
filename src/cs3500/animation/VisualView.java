@@ -15,17 +15,24 @@ public class VisualView extends AbstractVisualView {
     this.panel = new AnimationPanel(readOnlyModel);
     this.panel.setPreferredSize(new Dimension(readOnlyModel.getCanvasWidth(), readOnlyModel.getCanvasHeight()));
     this.scrollPane = new JScrollPane(this.panel);
+    this.add(this.scrollPane, BorderLayout.CENTER);
     timer = new Timer((1 / tempo) * 1000, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         panel.nextTick();
-        repaint();
+        refresh();
       }
     });
+    timer.start();
     this.pack();
   }
 
   private Timer timer;
   private AnimationPanel panel;
   private JScrollPane scrollPane;
+
+  @Override
+  public void refresh() {
+    this.repaint();
+  }
 }

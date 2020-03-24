@@ -14,11 +14,11 @@ public class AnimationModel implements AnimationOperations {
    */
   public AnimationModel() {
     shapes = new HashMap<String, IShape>();
-    orderedShapes = new TreeMap<IShape, List<Integer>>();
+    orderedShapes = new TreeMap<Integer, IShape>();
   }
 
   private HashMap<String, IShape> shapes;
-  private TreeMap<IShape, List<Integer>> orderedShapes;
+  private TreeMap<Integer, IShape> orderedShapes;
   private int xMin;
   private int yMin;
   private int canvasWidth;
@@ -151,9 +151,7 @@ public class AnimationModel implements AnimationOperations {
 
 
     if (this.shapes.get(shapeName).validateAction(action)) {
-      if (this.shapes.get(shapeName).getActions().size() == 0) {
-        this.shapes.get(shapeName).addShapeAction(action);
-      }
+      this.shapes.get(shapeName).addShapeAction(action);
     }
   }
 
@@ -210,14 +208,13 @@ public class AnimationModel implements AnimationOperations {
 
   @Override
   public List<IShape> getShapesAtTick(int tick) {
-    List<IShape> shapesAtTick = new ArrayList<IShape>();
-
-    for (IShape s: this.orderedShapes.keySet()) {
-      if ((this.orderedShapes.get(s).get(0) >= tick) && (this.orderedShapes.get(s).get(1) <= tick)) {
-        shapesAtTick.add(s);
-      }
+    SortedMap<Integer, IShape> shapesAtTick = this.orderedShapes.headMap(tick + 1);
+    List<IShape> list = new ArrayList<IShape>();
+    for (IShape s: shapesAtTick.values()) {
+      list.add(s);
     }
-    return shapesAtTick;
+
+    return list;
   }
 
   /**
