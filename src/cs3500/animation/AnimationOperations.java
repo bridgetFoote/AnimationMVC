@@ -44,7 +44,6 @@ public interface AnimationOperations {
    */
   List<IShape> getShapesAtTick(int tick);
 
-
   /**
    * Adds a new shape to the animation.
    * @param name is the shape's name
@@ -89,4 +88,11 @@ public interface AnimationOperations {
                       int startGreenGradient, int startBlueGradient, int endRedGradient,
                       int endGreenGradient, int endBlueGradient, int startWidth,
                       int startHeight, int endWidth, int endHeight);
+
+  /**
+   * Use a tree map to order the shapes in the model based on tick.
+   * This will allow for easier look-up upon animation.
+   * N.B. This will be called right before the builder builds the model
+   */
+  void orderByTick();
 }

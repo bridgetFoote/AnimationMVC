@@ -14,7 +14,7 @@ public class AnimationModel implements AnimationOperations {
    */
   public AnimationModel() {
     shapes = new HashMap<String, IShape>();
-    orderedShapes = new TreeMap<IShape, List<Integer>>();
+    orderedShapes = new TreeMap<Integer,List<IShape>>();
     // Default values for now
     topX = 0;
     topY = 0;
@@ -23,7 +23,7 @@ public class AnimationModel implements AnimationOperations {
   }
 
   private HashMap<String, IShape> shapes;
-  private TreeMap<IShape, List<Integer>> orderedShapes;
+  private TreeMap<Integer, List<IShape>> orderedShapes;
   private int topX;
   private int topY;
   private int canvasWidth;
@@ -47,11 +47,6 @@ public class AnimationModel implements AnimationOperations {
     this.canvasHeight = height;
   }
 
-  /**
-   * Add a shape to the model.
-   * @param name is the shape's name
-   * @param shapeType the type of shape
-   */
 
   @Override
   public void addShape(String name, String shapeType) {
@@ -69,6 +64,7 @@ public class AnimationModel implements AnimationOperations {
               + "exists in this animation.");
     }
     this.shapes.put(shape.getName(), shape);
+
   }
 
   @Override
@@ -92,14 +88,48 @@ public class AnimationModel implements AnimationOperations {
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
               startWidth, startHeight, endWidth, endHeight);
     }
-
-
     if (this.shapes.get(shapeName).validateAction(action)) {
-      /*if (this.shapes.get(shapeName).getActions().size() == 0) {
-        this.shapes.get(shapeName).addShapeAction(action);
-      }*/
       this.shapes.get(shapeName).addShapeAction(action);
     }
+  }
+
+  @Override
+  public void orderByTick() {
+    int[] ticksActive;
+    for (IShape s: shapes.values()) {
+      ticksActive = this.findTicks(s);
+      for (Integer t: ticksActive) {
+        if (orderedShapes.containsKey(t))
+        {
+          List<IShape> cShapes = orderedShapes.get(t);
+          cShapes.add(s);
+          orderedShapes.put(t,cShapes);
+        }
+        else {
+          List<IShape> nShapes = new ArrayList<>();
+          nShapes.add(s);
+          orderedShapes.put(t,nShapes);
+        }
+      }
+    }
+  }
+
+  /**
+   * For the given shape, find what ticks the shape is active (in the animation) for.
+   * @param s the shape
+   * @return an array of all ticks that the shape is active
+   */
+  private int[] findTicks(IShape s) {
+    List<ShapeAction> actions = s.getActions();
+    int start = actions.get(0).startTick;
+    int end = actions.get(actions.size() - 1).endTick;
+    int[] outArr = new int[end - start];
+    int j = 0;
+    for (int i = start; i < end; i++) {
+      outArr[j] = i;
+      j++;
+    }
+    return outArr;
   }
 
   @Override
@@ -124,14 +154,7 @@ public class AnimationModel implements AnimationOperations {
 
   @Override
   public List<IShape> getShapesAtTick(int tick) {
-    List<IShape> shapesAtTick = new ArrayList<IShape>();
-
-    for (IShape s: this.orderedShapes.keySet()) {
-      if ((this.orderedShapes.get(s).get(0) >= tick) && (this.orderedShapes.get(s).get(1) <= tick)) {
-        shapesAtTick.add(s);
-      }
-    }
-    return shapesAtTick;
+    return this.orderedShapes.get(tick);
   }
 
   /**
@@ -186,6 +209,7 @@ public class AnimationModel implements AnimationOperations {
 
     @Override
     public AnimationOperations build() {
+      this.model.orderByTick();
       return this.model;
     }
 

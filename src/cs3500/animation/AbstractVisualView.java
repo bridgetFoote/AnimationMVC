@@ -1,13 +1,16 @@
 package cs3500.animation;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * Represents a general animation view.
  */
 public class AbstractVisualView extends JFrame implements AnimationView {
-
+  private AnimationOperations model;
+  private AnimationPanel panel;
   /**
    * Creates a new visual view with the given window title and based off of the given model.
    *
@@ -19,15 +22,35 @@ public class AbstractVisualView extends JFrame implements AnimationView {
     if (Objects.isNull(readOnlyModel)) {
       throw new IllegalArgumentException("The read-only model can't be null.");
     }
-
-    setSize(400, 300);
-    setLocation(200, 200);
+    this.model = readOnlyModel;
+    List<Integer> canvas = this.getCanvas();
+    setSize(canvas.get(2), canvas.get(3));
+    setLocation(canvas.get(0), canvas.get(1));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.panel = new AnimationPanel(this.model);
+    add(this.panel);
+    pack();
   }
 
-  public void refresh() {
-    this.repaint();
+  /**
+   * Get the canvas details from the model.
+   * @return a list containing the topX, topY, width, and height respectively.
+   */
+  private List<Integer> getCanvas() {
+    String description = this.model.toString();
+    String[] canvasString = description.split("\n")[0].split(" ");
+    return Arrays.asList(Integer.parseInt(canvasString[1]), Integer.parseInt(canvasString[2]),
+            Integer.parseInt(canvasString[3]), Integer.parseInt(canvasString[4]));
   }
+
+  /**
+   * Execute the animation.
+   */
+  public void refresh() {
+    this.panel.remake();
+  }
+
+
 
   @Override
   public void makeVisible() {

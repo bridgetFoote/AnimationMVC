@@ -71,5 +71,4 @@ public interface IShape {
    */
   void addShapeAction(ShapeAction action);
 
-
 }

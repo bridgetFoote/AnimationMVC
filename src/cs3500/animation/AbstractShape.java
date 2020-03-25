@@ -32,7 +32,6 @@ public abstract class AbstractShape implements IShape {
 
   /**
    * Returns a copy of the list of actions for this shape.
-   *
    * @return a copy of the list of actions for this shape, empty list if this shape does not
    *         have any actions.
    */
@@ -43,6 +42,7 @@ public abstract class AbstractShape implements IShape {
     }
     return actions;
   }
+
 
   @Override
   public IShape returnCopy() {
@@ -99,6 +99,9 @@ public abstract class AbstractShape implements IShape {
     if (Objects.isNull(action)) {
       throw new IllegalArgumentException("The given action is null.");
     }
+    if (this.causesGap(action)) {
+      return false;
+    }
     for (ShapeAction a: this.actions) {
       if (a.hasOverlap(action)) {
         return false;
@@ -106,8 +109,25 @@ public abstract class AbstractShape implements IShape {
       if (a.causesTeleportation(action)) {
         return false;
       }
+
     }
     return true;
+  }
+
+  /**
+   * Helper method to determine if this action will cause a gap in the animation.
+   * N.B. This assumes that actions are only being added to the end and that files
+   *      have each action ordered by occurrence. This also assumes that no overlap
+   *      occurs between animations.
+   * @param action
+   * @return whether the action will cause a gap in the animation
+   */
+  protected boolean causesGap(ShapeAction action) {
+    if (actions.size() == 0) {
+      return false;
+    }
+    ShapeAction lastAction = this.actions.get(actions.size() - 1);
+    return action.startTick != lastAction.endTick;
   }
 
   @Override

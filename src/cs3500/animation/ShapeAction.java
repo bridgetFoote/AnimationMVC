@@ -95,6 +95,7 @@ public abstract class ShapeAction implements IAction {
     this.endTick = endTick;
   }
 
+
   /**
    * Determines whether the given ticks are valid.
    *
@@ -301,4 +302,5 @@ public abstract class ShapeAction implements IAction {
     }
     throw new IllegalArgumentException("The given tick does not occur within this action.");
   }
+
 }
