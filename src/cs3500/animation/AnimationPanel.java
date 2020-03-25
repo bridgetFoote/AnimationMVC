@@ -2,7 +2,6 @@ package cs3500.animation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;

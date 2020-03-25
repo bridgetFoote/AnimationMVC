@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents a textual view of an animation in either string or SVG form.
@@ -56,16 +58,14 @@ public class AbstractTextualView extends JFrame implements AnimationView {
    * @return string representing the animation.
    */
   protected String getTextDescription() {
-    List<IShape> shapes = this.model.getShapes();
-    if (shapes.size() == 0) {
-      return "";
+    String out = model.toString();
+    Map<IShape, List<ShapeAction>> actions = model.getShapeActions();
+    Set aKeys = actions.keySet();
+    for (Object s: aKeys) {
+      if (s instanceof IShape) {
+        out = out.concat(s.toString());
+      }
     }
-
-    String out = "";
-    for (IShape s: shapes) {
-      out = out.concat(s.toString() +  "\n");
-    }
-
     return out;
   }
 

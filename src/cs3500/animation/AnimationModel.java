@@ -249,4 +249,10 @@ public class AnimationModel implements AnimationOperations {
       return ActionType.MOVE;
     }
   }
+
+  @Override
+  public String toString() {
+    return String.format("canvas %d %d %d %d\n", this.xMin, this.yMin,
+            this.canvasWidth, this.canvasHeight);
+  }
 }
