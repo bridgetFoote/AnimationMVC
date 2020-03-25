@@ -63,6 +63,11 @@ public class AbstractVisualView extends JFrame implements AnimationView {
   }
 
   @Override
+  public void writeTextDescription(String fileName) {
+    // Do nothing. This is only required for the TextView
+  }
+
+  @Override
   public void writeXML(String fileName, int speed) {
     // Do nothing. This is only required for the SVGView
   }
