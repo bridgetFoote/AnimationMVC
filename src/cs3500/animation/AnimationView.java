@@ -19,6 +19,13 @@ public interface AnimationView {
   public String getTextualDescription();
 
   /**
+   * Write the text file from the getTextualDescription method above.
+   *
+   * @param fileName
+   */
+  public void writeTextDescription(String fileName);
+
+  /**
    * Write the SVG file from the getTextualDescription method above.
    * Uses a private helper to convert the textual description to XML.
    * N.B. for a {@link VisualView} and {@link TextView}, this will do nothing.

@@ -41,7 +41,7 @@ public final class Excellence {
             vType = ViewType.VISUALVIEW;
           }
           else {
-            System.out.println("Invalid view type");
+            JOptionPane.showMessageDialog(new JDialog(), "Invalid view type");
             return;
           }
           break;
@@ -49,16 +49,16 @@ public final class Excellence {
           try {
             speed = Integer.parseInt(args[i + 1]);
             if (speed <=0) {
-              System.out.println("Speed must be a positive integer");
+              JOptionPane.showMessageDialog(new JDialog(), "Speed must be a positive integer");
               return;
             }
           }
           catch (NumberFormatException e) {
-            System.out.println("Speed must be a positive integer");
+            JOptionPane.showMessageDialog(new JDialog(), "Speed must be a positive integer");
           }
           break;
         default:
-          System.out.println("Invalid arguments, please try again");
+          JOptionPane.showMessageDialog(new JDialog(), "Invalid arguments, please try again");
       }
     }
     // ------------ Launch the program ----------------------
@@ -73,7 +73,11 @@ public final class Excellence {
       // Check the view type, construct it, and launch the relevant method!
       if (vType.equals(ViewType.TEXTVIEW)) {
         view = new TextView(model);
-        System.out.println(view.getTextualDescription());
+        if (outFile.equals("")) {
+          System.out.println(view.getTextualDescription());
+        } else {
+          view.writeTextDescription(outFile);
+        }
       }
       else if (vType.equals(ViewType.SVGVIEW)) {
         view = new SVGView(model);

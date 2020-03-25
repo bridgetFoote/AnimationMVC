@@ -1,5 +1,8 @@
 package cs3500.animation;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * Represents an animation view displayed textually,
  * with each shape listed with their movements underneath organized by tick.
@@ -15,5 +18,19 @@ public class TextView extends AbstractTextualView {
    */
   public TextView(AnimationOperations readOnlyModel) {
     super(readOnlyModel);
+  }
+
+  @Override
+  public void writeTextDescription(String fileName) {
+    String description = this.getTextualDescription();
+    try {
+      FileWriter writer = new FileWriter(String.format("src/cs3500/animation/%s", fileName),
+              false);
+      writer.write(description);
+      writer.close();
+    }
+    catch (IOException e) {
+      // Do nothing.
+    }
   }
 }
