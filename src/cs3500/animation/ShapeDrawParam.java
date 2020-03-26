@@ -22,8 +22,8 @@ public final class ShapeDrawParam {
    * @param c the color
    */
   public ShapeDrawParam(ShapeType type, int x, int y, int w, int h, RGBColor c) {
-    if (x < 0 || y < 0 || w <= 0 || h <= 0) {
-      throw new IllegalArgumentException("Parameters to draw a shape must be positive integers.");
+    if (w <= 0 || h <= 0) {
+      throw new IllegalArgumentException("Width and height must be greater than zero.");
     }
     this.type = type;
     this.xPosn = x;

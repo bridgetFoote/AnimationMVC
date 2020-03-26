@@ -34,7 +34,7 @@ public class AbstractVisualView extends JFrame implements AnimationView {
     setPreferredSize(new Dimension(canvas.get(2) + canvas.get(0) + 100,
             canvas.get(3) + canvas.get(1) + 100));
     this.panel = new AnimationPanel(this.model, this.speed);
-    add(this.panel);
+    add(this.panel, BorderLayout.CENTER);
 
     pack();
   }

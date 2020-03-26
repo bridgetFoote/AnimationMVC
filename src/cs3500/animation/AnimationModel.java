@@ -38,8 +38,8 @@ public class AnimationModel implements AnimationOperations {
 
   @Override
   public void setCanvas(int x, int y, int width, int height) {
-    if (x <0 || y < 0 || width < 0 || height < 0) {
-      throw new IllegalArgumentException("Canvas arguments must be positive.");
+    if (width < 0 || height < 0) {
+      throw new IllegalArgumentException("Canvas width and height must be positive.");
     }
     this.topX = x;
     this.topY = y;
@@ -151,6 +151,9 @@ public class AnimationModel implements AnimationOperations {
    * @return f(t)
    */
   private int linearInterpolation(int startTick, int endTick, Integer t, int startVal, int endVal) {
+    if (startTick == endTick) {
+      return startVal;
+    }
     return startVal * (endTick - t) / (endTick - startTick) + endVal * (t - startTick) / (endTick - startTick);
   }
 

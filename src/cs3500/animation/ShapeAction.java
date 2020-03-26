@@ -132,11 +132,12 @@ public abstract class ShapeAction implements IAction {
       throw new IllegalArgumentException("The starting and ending coordinates "
               + "have too many components.");
     }
+    /* TODO: fix this.
     if ((startPoint.get(0) < 0) || (startPoint.get(1) < 0)
             || (endPoint.get(0) < 0) || (endPoint.get(1) < 0)) {
       throw new IllegalArgumentException("The starting and ending coordinates "
               + "are out of bounds.");
-    }
+    }*/
     return true;
   }
 
