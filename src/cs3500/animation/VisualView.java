@@ -5,7 +5,7 @@ package cs3500.animation;
  * the shapes moving through the view as they should.
  */
 public class VisualView extends AbstractVisualView {
-  public VisualView(String windowTitle, AnimationOperations readOnlyModel) {
-    super(windowTitle, readOnlyModel);
+  public VisualView(String windowTitle, AnimationOperations readOnlyModel, int speed) {
+    super(windowTitle, readOnlyModel,speed);
   }
 }

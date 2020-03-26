@@ -10,7 +10,7 @@ public final class Excellence {
   public static void main(String[] args) {
 
     // Validate the argument length and that the arguments come in pairs
-    if (args.length < 4 || args.length %2 != 0) {
+    if (args.length < 4 || args.length % 2 != 0) {
       System.out.println("Invalid argument length");
       return;
     }
@@ -20,7 +20,6 @@ public final class Excellence {
     ViewType vType = null;
     int speed = 0;
     // Assign values to the above variables.
-    // TODO: Change back to JOptionPane
     for (int i = 0; i < args.length; i = i + 2) {
       String argType = args[i];
       switch(argType) {
@@ -87,7 +86,7 @@ public final class Excellence {
         view.writeXML(outFile, speed);
       }
       else if (vType.equals(ViewType.VISUALVIEW)) {
-        view = new VisualView(String.format("User's animation for %s", inFile), model);
+        view = new VisualView(String.format("User's animation for %s", inFile), model, speed);
         view.makeVisible();
       }
       else {

@@ -12,19 +12,20 @@ import java.util.Objects;
 public class AnimationPanel extends JPanel implements ActionListener {
   private AnimationOperations model;
   private int currentTick;
-  Timer timer = new Timer(100,this);
-  int LAST_TICK = 99;
-
+  private int delay;
+  private Timer timer;
   /**
    * Construct an AnimationPanel
    * @param m the model used for animation.
    */
-  public AnimationPanel(AnimationOperations m) {
+  public AnimationPanel(AnimationOperations m, int speed) {
     if (Objects.isNull(m)) {
       throw new IllegalArgumentException("Model cannot be null");
     }
     this.model = m;
     this.currentTick = 1;
+    this.delay = 1000 / (speed); // Convert from ticks per second to time delay (ms)
+    this.timer = new Timer(delay,this);
   }
 
   @Override
@@ -46,33 +47,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2d.fillOval(s.xPosn,s.yPosn,s.width,s.height);
       }
     }
-    if (currentTick < LAST_TICK) {
-      currentTick++;
-    }
-  }
-
-
-
-  /**
-   * Find the action to perform for the shape at the current tick.
-   * @param s the shape.
-   * @return the action that is to be performed during this tick
-   * @throws IllegalStateException if the action doesn't occur during this tick.
-   */
-  private ShapeAction findAction(IShape s) {
-    for (ShapeAction a: s.getActions()) {
-      if (a.startTick <= currentTick && a.endTick >= currentTick) {
-        return a;
-      }
-    }
-    throw new IllegalStateException("Shape should not be present during this tick.");
+    currentTick++;
   }
 
   /**
    * Re-draw for each animation.
    */
   public void remake() {
-    repaint();
+    if (this.model.getShapesAtTick(currentTick).size() > 0) {
+      repaint();
+    }
   }
 
   @Override

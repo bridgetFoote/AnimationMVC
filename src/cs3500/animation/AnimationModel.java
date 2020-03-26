@@ -210,7 +210,10 @@ public class AnimationModel implements AnimationOperations {
 
   @Override
   public List<ShapeDrawParam> getShapesAtTick(int tick) {
-    return this.orderedShapes.get(tick);
+    if (this.orderedShapes.containsKey(tick)) {
+      return this.orderedShapes.get(tick);
+    }
+    return new ArrayList<ShapeDrawParam>();
   }
 
   /**
