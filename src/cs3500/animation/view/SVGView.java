@@ -1,9 +1,7 @@
 package cs3500.animation.view;
+
 import cs3500.animation.AnimationOperations;
 import cs3500.animation.ShapeType;
-import cs3500.animation.view.AbstractTextualView;
-import cs3500.animation.view.AbstractVisualView;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -31,7 +29,8 @@ public class SVGView extends AbstractTextualView {
     String output = String.format("<svg viewBox=\"%s %s %s %s\" version=\"1.1\" " +
             "xmlns=\"http://www.w3.org/2000/svg\">\n",canvasString[1], canvasString[2],
             canvasString[3], canvasString[4]);
-    // FLOW: Split the description string by lines, find the shape/motion tags and build the XML string
+    // FLOW: Split the description string by lines, find the shape/motion tags
+    // and build the XML string
     String[] lines = description.split("\n");
     ShapeType currentType = null;
     boolean doneWithShape = false;
@@ -48,15 +47,15 @@ public class SVGView extends AbstractTextualView {
         try {
           String[] tmp2 = lines[i + 1].split(" ");
           output = output.concat(String.format(" x=\"%s\" y=\"%s\" width=\"%s\" height=\"%s\" " +
-                  "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4], tmp2[5], tmp2[6],
-                  tmp2[7], tmp2[8], tmp2[9]));
+                  "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4],
+                  tmp2[5], tmp2[6], tmp2[7], tmp2[8], tmp2[9]));
         }
         catch (IndexOutOfBoundsException e) {
           System.out.println("Index out of bounds");
         }
       }
       // If the line declares an ellipse
-      else if(tmp[0].equals("shape") && tmp[2].equals("ellipse")) {
+      else if (tmp[0].equals("shape") && tmp[2].equals("ellipse")) {
         // Create the new shape tag
         doneWithShape = false;
         currentType = ShapeType.ELLIPSE;
@@ -67,7 +66,7 @@ public class SVGView extends AbstractTextualView {
           String[] tmp2 = lines[i + 1].split(" ");
           output = output.concat(String.format(" cx=\"%s\" cy=\"%s\" rx=\"%d\" ry=\"%d\" " +
                           "fill=\"rgb(%s,%s,%s)\" visibility=\"visible\" >",tmp2[3],tmp2[4],
-                  Integer.parseInt(tmp2[5])/2, Integer.parseInt(tmp2[6])/2,
+                  Integer.parseInt(tmp2[5]) / 2, Integer.parseInt(tmp2[6]) / 2,
                   tmp2[7], tmp2[8], tmp2[9]));
         }
         catch (IndexOutOfBoundsException e) {
@@ -110,13 +109,14 @@ public class SVGView extends AbstractTextualView {
         }
       }
       // if the motion is for an ellipse
-      else if (tmp[0].equals("motion") && !doneWithShape && currentType.equals(ShapeType.ELLIPSE)) {
+      else if (tmp[0].equals("motion") && !doneWithShape
+              && currentType.equals(ShapeType.ELLIPSE)) {
         // Add an animation tag. Have one animation tag per attribute (might need to change).
-        double t1 =  1000 * (double) Integer.parseInt(tmp[2])/speed;
-        double dt =  1000 * ((double)Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]))/speed;
+        double t1 =  1000 * (double) Integer.parseInt(tmp[2]) / speed;
+        double dt =  1000 * ((double)Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2])) / speed;
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
-                        "dur=\"%.2fms\" attributeName=\"cx\" from=\"%s\" to=\"%s\" fill=\"freeze\" /> \n",
-                t1, dt,tmp[3], tmp[12]));
+                        "dur=\"%.2fms\" attributeName=\"cx\" from=\"%s\" to=\"%s\" " +
+                        "fill=\"freeze\" /> \n", t1, dt,tmp[3], tmp[12]));
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
                         "dur=\"%.2fms\" attributeName=\"cy\" from=\"%s\" to=\"%s\" " +
                         "fill=\"freeze\" /> \n",t1, dt,tmp[4], tmp[13]));
@@ -124,11 +124,11 @@ public class SVGView extends AbstractTextualView {
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
                         "dur=\"%.2fms\" attributeName=\"rx\" from=\"%d\" to=\"%d\" " +
                         "fill=\"freeze\" /> \n",
-                t1, dt, Integer.parseInt(tmp[5])/2, Integer.parseInt(tmp[14])/2));
+                t1, dt, Integer.parseInt(tmp[5]) / 2, Integer.parseInt(tmp[14]) / 2));
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
                         "dur=\"%.2fms\" attributeName=\"ry\" from=\"%d\" to=\"%d\" " +
                         "fill=\"freeze\" /> \n",
-                t1, dt,Integer.parseInt(tmp[6])/2,Integer.parseInt(tmp[15])/2));
+                t1, dt,Integer.parseInt(tmp[6]) / 2,Integer.parseInt(tmp[15]) / 2));
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
                         "dur=\"%.2fms\" attributeName=\"fill\" from=\"rgb(%s,%s,%s)\" " +
                         "to=\"rgb(%s,%s,%s)\" fill=\"freeze\" /> \n",
@@ -152,7 +152,7 @@ public class SVGView extends AbstractTextualView {
   }
 
   /**
-   * Helper method for getXMLText() that converts a string to an XML shape tag
+   * Helper method for getXMLText() that converts a string to an XML shape tag.
    * @param s the string from the text description.
    * @return an XML string that can be read as a shape tag.
    * @throws IllegalArgumentException if s isn't a rectangle or ellipse (the only allowed shapes).

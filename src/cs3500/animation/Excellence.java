@@ -1,8 +1,12 @@
 package cs3500.animation;
 
-import cs3500.animation.view.*;
-
-import javax.swing.*;
+import cs3500.animation.view.ViewType;
+import cs3500.animation.view.AnimationView;
+import cs3500.animation.view.TextView;
+import cs3500.animation.view.SVGView;
+import cs3500.animation.view.VisualView;
+import javax.swing.JOptionPane;
+import javax.swing.JDialog;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -22,7 +26,7 @@ public final class Excellence {
     // Assign values to the above variables.
     for (int i = 0; i < args.length; i = i + 2) {
       String argType = args[i];
-      switch(argType) {
+      switch (argType) {
         case "-in":
           inFile = args[i + 1];
           break;
@@ -47,7 +51,7 @@ public final class Excellence {
         case "-speed":
           try {
             speed = Integer.parseInt(args[i + 1]);
-            if (speed <=0) {
+            if (speed <= 0) {
               JOptionPane.showMessageDialog(new JDialog(), "Speed must be a positive integer");
               return;
             }

@@ -1,6 +1,11 @@
 package cs3500.animation;
 
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Class to represent an animation of shapes.
@@ -100,8 +105,7 @@ public class AnimationModel implements AnimationOperations {
       ticksActive = this.findTicks(s);
       for (Integer t: ticksActive) {
         ShapeDrawParam newShape = this.findShapeParams(s,t);
-        if (orderedShapes.containsKey(t))
-        {
+        if (orderedShapes.containsKey(t)) {
           List<ShapeDrawParam> cShapes = orderedShapes.get(t);
           cShapes.add(newShape);
           orderedShapes.put(t,cShapes);
@@ -123,25 +127,33 @@ public class AnimationModel implements AnimationOperations {
    * @return a {@link ShapeDrawParam} to be added to orderedShapes.
    */
   private ShapeDrawParam findShapeParams(IShape s, Integer t) {
-   ShapeAction a = this.findCurrentAction(s, t);
+    ShapeAction a = this.findCurrentAction(s, t);
 
-   int newX = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(0), a.endPoint.get(0));
-   int newY = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(1), a.endPoint.get(1));
-  int newWidth = linearInterpolation(a.startTick, a.endTick, t, a.startWidth, a.endWidth);
-  int newHeight = linearInterpolation(a.startTick, a.endTick, t, a.startHeight, a.endHeight);
-  int newR = linearInterpolation(a.startTick, a.endTick, t, a.startColor.getColorGradient("red"),
-          a.endColor.getColorGradient("red"));
-  int newG = linearInterpolation(a.startTick, a.endTick, t, a.startColor.getColorGradient("green"),
-          a.endColor.getColorGradient("green"));
-  int newB = linearInterpolation(a.startTick, a.endTick, t, a.startColor.getColorGradient("blue"),
-          a.endColor.getColorGradient("blue"));
-  return new ShapeDrawParam(s.getType(), newX, newY, newWidth, newHeight, new RGBColor(newR, newG, newB));
+    int newX = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(0),
+            a.endPoint.get(0));
+    int newY = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(1),
+            a.endPoint.get(1));
+    int newWidth = linearInterpolation(a.startTick, a.endTick, t,
+            a.startWidth, a.endWidth);
+    int newHeight = linearInterpolation(a.startTick, a.endTick, t,
+            a.startHeight, a.endHeight);
+    int newR = linearInterpolation(a.startTick, a.endTick, t,
+            a.startColor.getColorGradient("red"),
+            a.endColor.getColorGradient("red"));
+    int newG = linearInterpolation(a.startTick, a.endTick, t,
+            a.startColor.getColorGradient("green"),
+            a.endColor.getColorGradient("green"));
+    int newB = linearInterpolation(a.startTick, a.endTick, t,
+            a.startColor.getColorGradient("blue"),
+            a.endColor.getColorGradient("blue"));
+    return new ShapeDrawParam(s.getType(), newX, newY, newWidth, newHeight,
+            new RGBColor(newR, newG, newB));
 
   }
 
 
   /**
-   * Perform linear interpolation to find the value at a given tick according to
+   * Perform linear interpolation to find the value at a given tick according to.
    * f(t) = a(tb - t / tb - ta) + b (t - ta / tb - ta)
    * @param startTick ta
    * @param endTick tb
@@ -154,7 +166,8 @@ public class AnimationModel implements AnimationOperations {
     if (startTick == endTick) {
       return startVal;
     }
-    return startVal * (endTick - t) / (endTick - startTick) + endVal * (t - startTick) / (endTick - startTick);
+    return startVal * (endTick - t) / (endTick - startTick) + endVal *
+            (t - startTick) / (endTick - startTick);
   }
 
   /**
@@ -227,8 +240,8 @@ public class AnimationModel implements AnimationOperations {
   }
 
   /**
-   * Return a copy of the model
-   * @return a copy of the model
+   * Return a copy of the model.
+   *  @return a copy of the model
    * TODO: Might not need this!
    */
   public AnimationModel returnCopy() {
@@ -251,7 +264,8 @@ public class AnimationModel implements AnimationOperations {
    * @param endPointY is the ending y-coord.
    * @return the type of action this represents.
    */
-  private ActionType determineActionType(int startPointX, int startPointY, int endPointX, int endPointY) {
+  private ActionType determineActionType(int startPointX, int startPointY,
+                                         int endPointX, int endPointY) {
     if ((startPointX == endPointX) && (startPointY == endPointY)) {
       return ActionType.STAY;
     } else {
@@ -289,7 +303,8 @@ public class AnimationModel implements AnimationOperations {
                                                            int g1, int b1, int t2,
                                                            int x2, int y2, int w2, int h2,
                                                            int r2, int g2, int b2) {
-      this.model.addShapeAction(name, t1, t2, x1, y1, x2, y2 ,r1, g1, b1, r2, g2, b2, w1, h1, w2,h2);
+      this.model.addShapeAction(name, t1, t2, x1, y1, x2, y2 ,r1, g1, b1, r2,
+              g2, b2, w1, h1, w2,h2);
       return this;
     }
 

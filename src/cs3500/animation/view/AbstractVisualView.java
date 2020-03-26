@@ -2,10 +2,11 @@ package cs3500.animation.view;
 
 import cs3500.animation.AnimationOperations;
 import cs3500.animation.AnimationPanel;
-import cs3500.animation.view.AnimationView;
 
-import javax.swing.*;
-import java.awt.*;
+
+import javax.swing.JFrame;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,6 @@ import java.util.Objects;
 public class AbstractVisualView extends JFrame implements AnimationView {
   private AnimationOperations model;
   private AnimationPanel panel;
-  private int speed;
 
   /**
    * Creates a new visual view with the given window title and based off of the given model.
@@ -30,14 +30,13 @@ public class AbstractVisualView extends JFrame implements AnimationView {
       throw new IllegalArgumentException("The read-only model can't be null.");
     }
     this.model = readOnlyModel;
-    this.speed = speed;
     List<Integer> canvas = this.getCanvas();
     setSize(canvas.get(2), canvas.get(3));
     setLocation(canvas.get(0), canvas.get(1));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setPreferredSize(new Dimension(canvas.get(2) + canvas.get(0) + 100,
             canvas.get(3) + canvas.get(1) + 100));
-    this.panel = new AnimationPanel(this.model, this.speed);
+    this.panel = new AnimationPanel(this.model, speed);
     add(this.panel, BorderLayout.CENTER);
 
     pack();

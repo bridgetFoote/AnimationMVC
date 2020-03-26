@@ -21,8 +21,9 @@ public interface AnimationView {
   /**
    * Write the text file from the getTextualDescription method above.
    *
-   * @param fileName
+   * @param fileName the name of the file to write to.
    */
+
   public void writeTextDescription(String fileName);
 
   /**

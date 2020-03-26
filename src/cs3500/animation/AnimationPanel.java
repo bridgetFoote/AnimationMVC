@@ -1,7 +1,10 @@
 package cs3500.animation;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
@@ -12,19 +15,20 @@ import java.util.Objects;
 public class AnimationPanel extends JPanel implements ActionListener {
   private AnimationOperations model;
   private int currentTick;
-  private int delay;
   private Timer timer;
+
   /**
-   * Construct an AnimationPanel
+   * Construct an AnimationPanel.
    * @param m the model used for animation.
    */
+
   public AnimationPanel(AnimationOperations m, int speed) {
     if (Objects.isNull(m)) {
       throw new IllegalArgumentException("Model cannot be null");
     }
     this.model = m;
     this.currentTick = 1;
-    this.delay = 1000 / (speed); // Convert from ticks per second to time delay (ms)
+    int delay = 1000 / (speed); // Convert from ticks per second to time delay (ms)
     this.timer = new Timer(delay,this);
   }
 

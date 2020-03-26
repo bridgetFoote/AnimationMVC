@@ -1,7 +1,6 @@
 package cs3500.animation;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +25,8 @@ public abstract class ShapeAction implements IAction {
    */
   public ShapeAction(int startTick, int endTick, List<Integer> startPoint,
                      List<Integer> endPoint, RGBColor startColor,
-                     RGBColor endColor, int startWidth, int startHeight, int endWidth, int endHeight) {
+                     RGBColor endColor, int startWidth, int startHeight,
+                     int endWidth, int endHeight) {
     if (startTick < 0) {
       throw new IllegalArgumentException("The starting time cannot be negative.");
     }
@@ -105,10 +105,7 @@ public abstract class ShapeAction implements IAction {
    *         negative or if the end tick is less than the start tick.
    */
   public boolean validateTicks(int startTick, int endTick) {
-    if ((startTick < 0) || (endTick < 0) || (endTick < startTick)) {
-      return false;
-    }
-    return true;
+    return !((startTick < 0) || (endTick < 0) || (endTick < startTick));
   }
 
   abstract ActionType getActionType();
@@ -132,12 +129,6 @@ public abstract class ShapeAction implements IAction {
       throw new IllegalArgumentException("The starting and ending coordinates "
               + "have too many components.");
     }
-    /* TODO: fix this.
-    if ((startPoint.get(0) < 0) || (startPoint.get(1) < 0)
-            || (endPoint.get(0) < 0) || (endPoint.get(1) < 0)) {
-      throw new IllegalArgumentException("The starting and ending coordinates "
-              + "are out of bounds.");
-    }*/
     return true;
   }
 
