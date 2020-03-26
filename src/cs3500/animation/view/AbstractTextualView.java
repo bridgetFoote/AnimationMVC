@@ -1,7 +1,10 @@
-package cs3500.animation;
+package cs3500.animation.view;
 
-import javax.naming.OperationNotSupportedException;
-import javax.swing.*;
+import cs3500.animation.AnimationOperations;
+import cs3500.animation.IShape;
+import cs3500.animation.ShapeAction;
+import cs3500.animation.view.AnimationView;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

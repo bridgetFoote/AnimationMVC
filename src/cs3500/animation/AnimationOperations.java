@@ -20,13 +20,6 @@ public interface AnimationOperations {
   public void setCanvas(int x, int y, int width, int height);
 
   /**
-   * Returns the list of shapes in this animation.
-   *
-   * @return a list of the shapes in this animation, list is empty if there are no shapes.
-   */
-  List<IShape> getShapes();
-
-  /**
    * Returns a map of the shapes in this animation with their corresponding actions.
    *
    * @return a hashmap connecting all of the shapes in this animation with their actions,
@@ -36,9 +29,8 @@ public interface AnimationOperations {
   HashMap<IShape, List<ShapeAction>> getShapeActions();
 
   /**
-   * Returns a list of all the shapes at the given tick.
-   * TODO: Can I keep it like this? Should probably change!
-   *
+   * Returns a list of all the shape parameters needed for
+   * the shape to be drawn for a certain tick. 
    * @param tick the tick to get the shapes at.
    * @return a list of all parameters needed to draw a shape at a certain tick.
    * @throws IllegalArgumentException if the tick is invalid.

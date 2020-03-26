@@ -1,9 +1,11 @@
-package cs3500.animation;
-import java.awt.*;
+package cs3500.animation.view;
+import cs3500.animation.AnimationOperations;
+import cs3500.animation.ShapeType;
+import cs3500.animation.view.AbstractTextualView;
+import cs3500.animation.view.AbstractVisualView;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.WriteAbortedException;
-import java.util.List;
 
 /**
  * Represents an animation view that is displayed in SVG format. This class extends the abstract
@@ -171,7 +173,7 @@ public class SVGView extends AbstractTextualView {
   public void writeXML(String fileName, int speed) {
     String xml = this.getXMLText(speed);
     try {
-      FileWriter writer = new FileWriter(String.format("src/cs3500/animation/%s", fileName),
+      FileWriter writer = new FileWriter(String.format("resources/%s", fileName),
               false);
       writer.write(xml);
       writer.close();

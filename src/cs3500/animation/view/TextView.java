@@ -1,4 +1,7 @@
-package cs3500.animation;
+package cs3500.animation.view;
+
+import cs3500.animation.AnimationOperations;
+import cs3500.animation.view.AbstractTextualView;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,7 +27,7 @@ public class TextView extends AbstractTextualView {
   public void writeTextDescription(String fileName) {
     String description = this.getTextualDescription();
     try {
-      FileWriter writer = new FileWriter(String.format("src/cs3500/animation/%s", fileName),
+      FileWriter writer = new FileWriter(String.format("resources/%s", fileName),
               false);
       writer.write(description);
       writer.close();

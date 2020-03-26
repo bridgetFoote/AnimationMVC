@@ -1,4 +1,8 @@
-package cs3500.animation;
+package cs3500.animation.view;
+
+import cs3500.animation.AnimationOperations;
+import cs3500.animation.AnimationPanel;
+import cs3500.animation.view.AnimationView;
 
 import javax.swing.*;
 import java.awt.*;

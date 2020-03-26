@@ -1,0 +1,6 @@
+canvas 0 0 0 0
+shape Rectangle rectangle
+motion Rectangle 0 4 4 4 4 0 255 0  5 9 4 4 4 123 100 0
+motion Rectangle 5 9 4 4 4 0 255 0  10 9 9 4 4 255 0 0
+shape Ellipse ellipse
+motion Ellipse 0 10 10 6 6 0 0 255  10 10 10 36 36 0 0 255

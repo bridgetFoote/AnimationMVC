@@ -1,8 +1,9 @@
 import cs3500.animation.*;
+import cs3500.animation.view.AnimationView;
+import cs3500.animation.view.SVGView;
+import cs3500.animation.view.TextView;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,7 +45,7 @@ public class TextualViewTest {
     view.writeXML("test1", 4);
     String content = "";
     try {
-      content = new String (Files.readAllBytes(Paths.get("src/cs3500/animation/test1")));
+      content = new String (Files.readAllBytes(Paths.get("resources/test1")));
     } catch (IOException e) {
     }
     assertEquals("<svg viewBox=\"0 0 0 0\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n"
@@ -111,7 +112,7 @@ public class TextualViewTest {
     view.writeTextDescription("test2");
     String content = "";
     try {
-      content = new String (Files.readAllBytes(Paths.get("src/cs3500/animation/test2")));
+      content = new String (Files.readAllBytes(Paths.get("resources/test2")));
     } catch (IOException e) {
     }
     assertEquals("canvas 0 0 0 0\n"

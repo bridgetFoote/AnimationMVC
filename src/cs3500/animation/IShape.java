@@ -15,13 +15,6 @@ public interface IShape {
    */
   List<ShapeAction> getActions();
 
-  /**
-   * Copy constructor for an IShape
-   *
-   * @return a copy of this shape.
-   */
-  IShape returnCopy();
-
 
   @Override
   String toString();
@@ -42,7 +35,7 @@ public interface IShape {
   /**
    * Determines whether the given action can be added to this
    * shape.
-   *
+   * TODO: Make this a private method within ShapeAction.
    * @param action the action to check.
    * @return true if the action can be added, false if this shape
    *         already has actions during the given action's time

@@ -17,10 +17,6 @@ public class Rectangle extends AbstractShape {
     super(name, ShapeType.RECTANGLE);
   }
 
-  @Override
-  public IShape returnCopy() {
-    return new Rectangle(this.getName());
-  }
 
   @Override
   public int hashCode() {

@@ -1,10 +1,10 @@
 package cs3500.animation;
 
+import cs3500.animation.view.*;
+
 import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Objects;
-import java.util.logging.FileHandler;
 
 public final class Excellence {
   public static void main(String[] args) {

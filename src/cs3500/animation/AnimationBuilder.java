@@ -1,7 +1,9 @@
 package cs3500.animation;
 
-import javax.print.Doc;
-
+/**
+ * Represents a builder used to build an animation model.
+ * @param <Doc> the model type to be built.
+ */
 public interface AnimationBuilder<Doc> {
   /**
    * Constructs a final document.

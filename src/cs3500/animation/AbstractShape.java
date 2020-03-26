@@ -47,11 +47,6 @@ public abstract class AbstractShape implements IShape {
 
 
   @Override
-  public IShape returnCopy() {
-    return null;
-  }
-
-  @Override
   public void addShapeAction(ShapeAction action) {
     if (this.actions.size() == 0) {
       this.actions.add(action);
@@ -124,7 +119,7 @@ public abstract class AbstractShape implements IShape {
    * N.B. This assumes that actions are only being added to the end and that files
    *      have each action ordered by occurrence. This also assumes that no overlap
    *      occurs between animations.
-   * @param action
+   * @param action the action.
    * @return whether the action will cause a gap in the animation
    */
   protected boolean causesGap(ShapeAction action) {

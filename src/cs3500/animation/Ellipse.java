@@ -15,9 +15,5 @@ public class Ellipse extends AbstractShape {
     super(name, ShapeType.ELLIPSE);
   }
 
-  @Override
-  public IShape returnCopy() {
-    return new Ellipse(this.getName());
-  }
 
 }

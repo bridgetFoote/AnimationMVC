@@ -192,15 +192,6 @@ public class AnimationModel implements AnimationOperations {
   }
 
   @Override
-  public List<IShape> getShapes() {
-    List<IShape> list = new ArrayList<IShape>();
-    for (IShape s: this.shapes.values()) {
-      list.add(s.returnCopy());
-    }
-    return list;
-  }
-
-  @Override
   public HashMap<IShape, List<ShapeAction>> getShapeActions() {
     HashMap<IShape, List<ShapeAction>> map = new HashMap<IShape, List<ShapeAction>>();
 
