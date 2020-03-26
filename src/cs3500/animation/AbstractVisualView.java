@@ -1,6 +1,9 @@
 package cs3500.animation;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -11,13 +14,15 @@ import java.util.Objects;
 public class AbstractVisualView extends JFrame implements AnimationView {
   private AnimationOperations model;
   private AnimationPanel panel;
+  private JScrollPane scrollPane;
+  private Timer timer;
   /**
    * Creates a new visual view with the given window title and based off of the given model.
    *
    * @param windowTitle is the window title.
    * @param readOnlyModel is the model to base off of.
    */
-  public AbstractVisualView(String windowTitle, AnimationOperations readOnlyModel) {
+  public AbstractVisualView(String windowTitle, AnimationOperations readOnlyModel, int speed) {
     super(windowTitle);
     if (Objects.isNull(readOnlyModel)) {
       throw new IllegalArgumentException("The read-only model can't be null.");
@@ -28,7 +33,14 @@ public class AbstractVisualView extends JFrame implements AnimationView {
     setLocation(canvas.get(0), canvas.get(1));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.panel = new AnimationPanel(this.model);
-    add(this.panel);
+    this.scrollPane = new JScrollPane(this.panel);
+    this.add(this.scrollPane, BorderLayout.CENTER);
+    timer = new Timer((1 / speed) * 1000, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        refresh();
+      }
+    });
     pack();
   }
 
@@ -49,8 +61,6 @@ public class AbstractVisualView extends JFrame implements AnimationView {
   public void refresh() {
     this.panel.remake();
   }
-
-
 
   @Override
   public void makeVisible() {

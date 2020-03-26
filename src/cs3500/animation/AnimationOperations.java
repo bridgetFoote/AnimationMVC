@@ -95,4 +95,25 @@ public interface AnimationOperations {
    * N.B. This will be called right before the builder builds the model
    */
   void orderByTick();
+
+  /**
+   * Copy constructor for an AnimationOperations object
+   *
+   * @return a copy of this AnimationOperations object.
+   */
+  AnimationOperations returnCopy();
+
+  /**
+   * Returns the width of the canvas view for this animation.
+   *
+   * @return integer value for the width of the canvas.
+   */
+  int getCanvasWidth();
+
+  /**
+   * Returns the height of the canvas view for this animation.
+   *
+   * @return integer value for the height of the canvas.
+   */
+  int getCanvasHeight();
 }

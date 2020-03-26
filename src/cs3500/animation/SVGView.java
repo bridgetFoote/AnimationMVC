@@ -169,6 +169,9 @@ public class SVGView extends AbstractTextualView {
 
   @Override
   public void writeXML(String fileName, int speed) {
+    if (fileName.equals("")) {
+      fileName = "animation.txt";
+    }
     String xml = this.getXMLText(speed);
     try {
       FileWriter writer = new FileWriter(String.format("src/cs3500/animation/%s", fileName),

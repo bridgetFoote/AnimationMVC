@@ -2,6 +2,8 @@ package cs3500.animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Objects;
 
 /**
@@ -24,11 +26,30 @@ public class AnimationPanel extends JPanel {
   }
   @Override
   protected void paintComponent(Graphics g) {
+
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
-    for (IShape s: model.getShapesAtTick(currentTick)) {
-      // TODO: Draw the shape!
+    if (Objects.isNull(model.getShapesAtTick(currentTick))) {
+      for (IShape s: model.getShapesAtTick(currentTick)) {
+        Shape shape;
+        if (s.getShapeType().str.equals("rectangle")) {
+          shape = new Rectangle2D.Double(s.getPosition(this.currentTick).get(0),
+                  s.getPosition(this.currentTick).get(1), s.getWidth(this.currentTick), s.getHeight(this.currentTick));
+          g2d.setPaint(new Color(s.getColorGradient(this.currentTick, "red"),
+                  s.getColorGradient(this.currentTick, "green"),
+                  s.getColorGradient(this.currentTick, "blue")));
+        } else {
+          shape = new Ellipse2D.Double(s.getPosition(this.currentTick).get(0)
+                  - (s.getWidth(this.currentTick) / 2), s.getPosition(this.currentTick).get(1)
+                  - (s.getHeight(this.currentTick) / 2), s.getWidth(this.currentTick), s.getHeight(this.currentTick));
+        }
+        g2d.setPaint(new Color(s.getColorGradient(this.currentTick, "red"),
+                s.getColorGradient(this.currentTick, "green"),
+                s.getColorGradient(this.currentTick, "blue")));
+        g2d.fill(shape);
+        g2d.draw(shape);
 
+      }
     }
 
     currentTick++;

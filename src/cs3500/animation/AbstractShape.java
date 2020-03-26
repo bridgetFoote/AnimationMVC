@@ -35,6 +35,7 @@ public abstract class AbstractShape implements IShape {
    * @return a copy of the list of actions for this shape, empty list if this shape does not
    *         have any actions.
    */
+  @Override
   public List<ShapeAction> getActions() {
     List<ShapeAction> actions = new ArrayList<ShapeAction>();
     for (ShapeAction s: this.actions) {
@@ -187,5 +188,44 @@ public abstract class AbstractShape implements IShape {
       }
     }
     throw new IllegalArgumentException("This shape does not have an action at the given tick.");
+  }
+
+  @Override
+  public ShapeType getShapeType() {
+    return this.shapeType;
+  }
+
+  @Override
+  public int getWidth(int tick) {
+    for (ShapeAction a: this.actions) {
+      if ((tick >= a.getStartTick()) && (tick <= a.getEndTick())) {
+        int changePerTick = (a.endWidth -  a.startWidth) / (a.getEndTick() - a.getStartTick());
+        return a.startWidth + ((tick - a.getStartTick()) * changePerTick);
+      }
+    }
+    throw new IllegalArgumentException("This shape does not exist at this tick.");
+  }
+
+  @Override
+  public int getHeight(int tick) {
+    for (ShapeAction a: this.actions) {
+      if ((tick >= a.getStartTick()) && (tick <= a.getEndTick())) {
+        int changePerTick = (a.endHeight -  a.startHeight) / (a.getEndTick() - a.getStartTick());
+        return a.startHeight + ((tick - a.getStartTick()) * changePerTick);
+      }
+    }
+    throw new IllegalArgumentException("This shape does not exist at this tick.");
+  }
+
+  @Override
+  public int getColorGradient(int tick, String gradientType) {
+    for (ShapeAction a: this.actions) {
+      if ((tick >= a.getStartTick()) && (tick <= a.getEndTick())) {
+        int changePerTick = (a.endColor.getColorGradient(gradientType)
+                -  a.startColor.getColorGradient(gradientType)) / (a.getEndTick() - a.getStartTick());
+        return a.startColor.getColorGradient(gradientType) + ((tick - a.getStartTick()) * changePerTick);
+      }
+    }
+    throw new IllegalArgumentException("This shape does not exist at this tick.");
   }
 }

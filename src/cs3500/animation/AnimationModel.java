@@ -64,7 +64,6 @@ public class AnimationModel implements AnimationOperations {
               + "exists in this animation.");
     }
     this.shapes.put(shape.getName(), shape);
-
   }
 
   @Override
@@ -173,6 +172,7 @@ public class AnimationModel implements AnimationOperations {
     return false;
   }
 
+  @Override
   public AnimationModel returnCopy() {
     AnimationModel returnThis = new AnimationModel();
     returnThis.topX = this.topX;
@@ -182,6 +182,16 @@ public class AnimationModel implements AnimationOperations {
     returnThis.shapes = this.shapes;
     returnThis.orderedShapes = this.orderedShapes;
     return returnThis;
+  }
+
+  @Override
+  public int getCanvasWidth() {
+    return this.canvasWidth;
+  }
+
+  @Override
+  public int getCanvasHeight() {
+    return this.canvasHeight;
   }
 
   /**

@@ -80,22 +80,6 @@ public abstract class ShapeAction implements IAction {
   protected int endWidth;
   protected int endHeight;
 
-
-  /**
-   * Changes the timing of this action.
-   * @param startTick is the new starting tick.
-   * @param endTick is the new ending tick.
-   * @throws IllegalArgumentException if the new starting and ending ticks are not valid.
-   */
-  public void changeActionTime(int startTick, int endTick) {
-    if ((startTick < 0) || (endTick < 0) || ((endTick - startTick) < 0)) {
-      throw new IllegalArgumentException("The given starting and ending times are invalid.");
-    }
-    this.startTick = startTick;
-    this.endTick = endTick;
-  }
-
-
   /**
    * Determines whether the given ticks are valid.
    *
@@ -104,7 +88,7 @@ public abstract class ShapeAction implements IAction {
    * @return true if the ticks are valid, false if either one is
    *         negative or if the end tick is less than the start tick.
    */
-  public boolean validateTicks(int startTick, int endTick) {
+  protected boolean validateTicks(int startTick, int endTick) {
     if ((startTick < 0) || (endTick < 0) || (endTick < startTick)) {
       return false;
     }
@@ -127,7 +111,7 @@ public abstract class ShapeAction implements IAction {
    * @return true if the coordinates are valid
    * @throws IllegalArgumentException if the coordinates are not valid.
    */
-  public boolean validateCoordinates(List<Integer> startPoint, List<Integer> endPoint) {
+  protected boolean validateCoordinates(List<Integer> startPoint, List<Integer> endPoint) {
     if ((startPoint.size() != 2) || (endPoint.size() != 2)) {
       throw new IllegalArgumentException("The starting and ending coordinates "
               + "have too many components.");
@@ -221,7 +205,7 @@ public abstract class ShapeAction implements IAction {
    * @param action is the action to compare to this action.
    * @return true if there is an overlap, false otherwise.
    */
-  public boolean hasOverlap(ShapeAction action) {
+  protected boolean hasOverlap(ShapeAction action) {
     if (this.startTick > action.startTick) {
       return this.endTick < action.startTick;
     }
@@ -256,16 +240,13 @@ public abstract class ShapeAction implements IAction {
    * @return true if teleportation is inevitable, false otherwise.
    */
   public boolean causesTeleportation(ShapeAction a) {
-    // TODO: Implement this...
-    /*if (this.startTick == a.endTick) {
-      return ((this.startPoint.get(0) != a.endPoint.get(0))
-              || (this.startPoint.get(1) != a.endPoint.get(1)));
-    } else if (this.endTick == a.startTick) {
-      return ((this.endPoint.get(0) != a.startPoint.get(0))
+    if (this.endTick == a.startTick) {
+      return (((this.endPoint.get(0)) != a.startPoint.get(0))
               || (this.endPoint.get(1) != a.startPoint.get(1)));
-    } else {
-      return false;
-    }*/
+    } else if (this.startTick == a.endTick) {
+      return (((this.startPoint.get(0)) != a.endPoint.get(0))
+              || (this.startPoint.get(1) != a.endPoint.get(1)));
+    }
     return false;
 
   }

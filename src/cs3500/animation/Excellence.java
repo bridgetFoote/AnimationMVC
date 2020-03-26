@@ -18,7 +18,7 @@ public final class Excellence {
     String inFile = "";
     String outFile = "";
     ViewType vType = null;
-    int speed = 0;
+    int speed = 1;
     // Assign values to the above variables.
     // TODO: Change back to JOptionPane
     for (int i = 0; i < args.length; i = i + 2) {
@@ -87,7 +87,7 @@ public final class Excellence {
         view.writeXML(outFile, speed);
       }
       else if (vType.equals(ViewType.VISUALVIEW)) {
-        view = new VisualView(String.format("User's animation for %s", inFile), model);
+        view = new VisualView(String.format("User's animation for %s", inFile), model, speed);
         view.makeVisible();
       }
       else {

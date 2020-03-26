@@ -71,4 +71,35 @@ public interface IShape {
    */
   void addShapeAction(ShapeAction action);
 
+  /**
+   * Returns the ShapeType of this shape.
+   *
+   * @return ShapeType representing this shape.
+   */
+  ShapeType getShapeType();
+
+  /**
+   * Gets the shape width at the given tick.
+   *
+   * @param tick is the tick to get the width at.
+   * @return the width of the shape at that tick.
+   */
+  int getWidth(int tick);
+
+  /**
+   * Gets the shape height at the given tick.
+   *
+   * @param tick is the tick to get the height at.
+   * @return the height of the shape at that tick.
+   */
+  int getHeight(int tick);
+
+  /**
+   * Gets the shape color gradient at the given tick.
+   *
+   * @param tick is the tick to get the width at.
+   * @param gradientType is string either 'red', 'green', or 'blue'
+   * @return the color gradient of the shape at that tick.
+   */
+  int getColorGradient(int tick, String gradientType);
 }
