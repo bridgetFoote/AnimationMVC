@@ -14,7 +14,7 @@ public class AnimationModel implements AnimationOperations {
    */
   public AnimationModel() {
     shapes = new HashMap<String, IShape>();
-    orderedShapes = new TreeMap<Integer,List<IShape>>();
+    orderedShapes = new TreeMap<Integer,List<ShapeDrawParam>>();
     // Default values for now
     topX = 0;
     topY = 0;
@@ -23,7 +23,7 @@ public class AnimationModel implements AnimationOperations {
   }
 
   private HashMap<String, IShape> shapes;
-  private TreeMap<Integer, List<IShape>> orderedShapes;
+  private TreeMap<Integer, List<ShapeDrawParam>> orderedShapes;
   private int topX;
   private int topY;
   private int canvasWidth;
@@ -99,19 +99,75 @@ public class AnimationModel implements AnimationOperations {
     for (IShape s: shapes.values()) {
       ticksActive = this.findTicks(s);
       for (Integer t: ticksActive) {
+        ShapeDrawParam newShape = this.findShapeParams(s,t);
         if (orderedShapes.containsKey(t))
         {
-          List<IShape> cShapes = orderedShapes.get(t);
-          cShapes.add(s);
+          List<ShapeDrawParam> cShapes = orderedShapes.get(t);
+          cShapes.add(newShape);
           orderedShapes.put(t,cShapes);
         }
         else {
-          List<IShape> nShapes = new ArrayList<>();
-          nShapes.add(s);
+          List<ShapeDrawParam> nShapes = new ArrayList<>();
+          nShapes.add(newShape);
           orderedShapes.put(t,nShapes);
         }
       }
     }
+  }
+
+  /**
+   * Find the parameters needed to draw the shape. Do this using linear interpolation
+   * to compute position, color, width, and height.
+   * @param s the shape to be drawn
+   * @param t the tick to draw the shape at
+   * @return a {@link ShapeDrawParam} to be added to orderedShapes.
+   */
+  private ShapeDrawParam findShapeParams(IShape s, Integer t) {
+   ShapeAction a = this.findCurrentAction(s, t);
+
+   int newX = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(0), a.endPoint.get(0));
+   int newY = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(1), a.endPoint.get(1));
+  int newWidth = linearInterpolation(a.startTick, a.endTick, t, a.startWidth, a.endWidth);
+  int newHeight = linearInterpolation(a.startTick, a.endTick, t, a.startHeight, a.endHeight);
+  int newR = linearInterpolation(a.startTick, a.endTick, t, a.startColor.getColorGradient("red"),
+          a.endColor.getColorGradient("red"));
+  int newG = linearInterpolation(a.startTick, a.endTick, t, a.startColor.getColorGradient("green"),
+          a.endColor.getColorGradient("green"));
+  int newB = linearInterpolation(a.startTick, a.endTick, t, a.startColor.getColorGradient("blue"),
+          a.endColor.getColorGradient("blue"));
+  return new ShapeDrawParam(s.getType(), newX, newY, newWidth, newHeight, new RGBColor(newR, newG, newB));
+
+  }
+
+
+  /**
+   * Perform linear interpolation to find the value at a given tick according to
+   * f(t) = a(tb - t / tb - ta) + b (t - ta / tb - ta)
+   * @param startTick ta
+   * @param endTick tb
+   * @param t t
+   * @param startVal a
+   * @param endVal b
+   * @return f(t)
+   */
+  private int linearInterpolation(int startTick, int endTick, Integer t, int startVal, int endVal) {
+    return startVal * (endTick - t) / (endTick - startTick) + endVal * (t - startTick) / (endTick - startTick);
+  }
+
+  /**
+   * Find the current action for the shape at the specified tick
+   * @param s the shape
+   * @param t the tick
+   * @return the action occurring during this tick
+   * @throws IllegalArgumentException if there is no action during this tick. 
+   */
+  private ShapeAction findCurrentAction(IShape s, Integer t) {
+    for (ShapeAction a: s.getActions()) {
+      if (a.startTick <= t && a.endTick >= t) {
+        return a;
+      }
+    }
+    throw new IllegalArgumentException("There is no action for the shape at this tick");
   }
 
   /**
@@ -153,7 +209,7 @@ public class AnimationModel implements AnimationOperations {
   }
 
   @Override
-  public List<IShape> getShapesAtTick(int tick) {
+  public List<ShapeDrawParam> getShapesAtTick(int tick) {
     return this.orderedShapes.get(tick);
   }
 
@@ -173,6 +229,11 @@ public class AnimationModel implements AnimationOperations {
     return false;
   }
 
+  /**
+   * Return a copy of the model
+   * @return a copy of the model
+   * TODO: Might not need this!
+   */
   public AnimationModel returnCopy() {
     AnimationModel returnThis = new AnimationModel();
     returnThis.topX = this.topX;

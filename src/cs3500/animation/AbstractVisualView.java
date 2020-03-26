@@ -1,6 +1,7 @@
 package cs3500.animation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class AbstractVisualView extends JFrame implements AnimationView {
   private AnimationOperations model;
   private AnimationPanel panel;
+
   /**
    * Creates a new visual view with the given window title and based off of the given model.
    *
@@ -27,8 +29,11 @@ public class AbstractVisualView extends JFrame implements AnimationView {
     setSize(canvas.get(2), canvas.get(3));
     setLocation(canvas.get(0), canvas.get(1));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setPreferredSize(new Dimension(canvas.get(2) + canvas.get(0) + 100,
+            canvas.get(3) + canvas.get(1) + 100));
     this.panel = new AnimationPanel(this.model);
     add(this.panel);
+
     pack();
   }
 

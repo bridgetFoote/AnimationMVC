@@ -30,6 +30,8 @@ public abstract class AbstractShape implements IShape {
   private List<ShapeAction> actions;
   protected ShapeType shapeType;
 
+
+
   /**
    * Returns a copy of the list of actions for this shape.
    * @return a copy of the list of actions for this shape, empty list if this shape does not
@@ -92,7 +94,10 @@ public abstract class AbstractShape implements IShape {
     return this.name;
   }
 
-
+  @Override
+  public ShapeType getType() {
+    return this.shapeType;
+  }
 
   @Override
   public boolean validateAction(ShapeAction action) {

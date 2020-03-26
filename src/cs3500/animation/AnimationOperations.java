@@ -37,12 +37,13 @@ public interface AnimationOperations {
 
   /**
    * Returns a list of all the shapes at the given tick.
+   * TODO: Can I keep it like this? Should probably change!
    *
    * @param tick the tick to get the shapes at.
-   * @return a list of all the shapes, empty if there are no shapes in this animation.
+   * @return a list of all parameters needed to draw a shape at a certain tick.
    * @throws IllegalArgumentException if the tick is invalid.
    */
-  List<IShape> getShapesAtTick(int tick);
+  List<ShapeDrawParam> getShapesAtTick(int tick);
 
   /**
    * Adds a new shape to the animation.

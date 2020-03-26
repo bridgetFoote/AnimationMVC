@@ -27,6 +27,12 @@ public interface IShape {
   String toString();
 
   /**
+   * Returns the type of shape. This is necessary for drawing the shape.
+   * @return the type of shape
+   */
+  ShapeType getType();
+
+  /**
    * Returns the name of this shape.
    *
    * @return string of the name of the shape.
