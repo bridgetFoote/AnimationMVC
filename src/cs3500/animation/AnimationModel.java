@@ -82,15 +82,18 @@ public class AnimationModel implements AnimationOperations {
       throw new IllegalArgumentException("The given shape does not exist in this animation.");
     }
     ShapeAction action;
-    if (this.determineActionType(startPointX, startPointY, endPointX, endPointY).equals(ActionType.MOVE)) {
+    if (this.determineActionType(startPointX, startPointY, endPointX, endPointY).
+            equals(ActionType.MOVE)) {
       action = new Move(startTick, endTick, Arrays.asList(startPointX, startPointY),
-              Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
+              Arrays.asList(endPointX, endPointY),
+              new RGBColor(startRedGradient, startGreenGradient,
               startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
               startWidth, startHeight, endWidth, endHeight);
     } else {
       action = new Stay(startTick, endTick, Arrays.asList(startPointX, startPointY),
-              Arrays.asList(endPointX, endPointY), new RGBColor(startRedGradient, startGreenGradient,
-              startBlueGradient), new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
+              Arrays.asList(endPointX, endPointY),
+              new RGBColor(startRedGradient, startGreenGradient, startBlueGradient),
+              new RGBColor(endRedGradient, endGreenGradient, endBlueGradient),
               startWidth, startHeight, endWidth, endHeight);
     }
     if (this.shapes.get(shapeName).validateAction(action)) {
@@ -162,7 +165,8 @@ public class AnimationModel implements AnimationOperations {
    * @param endVal b
    * @return f(t)
    */
-  private int linearInterpolation(int startTick, int endTick, Integer t, int startVal, int endVal) {
+  private int linearInterpolation(int startTick, int endTick, Integer t,
+                                  int startVal, int endVal) {
     if (startTick == endTick) {
       return startVal;
     }
@@ -171,7 +175,7 @@ public class AnimationModel implements AnimationOperations {
   }
 
   /**
-   * Find the current action for the shape at the specified tick
+   * Find the current action for the shape at the specified tick.
    * @param s the shape
    * @param t the tick
    * @return the action occurring during this tick
@@ -237,22 +241,6 @@ public class AnimationModel implements AnimationOperations {
       }
     }
     return false;
-  }
-
-  /**
-   * Return a copy of the model.
-   *  @return a copy of the model
-   * TODO: Might not need this!
-   */
-  public AnimationModel returnCopy() {
-    AnimationModel returnThis = new AnimationModel();
-    returnThis.topX = this.topX;
-    returnThis.topY = this.topY;
-    returnThis.canvasHeight = this.canvasHeight;
-    returnThis.canvasWidth = this.canvasWidth;
-    returnThis.shapes = this.shapes;
-    returnThis.orderedShapes = this.orderedShapes;
-    return returnThis;
   }
 
   /**

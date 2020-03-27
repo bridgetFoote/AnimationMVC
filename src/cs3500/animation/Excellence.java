@@ -10,7 +10,14 @@ import javax.swing.JDialog;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+/**
+ * Main class for running the animation.
+ */
 public final class Excellence {
+  /**
+   * Main method for running the animation.
+   * @param args the arguments to run the animation.
+   */
   public static void main(String[] args) {
 
     // Validate the argument length and that the arguments come in pairs
@@ -22,7 +29,7 @@ public final class Excellence {
     String inFile = "";
     String outFile = "";
     ViewType vType = null;
-    int speed = 0;
+    int speed = 1;
     // Assign values to the above variables.
     for (int i = 0; i < args.length; i = i + 2) {
       String argType = args[i];

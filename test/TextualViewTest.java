@@ -98,8 +98,9 @@ public class TextualViewTest {
             + "</svg>", content);
   }
 
+
   /**
-   * Tests that the TextView
+   * Tests the TextView.
    */
   @Test
   public void testTextDescriptionView() {

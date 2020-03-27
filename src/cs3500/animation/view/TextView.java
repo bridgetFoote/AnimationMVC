@@ -26,6 +26,10 @@ public class TextView extends AbstractTextualView {
   @Override
   public void writeTextDescription(String fileName) {
     String description = this.getTextualDescription();
+    if (fileName.equals("")) {
+      System.out.println(description);
+      return;
+    }
     try {
       FileWriter writer = new FileWriter(String.format("resources/%s", fileName),
               false);

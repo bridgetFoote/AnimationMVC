@@ -74,10 +74,12 @@ public class SVGView extends AbstractTextualView {
         }
       }
       // if the motion is for a rectangle
-      else if (tmp[0].equals("motion") && !doneWithShape && currentType.equals(ShapeType.RECTANGLE)) {
+      else if (tmp[0].equals("motion") && !doneWithShape &&
+              currentType.equals(ShapeType.RECTANGLE)) {
         // Add an animation tag. Have one animation tag per attribute (might need to change).
-        double t1 =  1000 * (double) Integer.parseInt(tmp[2])/speed;
-        double dt =  1000 * ((double)Integer.parseInt(tmp[11]) - Integer.parseInt(tmp[2]))/speed;
+        double t1 =  1000 * (double) Integer.parseInt(tmp[2]) / speed;
+        double dt =  1000 * ((double)Integer.parseInt(tmp[11]) -
+                Integer.parseInt(tmp[2])) / speed;
         output = output.concat(String.format("<animate attributeType=\"xml\" begin=\"%.2fms\" " +
                 "dur=\"%.2fms\" attributeName=\"x\" from=\"%s\" to=\"%s\" fill=\"freeze\" /> \n",
                 t1, dt, tmp[3], tmp[12]));
