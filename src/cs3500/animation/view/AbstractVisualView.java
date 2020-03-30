@@ -1,7 +1,7 @@
 package cs3500.animation.view;
 
-import cs3500.animation.AnimationOperations;
-import cs3500.animation.AnimationPanel;
+import cs3500.animation.model.AnimationOperations;
+import cs3500.animation.model.AnimationPanel;
 
 
 import javax.swing.JFrame;
@@ -74,11 +74,11 @@ public class AbstractVisualView extends JFrame implements AnimationView {
 
   @Override
   public void writeTextDescription(String fileName) {
-    // Do nothing. This is only required for the TextView
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void writeXML(String fileName, int speed) {
-    // Do nothing. This is only required for the SVGView
+    throw new UnsupportedOperationException();
   }
 }

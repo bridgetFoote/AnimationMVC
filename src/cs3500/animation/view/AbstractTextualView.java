@@ -1,9 +1,8 @@
 package cs3500.animation.view;
 
-import cs3500.animation.AnimationOperations;
-import cs3500.animation.IShape;
-import cs3500.animation.ShapeAction;
-import cs3500.animation.view.AnimationView;
+import cs3500.animation.model.AnimationOperations;
+import cs3500.animation.model.IShape;
+import cs3500.animation.model.ShapeAction;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class AbstractTextualView implements AnimationView {
 
   @Override
   public void makeVisible() {
-    // Do nothing, don't need to make anything visible.
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -50,12 +49,12 @@ public class AbstractTextualView implements AnimationView {
 
   @Override
   public void writeTextDescription(String fileName) {
-    // Do nothing, will be overridden by TextView
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void writeXML(String fileName, int speed) {
-    // Do nothing, will be overridden by SVGView
+    throw new UnsupportedOperationException();
   }
 
 }

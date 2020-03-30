@@ -1,7 +1,6 @@
 package cs3500.animation.view;
 
-import cs3500.animation.AnimationOperations;
-import cs3500.animation.view.AbstractTextualView;
+import cs3500.animation.model.AnimationOperations;
 
 import java.io.FileWriter;
 import java.io.IOException;

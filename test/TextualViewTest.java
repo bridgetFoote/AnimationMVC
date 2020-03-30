@@ -1,5 +1,5 @@
-import cs3500.animation.AnimationOperations;
-import cs3500.animation.AnimationModel;
+import cs3500.animation.model.AnimationOperations;
+import cs3500.animation.model.AnimationModel;
 import cs3500.animation.view.AnimationView;
 import cs3500.animation.view.SVGView;
 import cs3500.animation.view.TextView;

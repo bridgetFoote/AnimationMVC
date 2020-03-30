@@ -1,10 +1,10 @@
 package cs3500.animation;
 
-import cs3500.animation.view.ViewType;
-import cs3500.animation.view.AnimationView;
-import cs3500.animation.view.TextView;
-import cs3500.animation.view.SVGView;
-import cs3500.animation.view.VisualView;
+import cs3500.animation.model.AnimationModel;
+import cs3500.animation.model.AnimationOperations;
+import cs3500.animation.model.AnimationReader;
+import cs3500.animation.view.*;
+
 import javax.swing.JOptionPane;
 import javax.swing.JDialog;
 import java.io.FileNotFoundException;
@@ -49,6 +49,9 @@ public final class Excellence {
           }
           else if (args[i + 1].equals("visual")) {
             vType = ViewType.VISUALVIEW;
+          }
+          else if (args[i + 1].equals("editor")) {
+            vType = ViewType.EDITORVIEW;
           }
           else {
             JOptionPane.showMessageDialog(new JDialog(), "Invalid view type");
@@ -98,6 +101,10 @@ public final class Excellence {
       }
       else if (vType.equals(ViewType.VISUALVIEW)) {
         view = new VisualView(String.format("User's animation for %s", inFile), model, speed);
+        view.makeVisible();
+      }
+      else if (vType.equals(ViewType.EDITORVIEW)) {
+        view = new EditorView(String.format("User's animation for %s", inFile), model, speed);
         view.makeVisible();
       }
       else {

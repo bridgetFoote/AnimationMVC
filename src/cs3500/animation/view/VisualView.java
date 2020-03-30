@@ -1,7 +1,6 @@
 package cs3500.animation.view;
 
-import cs3500.animation.AnimationOperations;
-import cs3500.animation.view.AbstractVisualView;
+import cs3500.animation.model.AnimationOperations;
 
 /**
  * Represents an animation view displayed conventionally, with

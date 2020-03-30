@@ -1,4 +1,4 @@
-package cs3500.animation;
+package cs3500.animation.model;
 
 /**
  * Represents a builder used to build an animation model.

@@ -9,22 +9,25 @@ public interface AnimationView {
   /**
    * Make the view visible to start the game session.
    * N.B. For a {@link AbstractTextualView} this will do nothing.
+   * @throws UnsupportedOperationException if this is a TextView or a SVGView
    */
   void makeVisible();
 
   /**
    * Get the textual description of the model.
    * N.B. for a {@link AbstractVisualView}, this will do nothing.
+   * @throws UnsupportedOperationException if this is a VisualView
    */
-  public String getTextualDescription();
+  String getTextualDescription();
 
   /**
    * Write the text file from the getTextualDescription method above.
    *
    * @param fileName the name of the file to write to.
+   * @throws UnsupportedOperationException is this is a VisualView or a SVGView
    */
 
-  public void writeTextDescription(String fileName);
+  void writeTextDescription(String fileName);
 
   /**
    * Write the SVG file from the getTextualDescription method above.
@@ -33,7 +36,8 @@ public interface AnimationView {
    *
    * @param fileName the name of the file to write to
    * @param speed the speed of the animation
+   * @throws UnsupportedOperationException if this is a VisualView or TextView
    */
-  public void writeXML(String fileName, int speed);
+  void writeXML(String fileName, int speed);
 
 }

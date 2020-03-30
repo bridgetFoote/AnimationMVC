@@ -1,4 +1,4 @@
-package cs3500.animation;
+package cs3500.animation.model;
 
 /**
  * Enum to represent the types of shape action there can be, MOVE represents an action where

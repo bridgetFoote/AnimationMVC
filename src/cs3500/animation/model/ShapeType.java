@@ -1,4 +1,4 @@
-package cs3500.animation;
+package cs3500.animation.model;
 
 /**
  * Represents the types of shapes supported by this animation model.
