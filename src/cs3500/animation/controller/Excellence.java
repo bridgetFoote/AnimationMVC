@@ -50,7 +50,7 @@ public final class Excellence {
           else if (args[i + 1].equals("visual")) {
             vType = ViewType.VISUALVIEW;
           }
-          else if (args[i + 1].equals("editor")) {
+          else if (args[i + 1].equals("edit")) {
             vType = ViewType.EDITORVIEW;
           }
           else {
