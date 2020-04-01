@@ -4,6 +4,7 @@ import cs3500.animation.model.AnimationOperations;
 import cs3500.animation.model.IShape;
 import cs3500.animation.model.ShapeAction;
 
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -35,6 +36,21 @@ public class AbstractTextualView implements AnimationView {
   }
 
   @Override
+  public void setApplyNewSpeedButtonListener(ActionListener actionEvent) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void showErrorMessage(String error) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String getNewTempo() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public String getTextualDescription() {
     String out = model.toString();
     Map<IShape, List<ShapeAction>> actions = model.getShapeActions();
@@ -54,6 +70,16 @@ public class AbstractTextualView implements AnimationView {
 
   @Override
   public void writeXML(String fileName, int speed) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void updateTimerDelay(int speed) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void setFinalTick(int tick) {
     throw new UnsupportedOperationException();
   }
 

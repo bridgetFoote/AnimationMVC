@@ -8,6 +8,7 @@ import cs3500.animation.model.AnimationOperations;
  */
 public class VisualView extends AbstractVisualView {
   public VisualView(String windowTitle, AnimationOperations readOnlyModel, int speed) {
-    super(windowTitle, readOnlyModel,speed);
+    super(windowTitle, readOnlyModel, speed);
+    this.panel.playTimer();
   }
 }

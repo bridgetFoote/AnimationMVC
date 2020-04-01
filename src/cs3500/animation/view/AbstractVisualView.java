@@ -1,12 +1,12 @@
 package cs3500.animation.view;
 
 import cs3500.animation.model.AnimationOperations;
-import cs3500.animation.model.AnimationPanel;
 
 
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class AbstractVisualView extends JFrame implements AnimationView {
   private AnimationOperations model;
-  private AnimationPanel panel;
+  protected AnimationPanel panel;
 
   /**
    * Creates a new visual view with the given window title and based off of the given model.
@@ -68,6 +68,21 @@ public class AbstractVisualView extends JFrame implements AnimationView {
   }
 
   @Override
+  public void setApplyNewSpeedButtonListener(ActionListener actionEvent) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void showErrorMessage(String error) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String getNewTempo() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public String getTextualDescription() {
     return "";
   }
@@ -79,6 +94,16 @@ public class AbstractVisualView extends JFrame implements AnimationView {
 
   @Override
   public void writeXML(String fileName, int speed) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void updateTimerDelay(int speed) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void setFinalTick(int tick) {
     throw new UnsupportedOperationException();
   }
 }

@@ -88,4 +88,11 @@ public interface AnimationOperations {
    * N.B. This will be called right before the builder builds the model
    */
   void orderByTick();
+
+  /**
+   * Returns the last tick that this animation has motions for.
+   *
+   * @return the integer value of the last tick of this animation.
+   */
+  int getFinalTick();
 }

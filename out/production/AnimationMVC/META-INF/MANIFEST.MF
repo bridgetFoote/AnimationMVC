@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: cs3500.animation.Excellence
+Main-Class: cs3500.animation.controller.Excellence
 

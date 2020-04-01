@@ -1,4 +1,4 @@
-package cs3500.animation;
+package cs3500.animation.controller;
 
 import cs3500.animation.model.AnimationModel;
 import cs3500.animation.model.AnimationOperations;
@@ -105,7 +105,9 @@ public final class Excellence {
       }
       else if (vType.equals(ViewType.EDITORVIEW)) {
         view = new EditorView(String.format("User's animation for %s", inFile), model, speed);
-        view.makeVisible();
+        IController controller = new EditorViewController(model, view);
+        controller.go();
+        // view.makeVisible();
       }
       else {
         System.out.println("Invalid view");

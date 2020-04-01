@@ -1,13 +1,11 @@
 package cs3500.animation.view;
 
 import cs3500.animation.model.AnimationOperations;
-import cs3500.animation.model.AnimationPanel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.util.List;
-import java.util.Objects;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Represents an animation view that displays the animation visually
@@ -20,31 +18,89 @@ public class EditorView extends AbstractVisualView {
     super(windowTitle, readOnlyModel, speed);
 
     // create button panel
-    JPanel buttonPanel = new JPanel(new BorderLayout());
+    JPanel buttonPanel = new JPanel(new FlowLayout());
 
     // add start button
-    JButton start = new JButton("Start");
+    this.start = new JButton("Start");
+    this.start.addActionListener((ActionEvent e) -> {
+      this.panel.playTimer();
+    });
     buttonPanel.add(start);
 
     // add pause button
-    JButton pause = new JButton("Pause");
-    JButton resume = new JButton("Resume");
-    JButton restart = new JButton("Restart");
-    JToggleButton enableDisable = new JToggleButton("Enable Looping");
-
-
+    this.pause = new JButton("Pause");
+    this.pause.addActionListener((ActionEvent e) -> {
+      this.panel.pauseTimer();
+    });
     buttonPanel.add(pause);
+
+    // add resume button
+    this.resume = new JButton("Resume");
+    this.resume.addActionListener((ActionEvent e) -> {
+      this.panel.playTimer();
+    });
     buttonPanel.add(resume);
+
+    // add restart button
+    this.restart = new JButton("Restart");
+    this.restart.addActionListener((ActionEvent e) -> {
+      this.panel.restartTimer();
+    });
     buttonPanel.add(restart);
-    buttonPanel.add(enableDisable);
-    JTextField speedInput = new JTextField("");
+
+    // add looping button
+    this.enableDisableLooping = new JToggleButton("Enable Looping");
+    this.enableDisableLooping.addActionListener((ActionEvent e) -> {
+      this.panel.enableLoopingWasClicked();
+    });
+    buttonPanel.add(enableDisableLooping);
+
+    // add speed input field
+    this.speedInput = new JTextField("");
+    this.applyNewSpeed = new JButton("Apply");
     JLabel speedLabel = new JLabel("Enter new animation speed in ticks per second.");
     JPanel speedInputPanel = new JPanel(new BorderLayout());
+
+    // create speed input panel
     speedInputPanel.add(speedInput, BorderLayout.CENTER);
     speedInputPanel.add(speedLabel, BorderLayout.WEST);
-    JPanel editorPanel = new JPanel(new BorderLayout());
-    editorPanel.add(buttonPanel, BorderLayout.NORTH);
-    editorPanel.add(speedInputPanel, BorderLayout.SOUTH);
+    speedInputPanel.add(applyNewSpeed, BorderLayout.EAST);
+
+    // add edit panels to view
+    add(speedInputPanel, BorderLayout.NORTH);
+    add(buttonPanel, BorderLayout.SOUTH);
+
+    this.pack();
+  }
+
+  private JButton applyNewSpeed;
+  private JTextField speedInput;
+  private JButton start;
+  private JButton pause;
+  private JButton resume;
+  private JButton restart;
+  private JToggleButton enableDisableLooping;
+
+  @Override
+  public void setApplyNewSpeedButtonListener(ActionListener actionEvent) {
+    this.applyNewSpeed.addActionListener(actionEvent);
+  }
+
+  @Override
+  public String getNewTempo() {
+    String command = this.speedInput.getText();
+    this.speedInput.setText("");
+    return command;
+  }
+
+  @Override
+  public void updateTimerDelay(int speed) {
+    this.panel.updateTimer(speed);
+  }
+
+  @Override
+  public void showErrorMessage(String error) {
+    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
   @Override
@@ -65,5 +121,10 @@ public class EditorView extends AbstractVisualView {
   @Override
   public void writeXML(String fileName, int speed) {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void setFinalTick(int tick) {
+    this.panel.setFinalTick(tick);
   }
 }

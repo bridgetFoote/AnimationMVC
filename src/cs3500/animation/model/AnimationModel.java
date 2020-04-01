@@ -122,6 +122,11 @@ public class AnimationModel implements AnimationOperations {
     }
   }
 
+  @Override
+  public int getFinalTick() {
+    return this.orderedShapes.lastKey();
+  }
+
   /**
    * Find the parameters needed to draw the shape. Do this using linear interpolation
    * to compute position, color, width, and height.
