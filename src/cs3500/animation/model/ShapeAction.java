@@ -73,6 +73,27 @@ public abstract class ShapeAction implements IAction {
   protected int endWidth;
   protected int endHeight;
 
+  @Override
+  public int getWidth(String startOrEnd) {
+    if (startOrEnd.equals("start")) {
+      return this.startWidth;
+    } else if (startOrEnd.equals("end")) {
+      return this.endWidth;
+    } else {
+      throw new IllegalArgumentException("Invalid input.");
+    }
+  }
+
+  @Override
+  public int getHeight(String startOrEnd) {
+    if (startOrEnd.equals("start")) {
+      return this.startHeight;
+    } else if (startOrEnd.equals("end")) {
+      return this.endHeight;
+    } else {
+      throw new IllegalArgumentException("Invalid input.");
+    }
+  }
 
   /**
    * Changes the timing of this action.
@@ -167,14 +188,7 @@ public abstract class ShapeAction implements IAction {
     return this.endTick;
   }
 
-  /**
-   * Returns the specified start coordinate of this action.
-   *
-   * @param whichCoord is the coordinate to return, either x or y.
-   * @return the specified coordinate.
-   * @throws IllegalArgumentException if the coordinate type is not x or y,
-   *                                  or the startOrEnd is not start or end.
-   */
+  @Override
   public int getCoord(String whichCoord,  String startOrEnd) {
     switch (whichCoord) {
       case "x":
@@ -251,6 +265,17 @@ public abstract class ShapeAction implements IAction {
     }*/
     return false;
 
+  }
+
+  @Override
+  public RGBColor getColor(String startOrEnd) {
+    if (startOrEnd.equals("start")) {
+      return this.startColor;
+    } else if (startOrEnd.equals("end")) {
+      return this.endColor;
+    } else {
+      throw new IllegalArgumentException("Invalid input.");
+    }
   }
 
   /**

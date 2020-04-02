@@ -1,6 +1,5 @@
 package cs3500.animation.model;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -55,14 +54,15 @@ public class AnimationModel implements AnimationOperations {
 
   @Override
   public void addShape(String name, String shapeType) {
-    IShape shape;
+    ShapeType type;
     if (ShapeType.RECTANGLE.str.equals(shapeType)) {
-      shape = new Rectangle(name);
+      type = ShapeType.RECTANGLE;
     } else if (ShapeType.ELLIPSE.str.equals(shapeType)) {
-      shape = new Ellipse(name);
+      type = ShapeType.ELLIPSE;
     } else {
-      throw new IllegalArgumentException("Invalid shape type.");
+      throw new IllegalArgumentException("Invalid shape type");
     }
+    IShape shape = new Shape(name, type);
 
     if (this.checkForDuplicateShapeNames(shape.getName())) {
       throw new IllegalArgumentException("A shape with this name already "
@@ -135,25 +135,25 @@ public class AnimationModel implements AnimationOperations {
    * @return a {@link ShapeDrawParam} to be added to orderedShapes.
    */
   private ShapeDrawParam findShapeParams(IShape s, Integer t) {
-    ShapeAction a = this.findCurrentAction(s, t);
+    IAction a = this.findCurrentAction(s, t);
 
-    int newX = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(0),
-            a.endPoint.get(0));
-    int newY = linearInterpolation(a.startTick, a.endTick, t, a.startPoint.get(1),
-            a.endPoint.get(1));
-    int newWidth = linearInterpolation(a.startTick, a.endTick, t,
-            a.startWidth, a.endWidth);
-    int newHeight = linearInterpolation(a.startTick, a.endTick, t,
-            a.startHeight, a.endHeight);
-    int newR = linearInterpolation(a.startTick, a.endTick, t,
-            a.startColor.getColorGradient("red"),
-            a.endColor.getColorGradient("red"));
-    int newG = linearInterpolation(a.startTick, a.endTick, t,
-            a.startColor.getColorGradient("green"),
-            a.endColor.getColorGradient("green"));
-    int newB = linearInterpolation(a.startTick, a.endTick, t,
-            a.startColor.getColorGradient("blue"),
-            a.endColor.getColorGradient("blue"));
+    int newX = linearInterpolation(a.getStartTick(), a.getEndTick(), t, a.getCoord("x", "start"),
+            a.getCoord("x", "end"));
+    int newY = linearInterpolation(a.getStartTick(), a.getEndTick(), t, a.getCoord("y", "start"),
+            a.getCoord("y", "end"));
+    int newWidth = linearInterpolation(a.getStartTick(), a.getEndTick(), t,
+            a.getWidth("start"), a.getWidth("end"));
+    int newHeight = linearInterpolation(a.getStartTick(), a.getEndTick(), t,
+            a.getHeight("start"), a.getHeight("end"));
+    int newR = linearInterpolation(a.getStartTick(), a.getEndTick(), t,
+            a.getColor("start").getColorGradient("red"),
+            a.getColor("end").getColorGradient("red"));
+    int newG = linearInterpolation(a.getStartTick(), a.getEndTick(), t,
+            a.getColor("start").getColorGradient("green"),
+            a.getColor("end").getColorGradient("green"));
+    int newB = linearInterpolation(a.getStartTick(), a.getEndTick(), t,
+            a.getColor("start").getColorGradient("blue"),
+            a.getColor("end").getColorGradient("blue"));
     return new ShapeDrawParam(s.getType(), newX, newY, newWidth, newHeight,
             new RGBColor(newR, newG, newB));
 
@@ -186,9 +186,9 @@ public class AnimationModel implements AnimationOperations {
    * @return the action occurring during this tick
    * @throws IllegalArgumentException if there is no action during this tick. 
    */
-  private ShapeAction findCurrentAction(IShape s, Integer t) {
-    for (ShapeAction a: s.getActions()) {
-      if (a.startTick <= t && a.endTick >= t) {
+  private IAction findCurrentAction(IShape s, Integer t) {
+    for (IAction a: s.getActions()) {
+      if (a.getStartTick() <= t && a.getEndTick() >= t) {
         return a;
       }
     }
@@ -201,9 +201,9 @@ public class AnimationModel implements AnimationOperations {
    * @return an array of all ticks that the shape is active
    */
   private int[] findTicks(IShape s) {
-    List<ShapeAction> actions = s.getActions();
-    int start = actions.get(0).startTick;
-    int end = actions.get(actions.size() - 1).endTick;
+    List<IAction> actions = s.getActions();
+    int start = actions.get(0).getStartTick();
+    int end = actions.get(actions.size() - 1).getEndTick();
     int[] outArr = new int[end - start];
     int j = 0;
     for (int i = start; i < end; i++) {
@@ -214,8 +214,8 @@ public class AnimationModel implements AnimationOperations {
   }
 
   @Override
-  public HashMap<IShape, List<ShapeAction>> getShapeActions() {
-    HashMap<IShape, List<ShapeAction>> map = new HashMap<IShape, List<ShapeAction>>();
+  public HashMap<IShape, List<IAction>> getShapeActions() {
+    HashMap<IShape, List<IAction>> map = new HashMap<IShape, List<IAction>>();
 
     for (IShape s: this.shapes.values()) {
       map.put(s, s.getActions());
@@ -239,7 +239,7 @@ public class AnimationModel implements AnimationOperations {
    * @param name is the string of the shape name.
    * @return true if there is an overlap, false otherwise.
    */
-  private boolean checkForDuplicateShapeNames(String name) {
+  protected boolean checkForDuplicateShapeNames(String name) {
     for (IShape s: this.shapes.values()) {
       if (s.getName().equals(name)) {
         return true;

@@ -9,7 +9,7 @@ import java.util.Objects;
  * Abstract class to represent a shape. Has fields for the
  * actions associated with this shape and the color of this shape.
  */
-public abstract class AbstractShape implements IShape {
+public class Shape implements IShape {
 
   /**
    * Constructor for a shape, calls the setDimensions function from
@@ -17,7 +17,7 @@ public abstract class AbstractShape implements IShape {
    * @param name is the name of the shape.
    * @throws IllegalArgumentException if any of the parameters are invalid.
    */
-  public AbstractShape(String name, ShapeType type) {
+  public Shape(String name, ShapeType type) {
     if (name.equals("")) {
       throw new IllegalArgumentException("Name cannot be empty");
     }
@@ -132,10 +132,10 @@ public abstract class AbstractShape implements IShape {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof AbstractShape)) {
+    if (!(other instanceof Shape)) {
       return false;
     }
-    AbstractShape s = (AbstractShape)other;
+    Shape s = (Shape)other;
     if (s.actions.size() != this.actions.size()) {
       return false;
     }

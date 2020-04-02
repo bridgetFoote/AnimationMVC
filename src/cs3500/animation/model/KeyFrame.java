@@ -12,9 +12,7 @@ public class KeyFrame implements IAction {
   private int yCoord;
   private int width;
   private int height;
-  private int redGradient;
-  private int greenGradient;
-  private int blueGradient;
+  private RGBColor color;
 
   /**
    * Creates a new keyframe with the given parameters.
@@ -39,56 +37,31 @@ public class KeyFrame implements IAction {
     this.yCoord = yCoord;
     this.width = width;
     this.height = height;
-    this.redGradient = redGradient;
-    this.greenGradient = greenGradient;
-    this.blueGradient = blueGradient;
+    this.color = new RGBColor(redGradient, greenGradient, blueGradient);
   }
 
   public KeyFrame(KeyFrame kf) {
     this.xCoord = kf.getCoord("x", "");
     this.yCoord = kf.getCoord("y", "");
-    this.width = kf.getWidth();
-    this.height = kf.getHeight();
-    this.redGradient = kf.getColorGradient("red");
-    this.greenGradient = kf.getColorGradient("green");
-    this.blueGradient = kf.getColorGradient("blue");
+    this.width = kf.getWidth("");
+    this.height = kf.getHeight("");
+    this.color = kf.getColor("");
   }
 
-  /**
-   * Returns the height of the shape in this key frame.
-   *
-   * @return the integer value for the height of the shape.
-   */
-  private int getHeight() {
+  @Override
+  public int getHeight(String startOrEnd) {
     return this.height;
   }
 
-  /**
-   * Returns the color gradient value indicated for the shape in this key frame.
-   *
-   * @param whichColor is which gradient to return.
-   * @return the integer value of the indicated color gradient.
-   * @throws IllegalArgumentException if the gradient type is not red, green, or blue.
-   */
-  private int getColorGradient(String whichColor) {
-    switch (whichColor) {
-      case "red":
-        return this.redGradient;
-      case "green":
-        return this.greenGradient;
-      case "blue":
-        return this.blueGradient;
-      default:
-        throw new IllegalArgumentException("Gradient type not valid.");
-    }
+  @Override
+  public RGBColor getColor(String whichColor) {
+    return new RGBColor(this.color.getColorGradient("red"),
+            this.color.getColorGradient("green"),
+            this.color.getColorGradient("blue"));
   }
 
-  /**
-   * Returns the width of the shape in this key frame.
-   *
-   * @return the integer value of the width of the shape in this key frame.
-   */
-  private int getWidth() {
+  @Override
+  public int getWidth(String startOrEnd) {
     return this.width;
   }
 

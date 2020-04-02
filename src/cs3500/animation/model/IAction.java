@@ -8,11 +8,37 @@ import java.util.List;
 public interface IAction {
 
   /**
+   * Returns either the starting or ending color of the shape in this action.
+   *
+   * @param startOrEnd is either start or end, irrelevant if this is a key frame.
+   * @return the indicated color value.
+   */
+  RGBColor getColor(String startOrEnd);
+
+  /**
    * Returns a copy of this action.
    *
    * @return a complete copy of this action.
    */
   IAction returnCopy();
+
+  /**
+   * Returns the indicated width value.
+   *
+   * @param startOrEnd indicates whether to return the start or the end width,
+   *                   irrelevant for KeyFrame.
+   * @return value for the width.
+   */
+  int getWidth(String startOrEnd);
+
+  /**
+   * Returns the indicated height value.
+   *
+   * @param startOrEnd indicates whether to return the start or the end height,
+   *                   irrelevant for KeyFrame.
+   * @return value for the height.
+   */
+  int getHeight(String startOrEnd);
 
   /**
    * Returns the start tick for this shape action.

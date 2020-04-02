@@ -27,7 +27,7 @@ public class Move extends ShapeAction {
   }
 
   @Override
-  ShapeAction returnCopy() {
+  public IAction returnCopy() {
     return new Move(this.startTick, this.endTick, this.startPoint, this.endPoint,
             this.startColor, this.endColor, this.startWidth, this.startHeight,
             this.endWidth, this.endHeight);

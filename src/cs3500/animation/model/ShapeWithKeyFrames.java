@@ -1,9 +1,6 @@
 package cs3500.animation.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ShapeWithKeyFrames extends AbstractShape implements IShapeWithKeyFrames {
+public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
 
   public ShapeWithKeyFrames(String name, ShapeType type) {
     super(name, type);

@@ -25,7 +25,7 @@ public interface AnimationOperations {
    *         returns an empty map if there are no shapes, and the value for a shape with
    *         no actions is the empty list.
    */
-  HashMap<IShape, List<ShapeAction>> getShapeActions();
+  HashMap<IShape, List<IAction>> getShapeActions();
 
   /**
    * Returns a list of all the shape parameters needed for
