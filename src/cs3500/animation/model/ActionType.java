@@ -7,5 +7,5 @@ package cs3500.animation.model;
  * action duration.
  */
 public enum ActionType {
-  MOVE, STAY;
+  MOVE, STAY, KEYFRAME;
 }

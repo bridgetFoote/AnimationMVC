@@ -13,7 +13,7 @@ public interface IShape {
    *
    * @return list of shape actions, null if this shape has no actions.
    */
-  List<ShapeAction> getActions();
+  List<IAction> getActions();
 
 
   @Override
@@ -41,7 +41,7 @@ public interface IShape {
    *         already has actions during the given action's time
    *         interval.
    */
-  boolean validateAction(ShapeAction action);
+  boolean validateAction(IAction action);
 
   @Override
   boolean equals(Object other);
@@ -68,6 +68,6 @@ public interface IShape {
    *                                  or if this action overlaps with
    *                                  an action this shape already has.
    */
-  void addShapeAction(ShapeAction action);
+  void addShapeAction(IAction action);
 
 }

@@ -27,12 +27,12 @@ public class AnimationModel implements AnimationOperations {
     canvasWidth = 0;
   }
 
-  private HashMap<String, IShape> shapes;
-  private TreeMap<Integer, List<ShapeDrawParam>> orderedShapes;
-  private int topX;
-  private int topY;
-  private int canvasWidth;
-  private int canvasHeight;
+  protected HashMap<String, IShape> shapes;
+  protected TreeMap<Integer, List<ShapeDrawParam>> orderedShapes;
+  protected int topX;
+  protected int topY;
+  protected int canvasWidth;
+  protected int canvasHeight;
 
 
   @Override

@@ -61,13 +61,6 @@ public abstract class ShapeAction implements IAction {
     this.startHeight = startHeight;
   }
 
-  /**
-   * Returns a copy of this shape action.
-   *
-   * @return a copy of this action.
-   */
-  abstract ShapeAction returnCopy();
-
   protected int startTick;
   protected int endTick;
   protected List<Integer> startPoint;
@@ -108,8 +101,6 @@ public abstract class ShapeAction implements IAction {
     return !((startTick < 0) || (endTick < 0) || (endTick < startTick));
   }
 
-  abstract ActionType getActionType();
-
   @Override
   public int hashCode() {
     return Objects.hash(this.startTick, this.endTick, this.startPoint,
@@ -138,7 +129,7 @@ public abstract class ShapeAction implements IAction {
    * @param shape is the shape to attach this action to.
    * @return the string representing this action.
    */
-  public String toString(AbstractShape shape) {
+  public String toString(IShape shape) {
     String out = "motion" + " " + shape.getName() + " "
             + Integer.toString(this.startTick) + " " + Integer.toString(this.startPoint.get(0))
             + " " + Integer.toString(this.startPoint.get(1)) + " "
@@ -184,7 +175,7 @@ public abstract class ShapeAction implements IAction {
    * @throws IllegalArgumentException if the coordinate type is not x or y,
    *                                  or the startOrEnd is not start or end.
    */
-  public double getCoord(String whichCoord,  String startOrEnd) {
+  public int getCoord(String whichCoord,  String startOrEnd) {
     switch (whichCoord) {
       case "x":
         if (startOrEnd.equals("start")) {
@@ -213,12 +204,12 @@ public abstract class ShapeAction implements IAction {
    * @param action is the action to compare to this action.
    * @return true if there is an overlap, false otherwise.
    */
-  public boolean hasOverlap(ShapeAction action) {
-    if (this.startTick > action.startTick) {
-      return this.endTick < action.startTick;
+  public boolean hasOverlap(IAction action) {
+    if (this.startTick > action.getStartTick()) {
+      return this.endTick < action.getStartTick();
     }
     else {
-      return action.endTick < this.startTick;
+      return action.getEndTick() < this.startTick;
     }
   }
 
@@ -247,7 +238,7 @@ public abstract class ShapeAction implements IAction {
    * @param a the action to compare.
    * @return true if teleportation is inevitable, false otherwise.
    */
-  public boolean causesTeleportation(ShapeAction a) {
+  public boolean causesTeleportation(IAction a) {
     // TODO: Implement this...
     /*if (this.startTick == a.endTick) {
       return ((this.startPoint.get(0) != a.endPoint.get(0))

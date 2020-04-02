@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Interface to represent an animation of shapes, does not contain any methods
- * necessary to modify the model.
+ * Interface to represent an animation of shapes.
  */
 public interface AnimationOperations {
 

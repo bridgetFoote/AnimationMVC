@@ -21,13 +21,13 @@ public abstract class AbstractShape implements IShape {
     if (name.equals("")) {
       throw new IllegalArgumentException("Name cannot be empty");
     }
-    this.actions = new ArrayList<ShapeAction>();
+    this.actions = new ArrayList<IAction>();
     this.name = name;
     this.shapeType = type;
   }
 
-  private String name;
-  private List<ShapeAction> actions;
+  protected String name;
+  protected List<IAction> actions;
   protected ShapeType shapeType;
 
 
@@ -37,24 +37,24 @@ public abstract class AbstractShape implements IShape {
    * @return a copy of the list of actions for this shape, empty list if this shape does not
    *         have any actions.
    */
-  public List<ShapeAction> getActions() {
-    List<ShapeAction> actions = new ArrayList<ShapeAction>();
-    for (ShapeAction s: this.actions) {
-      actions.add(s.returnCopy());
+  public List<IAction> getActions() {
+    List<IAction> actions = new ArrayList<IAction>();
+    for (IAction a: this.actions) {
+      actions.add(a.returnCopy());
     }
     return actions;
   }
 
 
   @Override
-  public void addShapeAction(ShapeAction action) {
+  public void addShapeAction(IAction action) {
     if (this.actions.size() == 0) {
       this.actions.add(action);
       return;
     }
 
     if (!this.actions.contains(action)) {
-      for (ShapeAction a: this.actions) {
+      for (IAction a: this.actions) {
         if ((action.getStartTick() >= a.getStartTick())
                 && (action.getStartTick() < a.getEndTick())) {
           throw new IllegalArgumentException("An action already exists in this time frame.");
@@ -76,7 +76,7 @@ public abstract class AbstractShape implements IShape {
     String out = "shape" + " " + this.name + " " + this.shapeType + "\n";
 
     if (this.actions.size() != 0) {
-      for (ShapeAction a: this.actions) {
+      for (IAction a: this.actions) {
         out = out.concat(a.toString(this) + "\n");
       }
     }
@@ -95,14 +95,14 @@ public abstract class AbstractShape implements IShape {
   }
 
   @Override
-  public boolean validateAction(ShapeAction action) {
+  public boolean validateAction(IAction action) {
     if (Objects.isNull(action)) {
       throw new IllegalArgumentException("The given action is null.");
     }
     if (this.causesGap(action)) {
       return false;
     }
-    for (ShapeAction a: this.actions) {
+    for (IAction a: this.actions) {
       if (a.hasOverlap(action)) {
         return false;
       }
@@ -122,12 +122,12 @@ public abstract class AbstractShape implements IShape {
    * @param action the action.
    * @return whether the action will cause a gap in the animation
    */
-  protected boolean causesGap(ShapeAction action) {
+  protected boolean causesGap(IAction action) {
     if (actions.size() == 0) {
       return false;
     }
-    ShapeAction lastAction = this.actions.get(actions.size() - 1);
-    return action.startTick != lastAction.endTick;
+    IAction lastAction = this.actions.get(actions.size() - 1);
+    return action.getStartTick() != lastAction.getEndTick();
   }
 
   @Override
@@ -139,7 +139,7 @@ public abstract class AbstractShape implements IShape {
     if (s.actions.size() != this.actions.size()) {
       return false;
     }
-    for (ShapeAction a:  this.actions) {
+    for (IAction a:  this.actions) {
       if (!s.actions.contains(a)) {
         return false;
       }
@@ -161,10 +161,10 @@ public abstract class AbstractShape implements IShape {
       throw new IllegalArgumentException("This shape does not have an action at the"
               + "given tick.");
     }
-    for (ShapeAction a: this.actions) {
-      if ((tick >= a.startTick) && (tick <= a.endTick)) {
+    for (IAction a: this.actions) {
+      if ((tick >= a.getStartTick()) && (tick <= a.getEndTick())) {
         if (a.getActionType().equals(ActionType.STAY)) {
-          return a.startPoint;
+          return Arrays.asList(a.getCoord("x", "start"), a.getCoord("y", "start"));
         }
         else {
           double totalDistanceToTravel = Math.sqrt(Math.pow((a.getCoord("x",
