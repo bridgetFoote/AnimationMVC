@@ -26,7 +26,7 @@ public class AnimationModel implements AnimationOperations {
     canvasWidth = 0;
   }
 
-  private HashMap<String, IShape> shapes;
+  protected HashMap<String, IShape> shapes;
   protected TreeMap<Integer, List<ShapeDrawParam>> orderedShapes;
   protected int topX;
   protected int topY;

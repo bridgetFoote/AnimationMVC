@@ -11,8 +11,6 @@ import java.util.TreeMap;
  */
 public class AnimationFrameModel extends AnimationModel implements AnimationFrameOperations {
 
-  private HashMap<String, IShapeWithKeyFrames> shapes;
-
   /**
    * Creates a new animation using keyframes to keep track of shape movement.
    */
