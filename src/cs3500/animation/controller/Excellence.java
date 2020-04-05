@@ -1,5 +1,6 @@
 package cs3500.animation.controller;
 
+import cs3500.animation.model.AnimationFrameModel;
 import cs3500.animation.model.AnimationModel;
 import cs3500.animation.model.AnimationOperations;
 import cs3500.animation.model.AnimationReader;
@@ -75,7 +76,7 @@ public final class Excellence {
       }
     }
     // ------------ Launch the program ----------------------
-    AnimationModel.Builder b = new AnimationModel.Builder();
+    AnimationFrameModel.Builder b = new AnimationFrameModel.Builder();
     try {
       // Use parseFile to build the model (complete with shapes).
       FileReader inFileReader = new FileReader(inFile);

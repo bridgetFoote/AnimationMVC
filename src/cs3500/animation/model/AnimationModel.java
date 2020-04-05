@@ -266,9 +266,9 @@ public class AnimationModel implements AnimationOperations {
     }
   }
 
+  /*
   /**
-   * Builds an Animation.
-   */
+   * Builds an Animation
   public static final class Builder implements AnimationBuilder<AnimationOperations> {
     private AnimationOperations model = new AnimationModel();
 
@@ -308,4 +308,5 @@ public class AnimationModel implements AnimationOperations {
       return this;
     }
   }
+  */
 }

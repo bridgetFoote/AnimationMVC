@@ -1,6 +1,7 @@
 package cs3500.animation.view;
 
 import cs3500.animation.model.AnimationOperations;
+import cs3500.animation.model.IAction;
 import cs3500.animation.model.IShape;
 import cs3500.animation.model.ShapeAction;
 
@@ -53,7 +54,7 @@ public class AbstractTextualView implements AnimationView {
   @Override
   public String getTextualDescription() {
     String out = model.toString();
-    Map<IShape, List<ShapeAction>> actions = model.getShapeActions();
+    Map<IShape, List<IAction>> actions = model.getShapeActions();
     Set aKeys = actions.keySet();
     for (Object s: aKeys) {
       if (s instanceof IShape) {
