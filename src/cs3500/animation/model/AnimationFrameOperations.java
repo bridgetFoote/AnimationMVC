@@ -42,4 +42,31 @@ public interface AnimationFrameOperations extends AnimationOperations {
    */
   void removeKeyFrame(String name, int tick, int xCoord, int yCoord, int width,
                       int height, int redGradient, int greenGradient, int blueGradient);
+
+  /**
+   * Removes the shape with the given name from the animation.
+   *
+   * @param name is the name of the shape to remove.
+   * @throws IllegalArgumentException if there is no shape with the given name in the animation.
+   */
+  void removeShape(String name);
+
+  /**
+   * Edits the key frame at the given tick in the shape with the given name.
+   *
+   * @param name is the name of the shape.
+   * @param tick is the tick of the key frame to edit.
+   * @param xCoord is the new x coordinate or null if it will not change.
+   * @param yCoord is the new y coordinate or null if it will not change.
+   * @param width is the new width or null if it will not change.
+   * @param height is the new height or null if it will not change.
+   * @param redGradient is the new red gradient or null if it will not change.
+   * @param greenGradient is the new green gradient or null if it will not change.
+   * @param blueGradient is the new blue gradient or null if it will not change.
+   * @throws IllegalArgumentException if a shape with the given name doesn't exist in this animation
+   *                                  or said shape does not have any key frame at the given tick or
+   *                                  all of the other inputs are null.
+   */
+  void editKeyFrame(String name, int tick, int xCoord, int yCoord, int width, int height,
+                    int redGradient, int greenGradient, int blueGradient);
 }

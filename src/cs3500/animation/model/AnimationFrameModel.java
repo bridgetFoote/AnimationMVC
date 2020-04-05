@@ -2,6 +2,7 @@ package cs3500.animation.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Represents an animation where the motions of the shapes are represented by
@@ -9,6 +10,8 @@ import java.util.List;
  * by tweening.
  */
 public class AnimationFrameModel extends AnimationModel implements AnimationFrameOperations {
+
+  private HashMap<String, IShapeWithKeyFrames> shapes;
 
   /**
    * Creates a new animation using keyframes to keep track of shape movement.
@@ -27,7 +30,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     } else {
       throw new IllegalArgumentException("Invalid shape type");
     }
-    IShape shape = new ShapeWithKeyFrames(name, type);
+    IShapeWithKeyFrames shape = new ShapeWithKeyFrames(name, type);
 
     if (this.checkForDuplicateShapeNames(shape.getName())) {
       throw new IllegalArgumentException("A shape with this name already "
@@ -40,14 +43,44 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
   public void addKeyFrame(String name, int tick, int xCoord,
                           int yCoord, int width, int height, int redGradient,
                           int greenGradient, int blueGradient) {
-
+    if (this.shapes.containsKey(name)) {
+      this.shapes.get(name).addKeyFrame(new KeyFrame(tick, xCoord, yCoord,
+              width, height, redGradient, greenGradient, blueGradient));
+    } else {
+      throw new IllegalArgumentException("Invalid inputs.");
+    }
   }
 
   @Override
   public void removeKeyFrame(String name, int tick, int xCoord,
                              int yCoord, int width, int height, int redGradient,
                              int greenGradient, int blueGradient) {
+    if (this.shapes.containsKey(name)) {
+      this.shapes.get(name).removeKeyFrame(new KeyFrame(tick, xCoord, yCoord,
+              width, height, redGradient, greenGradient, blueGradient));
+    } else {
+      throw new IllegalArgumentException("Invalid inputs.");
+    }
+  }
 
+  @Override
+  public void removeShape(String name) {
+    if (!this.shapes.containsKey(name)) {
+      throw new IllegalArgumentException("A shape with this name does not exist in the animation.");
+    } else {
+      this.shapes.remove(name);
+    }
+  }
+
+  @Override
+  public void editKeyFrame(String name, int tick, int xCoord,
+                           int yCoord, int width, int height,
+                           int redGradient, int greenGradient, int blueGradient) {
+    if (this.shapes.containsKey(name)) {
+      if (this.shapes.get(name).hasFrameAt(tick)) {
+        this.shapes.get(name).editKeyFrame(tick, xCoord, yCoord, width, height, redGradient, greenGradient, blueGradient);
+      }
+    }
   }
 
   /**

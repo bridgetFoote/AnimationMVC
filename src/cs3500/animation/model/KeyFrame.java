@@ -1,5 +1,7 @@
 package cs3500.animation.model;
 
+import java.util.Objects;
+
 /**
  * Represents a key frame in the animation for a shape,
  * can be thought of as a freeze frame of the animation at a
@@ -109,5 +111,82 @@ public class KeyFrame implements IAction {
   @Override
   public String toString(IShape shape) {
     return null;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof KeyFrame)) {
+      return false;
+    }
+    KeyFrame kf = (KeyFrame) other;
+    return (this.tick == kf.tick) && (this.xCoord == kf.xCoord)
+            && (this.yCoord == kf.yCoord) && (this.width == kf.width)
+            && (this.height == kf.height) && (this.color == kf.color);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.tick, this.xCoord, this.yCoord, this.width, this.height, this.color);
+  }
+
+  /**
+   * Edits this key frame with the given inputs.
+   * @param xCoord is the new x coordinate or null.
+   * @param yCoord is the new y coordinate or null.
+   * @param width is the new width or null.
+   * @param height is the new height or null.
+   * @param redGradient is the new red gradient or null.
+   * @param greenGradient is the new green gradient or null.
+   * @param blueGradient is the new blue gradient or null.
+   */
+  public void edit(int xCoord, int yCoord, int width, int height,
+                   int redGradient, int greenGradient, int blueGradient) {
+    if (!Objects.isNull(xCoord)) {
+      if (xCoord < 0) {
+        throw new IllegalArgumentException("Invalid x coordinate.");
+      } else {
+        this.xCoord = xCoord;
+      }
+    }
+    if (!Objects.isNull(yCoord)) {
+      if (yCoord < 0) {
+        throw new IllegalArgumentException("Invalid y coordinate.");
+      } else {
+        this.yCoord = yCoord;
+      }
+    }
+    if (!Objects.isNull(width)) {
+      if (width <= 0) {
+        throw new IllegalArgumentException("Invalid width.");
+      } else {
+        this.width = width;
+      }
+    }
+    if (!Objects.isNull(height)) {
+      if (height <= 0) {
+        throw new IllegalArgumentException("Invalid height.");
+      } else {
+        this.height = height;
+      }
+    }
+    int red;
+    int green;
+    int blue;
+    if (!Objects.isNull(redGradient)) {
+      red = redGradient;
+    } else {
+      red = this.color.getColorGradient("red");
+    }
+    if (!Objects.isNull(greenGradient)) {
+      green = greenGradient;
+    } else {
+      green = this.color.getColorGradient("green");
+    }
+    if (!Objects.isNull(blueGradient)) {
+      blue = blueGradient;
+    } else {
+      blue = this.color.getColorGradient("blue");
+    }
+    this.color = new RGBColor(red, green, blue);
   }
 }
