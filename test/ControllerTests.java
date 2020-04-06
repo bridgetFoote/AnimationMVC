@@ -16,6 +16,10 @@ public class ControllerTests {
     EditorViewController c = new EditorViewController(m, null);
   }
 
-  // Test
+  // Test get user input from text box
+  @Test
+  public void testUpdateTime() {
+
+  }
 
 }

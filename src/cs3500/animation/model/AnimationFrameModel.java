@@ -80,6 +80,9 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
         throw new IllegalArgumentException("Shape has no frame at this tick");
       }
     }
+    else {
+      throw new IllegalArgumentException("Shape doesn't exist in the animation.");
+    }
   }
 
   @Override

@@ -21,36 +21,36 @@ public class EditorView extends AbstractVisualView {
     JPanel buttonPanel = new JPanel(new FlowLayout());
 
     // add start button
-    this.start = new JButton("Start");
-    this.start.addActionListener((ActionEvent e) -> {
+    JButton start = new JButton("Start");
+    start.addActionListener((ActionEvent e) -> {
       this.panel.playTimer();
     });
     buttonPanel.add(start);
 
     // add pause button
-    this.pause = new JButton("Pause");
-    this.pause.addActionListener((ActionEvent e) -> {
+    JButton pause = new JButton("Pause");
+    pause.addActionListener((ActionEvent e) -> {
       this.panel.pauseTimer();
     });
     buttonPanel.add(pause);
 
     // add resume button
-    this.resume = new JButton("Resume");
-    this.resume.addActionListener((ActionEvent e) -> {
+    JButton resume = new JButton("Resume");
+    resume.addActionListener((ActionEvent e) -> {
       this.panel.playTimer();
     });
     buttonPanel.add(resume);
 
     // add restart button
-    this.restart = new JButton("Restart");
-    this.restart.addActionListener((ActionEvent e) -> {
+    JButton restart = new JButton("Restart");
+    restart.addActionListener((ActionEvent e) -> {
       this.panel.restartTimer();
     });
     buttonPanel.add(restart);
 
     // add looping button
-    this.enableDisableLooping = new JToggleButton("Enable Looping");
-    this.enableDisableLooping.addActionListener((ActionEvent e) -> {
+    JToggleButton enableDisableLooping = new JToggleButton("Enable Looping");
+    enableDisableLooping.addActionListener((ActionEvent e) -> {
       this.panel.enableLoopingWasClicked();
     });
     buttonPanel.add(enableDisableLooping);
@@ -75,11 +75,6 @@ public class EditorView extends AbstractVisualView {
 
   private JButton applyNewSpeed;
   private JTextField speedInput;
-  private JButton start;
-  private JButton pause;
-  private JButton resume;
-  private JButton restart;
-  private JToggleButton enableDisableLooping;
 
   @Override
   public void setApplyNewSpeedButtonListener(ActionListener actionEvent) {
