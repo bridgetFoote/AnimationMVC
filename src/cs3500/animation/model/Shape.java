@@ -21,6 +21,10 @@ public class Shape implements IShape {
     if (name.equals("")) {
       throw new IllegalArgumentException("Name cannot be empty");
     }
+
+    if (Objects.isNull(type)) {
+      throw new IllegalArgumentException("Shape type cannot be null");
+    }
     this.actions = new ArrayList<IAction>();
     this.name = name;
     this.shapeType = type;

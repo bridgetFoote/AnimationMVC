@@ -23,7 +23,7 @@ public final class Excellence {
 
     // Validate the argument length and that the arguments come in pairs
     if (args.length < 4 || args.length % 2 != 0) {
-      System.out.println("Invalid argument length");
+      JOptionPane.showMessageDialog(new JDialog(), "Invalid argument length");
       return;
     }
 
@@ -45,7 +45,7 @@ public final class Excellence {
           if (args[i + 1].equals("text")) {
             vType = ViewType.TEXTVIEW;
           }
-          else if (args[i + 1].equals("svg")) {
+          else if (args[i + 1].equals("svg")) { 
             vType = ViewType.SVGVIEW;
           }
           else if (args[i + 1].equals("visual")) {

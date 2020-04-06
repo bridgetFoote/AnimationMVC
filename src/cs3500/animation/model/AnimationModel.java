@@ -17,7 +17,7 @@ public class AnimationModel implements AnimationOperations {
    * Creates a new AnimationModel with an empty list of shapes.
    */
   public AnimationModel() {
-    shapes = new HashMap<String, IShape>();
+    shapes = new HashMap<String, IShapeWithKeyFrames>();
     orderedShapes = new TreeMap<Integer,List<ShapeDrawParam>>();
     // Default values for now
     topX = 0;
@@ -26,7 +26,7 @@ public class AnimationModel implements AnimationOperations {
     canvasWidth = 0;
   }
 
-  protected HashMap<String, IShape> shapes;
+  protected HashMap<String, IShapeWithKeyFrames> shapes;
   protected TreeMap<Integer, List<ShapeDrawParam>> orderedShapes;
   protected int topX;
   protected int topY;
@@ -68,7 +68,7 @@ public class AnimationModel implements AnimationOperations {
       throw new IllegalArgumentException("A shape with this name already "
               + "exists in this animation.");
     }
-    this.shapes.put(shape.getName(), shape);
+    this.shapes.put(shape.getName(), (IShapeWithKeyFrames) shape);
 
   }
 

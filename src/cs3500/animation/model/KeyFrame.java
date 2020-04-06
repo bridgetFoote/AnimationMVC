@@ -28,8 +28,9 @@ public class KeyFrame implements IAction {
    * @param greenGradient is the green value for the shape's color.
    * @param blueGradient is the blue value for the  shape's color.
    */
-  public KeyFrame(int tick, int xCoord, int yCoord, int width, int height, int redGradient, int greenGradient, int blueGradient) {
-    if ((xCoord < 0) || (yCoord < 0) || (width <= 0) || (height <= 0)
+  public KeyFrame(int tick, int xCoord, int yCoord, int width, int height, int redGradient,
+                  int greenGradient, int blueGradient) {
+    if ((width <= 0) || (height <= 0) || (tick < 0)
             || (redGradient < 0) || (redGradient > 255) || (greenGradient < 0)
             || (greenGradient > 255) || (blueGradient < 0) || (blueGradient > 255)) {
       throw new IllegalArgumentException("The inputs do not describe a valid keyframe.");
@@ -121,7 +122,7 @@ public class KeyFrame implements IAction {
     KeyFrame kf = (KeyFrame) other;
     return (this.tick == kf.tick) && (this.xCoord == kf.xCoord)
             && (this.yCoord == kf.yCoord) && (this.width == kf.width)
-            && (this.height == kf.height) && (this.color == kf.color);
+            && (this.height == kf.height) && (this.color.equals(((KeyFrame) other).color));
   }
 
   @Override

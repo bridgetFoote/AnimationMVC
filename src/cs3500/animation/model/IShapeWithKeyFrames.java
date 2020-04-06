@@ -14,10 +14,10 @@ public interface IShapeWithKeyFrames extends IShape {
   /**
    * Removes the given keyframe to this shape.
    *
-   * @param frame is the frame to remove.
+   * @param tick is the tick of the frame to remove.
    * @throws IllegalArgumentException is this frame does not exist for this shape.
    */
-  void removeKeyFrame(KeyFrame frame);
+  void removeKeyFrame(int tick);
 
   /**
    * Edits the key frame at the given tick.
@@ -43,4 +43,13 @@ public interface IShapeWithKeyFrames extends IShape {
    * @return true if there is a frame, false otherwise.
    */
   boolean hasFrameAt(int tick);
+
+  /**
+   * Return the frame for this shape at a given tick.
+   *
+   * @param tick the tick.
+   * @return the keyframe for the shape at that tick.
+   * @throws IllegalArgumentException if the shape doesn't have a frame at that tick.
+   */
+  KeyFrame getTickAt(int tick);
 }

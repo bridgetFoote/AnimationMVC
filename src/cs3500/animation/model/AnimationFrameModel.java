@@ -45,17 +45,14 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
       this.shapes.get(name).addKeyFrame(new KeyFrame(tick, xCoord, yCoord,
               width, height, redGradient, greenGradient, blueGradient));
     } else {
-      throw new IllegalArgumentException("Invalid inputs.");
+      throw new IllegalArgumentException("Shape doesn't exist in the model");
     }
   }
 
   @Override
-  public void removeKeyFrame(String name, int tick, int xCoord,
-                             int yCoord, int width, int height, int redGradient,
-                             int greenGradient, int blueGradient) {
+  public void removeKeyFrame(String name, int tick) {
     if (this.shapes.containsKey(name)) {
-      this.shapes.get(name).removeKeyFrame(new KeyFrame(tick, xCoord, yCoord,
-              width, height, redGradient, greenGradient, blueGradient));
+      this.shapes.get(name).removeKeyFrame(tick);
     } else {
       throw new IllegalArgumentException("Invalid inputs.");
     }
@@ -76,10 +73,25 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
                            int redGradient, int greenGradient, int blueGradient) {
     if (this.shapes.containsKey(name)) {
       if (this.shapes.get(name).hasFrameAt(tick)) {
-        this.shapes.get(name).editKeyFrame(tick, xCoord, yCoord, width, height, redGradient, greenGradient, blueGradient);
+        this.shapes.get(name).editKeyFrame(tick, xCoord, yCoord, width, height,
+                redGradient, greenGradient, blueGradient);
+      }
+      else {
+        throw new IllegalArgumentException("Shape has no frame at this tick");
       }
     }
   }
+
+  @Override
+  public ShapeWithKeyFrames getShape(String name) {
+    if (! (shapes.containsKey(name))) {
+      throw new IllegalArgumentException("This shape doesn't exist");
+    }
+    return (ShapeWithKeyFrames) this.shapes.get(name);
+  }
+
+
+
 
   /**
    * Builds an Animation.

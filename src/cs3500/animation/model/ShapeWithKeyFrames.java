@@ -1,5 +1,6 @@
 package cs3500.animation.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
 
   public ShapeWithKeyFrames(String name, ShapeType type) {
     super(name, type);
+    this.actions = new ArrayList<>();
   }
 
 
@@ -23,13 +25,17 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
   }
 
   @Override
-  public void removeKeyFrame(KeyFrame frame) {
-    for (KeyFrame kf: this.actions) {
-      if (kf.equals(frame)) {
-        this.actions.remove(kf);
+  public void removeKeyFrame(int tick) {
+    int removeIndex = -1;
+    for (int i = 0; i < actions.size(); i++) {
+      if (actions.get(i).getStartTick() == tick) {
+        removeIndex = i;
       }
     }
-    throw new IllegalArgumentException("Frame does not exist.");
+    if (removeIndex == -1) {
+      throw new IllegalArgumentException("No frame exists for this tick");
+    }
+    actions.remove(removeIndex);
   }
 
   @Override
@@ -38,8 +44,10 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
     for (KeyFrame kf: this.actions) {
       if (kf.getStartTick() == tick) {
         kf.edit(xCoord, yCoord, width, height, redGradient, greenGradient, blueGradient);
+        return;
       }
     }
+    throw new IllegalArgumentException("Frame does not exist at this tick");
   }
 
   @Override
@@ -51,4 +59,15 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
     }
     return false;
   }
+
+  @Override
+  public KeyFrame getTickAt(int tick) {
+    for (KeyFrame kf: actions) {
+      if (kf.getStartTick() == tick) {
+        return kf;
+      }
+    }
+    throw new IllegalArgumentException("No frame exists at this tick");
+  }
+
 }

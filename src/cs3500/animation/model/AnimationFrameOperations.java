@@ -1,5 +1,8 @@
 package cs3500.animation.model;
 
+import java.security.Key;
+import java.util.List;
+
 /**
  * Interface to represent an animation of shapes where the actions of
  * the shapes are represented by keyframes.
@@ -29,19 +32,11 @@ public interface AnimationFrameOperations extends AnimationOperations {
    *
    * @param name is the name of the shape.
    * @param tick is the tick for the frame.
-   * @param xCoord is the x coordinate for the shape in the frame.
-   * @param yCoord is the y coordinate for the shape in the frame.
-   * @param width is the width of the shape in the frame.
-   * @param height is the height of the shape in the frame.
-   * @param redGradient is the red value for the color of the shape in the frame.
-   * @param greenGradient is the green value for the color of the shape in the frame.
-   * @param blueGradient is the blue value for the color of the shape in the frame.
    * @throws IllegalArgumentException if there is no shape of the given name in the
    *                                  animation or if the keyframe described does not exist
    *                                  for the given shape.
    */
-  void removeKeyFrame(String name, int tick, int xCoord, int yCoord, int width,
-                      int height, int redGradient, int greenGradient, int blueGradient);
+  void removeKeyFrame(String name, int tick);
 
   /**
    * Removes the shape with the given name from the animation.
@@ -69,4 +64,13 @@ public interface AnimationFrameOperations extends AnimationOperations {
    */
   void editKeyFrame(String name, int tick, int xCoord, int yCoord, int width, int height,
                     int redGradient, int greenGradient, int blueGradient);
+
+  /**
+   * Get the shape from the model given the name.
+   * @param name the name of the shape
+   * @return the shape
+   * @throws IllegalArgumentException if the shape is not in the model.
+   */
+  ShapeWithKeyFrames getShape(String name);
+
 }
