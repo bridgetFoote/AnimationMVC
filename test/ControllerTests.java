@@ -3,6 +3,10 @@ import cs3500.animation.model.AnimationFrameModel;
 import cs3500.animation.model.AnimationFrameOperations;
 import cs3500.animation.view.EditorView;
 import org.junit.Test;
+import org.w3c.dom.events.EventTarget;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Class to test the edit controller.
@@ -16,10 +20,20 @@ public class ControllerTests {
     EditorViewController c = new EditorViewController(m, null);
   }
 
-  // Test get user input from text box
-  @Test
-  public void testUpdateTime() {
+  // Test Attempt text description
+  @Test(expected = UnsupportedOperationException.class)
+  public void testText() {
+    v.getTextualDescription();
+  }
 
+  @Test(expected = UnsupportedOperationException.class)
+  public void testXML() {
+    v.writeXML("test", 10);
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void testWriteText() {
+    v.writeTextDescription("test");
   }
 
 }
