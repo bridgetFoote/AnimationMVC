@@ -1,5 +1,7 @@
 package cs3500.animation.view;
 
+import cs3500.animation.model.IShape;
+
 import java.awt.event.ActionListener;
 
 /**
@@ -16,12 +18,12 @@ public interface AnimationView {
   void makeVisible();
 
   /**
-   * Sets the new speed button action listener, only used in editor view.
+   * Sets the action listeners for all of the buttons in the view, only used in editor view.
    *
-   * @param actionEvent is the controller for the button.
+   * @param actionEvent is the controller for the buttons.
    * @throws UnsupportedOperationException if it is called in a view other than editor.
    */
-  void setApplyNewSpeedButtonListener(ActionListener actionEvent);
+  void setButtonListeners(ActionListener actionEvent);
 
   /**
    * Displays error message thrown by animation panel in a dialog box.
@@ -32,13 +34,34 @@ public interface AnimationView {
   void showErrorMessage(String error);
 
   /**
+   * Gets the new user inputted frame operation for this model.
+   * Only used in the editor view where user can input operations to
+   * apply to key frames in this model.
+   *
+   * @return the string representing the frame operation or the
+   *         empty string if the input box is empty.
+   */
+  String getFrameOperation();
+
+  /**
    * Gets the new user inputted tempo for this model.
    * Only used in the editor view where user can input new speed.
    *
-   * @return the string representing the new tempo for the animation.
-   * @throws UnsupportedOperationException for all view types other than EditorView
+   * @return the string representing the new tempo for the animation
+   *         or the empty string if the input box is empty.
+   * @throws UnsupportedOperationException for all view types other than EditorView.
    */
   String getNewTempo();
+
+  /**
+   * Gets the new user inputted shape for this model.
+   * Only used in the editor view where user can input new shape.
+   *
+   * @return the string representing the new shape that the user wants to input
+   *         or the empty string if the input box is empty.
+   * @throws UnsupportedOperationException for all view types other than EditorView.
+   */
+  String getNewShape();
 
   /**
    * Get the textual description of the model.

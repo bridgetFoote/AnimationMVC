@@ -1,11 +1,15 @@
 package cs3500.animation.view;
 
 import cs3500.animation.model.AnimationOperations;
+import cs3500.animation.model.IShape;
+import cs3500.animation.model.ShapeType;
+import cs3500.animation.model.ShapeWithKeyFrames;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Represents an animation view that displays the animation visually
@@ -78,7 +82,7 @@ public class EditorView extends AbstractVisualView {
     speedInputPanel.add(speedLabel, c);
 
     this.addInput = new JTextField("");
-    addInput.setPreferredSize(new Dimension(80, 20));
+    addInput.setPreferredSize(new Dimension(200, 20));
     c.gridx = 6;
     c.gridwidth = 5;
     c.gridy = 1;
@@ -90,26 +94,68 @@ public class EditorView extends AbstractVisualView {
     c.gridy = 1;
     speedInputPanel.add(applyAdd,c);
 
-    JLabel addLabel = new JLabel("Choose a shape to add to the animation");
+    JLabel addLabel = new JLabel("Enter new shape with format 'name' 'type'");
     c.gridx = 0;
     c.gridy = 1;
     speedInputPanel.add(addLabel,c);
 
+    JFrame frameFrame = new JFrame("Frame Operations");
+    JPanel frameOperationPanel = new JPanel(new GridBagLayout());
+
+    this.frameInput = new JTextField("");
+    frameInput.setPreferredSize(new Dimension(200, 20));
+    c.gridx = 0;
+    c.gridwidth = 5;
+    c.gridy = 3;
+    frameOperationPanel.add(frameInput, c);
+
+    this.applyFrameOperation = new JButton("Apply Frame Operation");
+    c.gridwidth = 1;
+    c.gridx = 0;
+    c.gridy = 4;
+    frameOperationPanel.add(applyFrameOperation, c);
+
+    JLabel addFrameLabelPart1 = new JLabel("Enter new or existing frame paramaters");
+    c.gridx = 0;
+    c.gridy = 0;
+    frameOperationPanel.add(addFrameLabelPart1, c);
+
+    JLabel addFrameLabelPart2 = new JLabel("and desired operation with format:");
+    c.gridx = 0;
+    c.gridy = 1;
+    frameOperationPanel.add(addFrameLabelPart2);
+
+    JLabel addFrameLabelPart3 = new JLabel("'shape name' 'tick' 'x coordinate' 'y coordinate'");
+    c.gridx = 0;
+    c.gridy = 2;
+    frameOperationPanel.add(addFrameLabelPart3, c);
+
+    JLabel addFrameLabelPart4 = new JLabel("'width' 'height' 'red' 'green' 'blue' 'add/remove/edit'");
+    c.gridx = 0;
+    c.gridy = 5;
+    frameOperationPanel.add(addFrameLabelPart4);
+
     // add edit panels to view
     add(speedInputPanel, BorderLayout.NORTH);
     add(buttonPanel, BorderLayout.SOUTH);
+    frameFrame.add(frameOperationPanel, BorderLayout.EAST);
+    frameFrame.setVisible(true);
 
     this.pack();
   }
 
   private JButton applyNewSpeed;
   private JButton applyAdd;
+  private JButton applyFrameOperation;
   private JTextField addInput;
   private JTextField speedInput;
+  private JTextField frameInput;
 
   @Override
-  public void setApplyNewSpeedButtonListener(ActionListener actionEvent) {
+  public void setButtonListeners(ActionListener actionEvent) {
     this.applyNewSpeed.addActionListener(actionEvent);
+    this.applyAdd.addActionListener(actionEvent);
+    this.applyFrameOperation.addActionListener(actionEvent);
   }
 
   @Override
@@ -117,6 +163,20 @@ public class EditorView extends AbstractVisualView {
     String command = this.speedInput.getText();
     this.speedInput.setText("");
     return command;
+  }
+
+  @Override
+  public String getNewShape() {
+    String shapeString = this.addInput.getText();
+    this.addInput.setText("");
+    return shapeString;
+  }
+
+  @Override
+  public String getFrameOperation() {
+    String frameString = this.frameInput.getText();
+    this.frameInput.setText("");
+    return frameString;
   }
 
   @Override

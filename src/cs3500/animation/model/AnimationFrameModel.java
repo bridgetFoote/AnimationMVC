@@ -99,29 +99,29 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
   /**
    * Builds an Animation.
    */
-  public static final class Builder implements AnimationBuilder<AnimationOperations> {
+  public static final class Builder implements AnimationBuilder<AnimationFrameOperations> {
     private AnimationFrameOperations model = new AnimationFrameModel();
 
     @Override
-    public AnimationOperations build() {
+    public AnimationFrameOperations build() {
       this.model.orderByTick();
       return this.model;
     }
 
     @Override
-    public AnimationBuilder<AnimationOperations> setBounds(int x, int y, int width, int height) {
+    public AnimationBuilder<AnimationFrameOperations> setBounds(int x, int y, int width, int height) {
       this.model.setCanvas(x, y, width, height);
       return this;
     }
 
     @Override
-    public AnimationBuilder<AnimationOperations> declareShape(String name, String type) {
+    public AnimationBuilder<AnimationFrameOperations> declareShape(String name, String type) {
       this.model.addShape(name, type);
       return this;
     }
 
     @Override
-    public AnimationBuilder<AnimationOperations> addMotion(String name, int t1, int x1, int y1,
+    public AnimationBuilder<AnimationFrameOperations> addMotion(String name, int t1, int x1, int y1,
                                                            int w1, int h1, int r1,
                                                            int g1, int b1, int t2,
                                                            int x2, int y2, int w2, int h2,
@@ -132,7 +132,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     }
 
     @Override
-    public AnimationBuilder<AnimationOperations> addKeyframe(String name, int t, int x, int y,
+    public AnimationBuilder<AnimationFrameOperations> addKeyframe(String name, int t, int x, int y,
                                                              int w, int h, int r, int g, int b) {
       this.model.addKeyFrame(name, t, x, y, w, h, r, g, b);
       return this;

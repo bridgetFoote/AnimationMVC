@@ -37,7 +37,7 @@ public class AbstractTextualView implements AnimationView {
   }
 
   @Override
-  public void setApplyNewSpeedButtonListener(ActionListener actionEvent) {
+  public void setButtonListeners(ActionListener actionEvent) {
     throw new UnsupportedOperationException();
   }
 
@@ -47,7 +47,17 @@ public class AbstractTextualView implements AnimationView {
   }
 
   @Override
+  public String getFrameOperation() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public String getNewTempo() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String getNewShape() {
     throw new UnsupportedOperationException();
   }
 

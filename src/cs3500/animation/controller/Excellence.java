@@ -1,9 +1,6 @@
 package cs3500.animation.controller;
 
-import cs3500.animation.model.AnimationFrameModel;
-import cs3500.animation.model.AnimationModel;
-import cs3500.animation.model.AnimationOperations;
-import cs3500.animation.model.AnimationReader;
+import cs3500.animation.model.*;
 import cs3500.animation.view.*;
 
 import javax.swing.JOptionPane;
@@ -82,7 +79,7 @@ public final class Excellence {
       FileReader inFileReader = new FileReader(inFile);
       AnimationReader reader = new AnimationReader();
 
-      AnimationOperations model = reader.parseFile(inFileReader, b);
+      AnimationFrameOperations model = reader.parseFile(inFileReader, b);
       AnimationView view;
       // Check the view type, construct it, and launch the relevant method!
       if (vType.equals(ViewType.TEXTVIEW)) {
