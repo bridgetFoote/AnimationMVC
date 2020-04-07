@@ -6,6 +6,7 @@ import cs3500.animation.model.ShapeType;
 import cs3500.animation.model.ShapeWithKeyFrames;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -100,40 +101,21 @@ public class EditorView extends AbstractVisualView {
     speedInputPanel.add(addLabel,c);
 
     JFrame frameFrame = new JFrame("Frame Operations");
-    JPanel frameOperationPanel = new JPanel(new GridBagLayout());
+    JPanel frameOperationPanel = new JPanel(new BorderLayout());
+    frameFrame.setSize(1200, 100);
+    JPanel framePanel = new JPanel(new BorderLayout());
 
     this.frameInput = new JTextField("");
     frameInput.setPreferredSize(new Dimension(200, 20));
-    c.gridx = 0;
-    c.gridwidth = 5;
-    c.gridy = 3;
-    frameOperationPanel.add(frameInput, c);
+    framePanel.add(frameInput, BorderLayout.NORTH);
 
     this.applyFrameOperation = new JButton("Apply Frame Operation");
-    c.gridwidth = 1;
-    c.gridx = 0;
-    c.gridy = 4;
-    frameOperationPanel.add(applyFrameOperation, c);
+    framePanel.add(applyFrameOperation, BorderLayout.SOUTH);
 
-    JLabel addFrameLabelPart1 = new JLabel("Enter new or existing frame paramaters");
-    c.gridx = 0;
-    c.gridy = 0;
-    frameOperationPanel.add(addFrameLabelPart1, c);
-
-    JLabel addFrameLabelPart2 = new JLabel("and desired operation with format:");
-    c.gridx = 0;
-    c.gridy = 1;
-    frameOperationPanel.add(addFrameLabelPart2);
-
-    JLabel addFrameLabelPart3 = new JLabel("'shape name' 'tick' 'x coordinate' 'y coordinate'");
-    c.gridx = 0;
-    c.gridy = 2;
-    frameOperationPanel.add(addFrameLabelPart3, c);
-
-    JLabel addFrameLabelPart4 = new JLabel("'width' 'height' 'red' 'green' 'blue' 'add/remove/edit'");
-    c.gridx = 0;
-    c.gridy = 5;
-    frameOperationPanel.add(addFrameLabelPart4);
+    JLabel addFrameLabel = new JLabel("Enter new or existing frame paramaters and desired operation with format:\n"
+    + "'shape name' 'tick' 'x coordinate' 'y coordinate' 'width' 'height' 'red' 'green' 'blue' 'add/remove/edit'");
+    frameOperationPanel.add(addFrameLabel, BorderLayout.NORTH);
+    frameOperationPanel.add(framePanel, BorderLayout.SOUTH);
 
     // add edit panels to view
     add(speedInputPanel, BorderLayout.NORTH);
