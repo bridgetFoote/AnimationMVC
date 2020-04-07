@@ -24,6 +24,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   private int finalTick;
   private boolean enableLooping = false;
 
+
   /**
    * Construct an AnimationPanel.
    * @param m the model used for animation.

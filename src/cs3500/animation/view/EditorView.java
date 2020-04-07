@@ -55,16 +55,45 @@ public class EditorView extends AbstractVisualView {
     });
     buttonPanel.add(enableDisableLooping);
 
-    // add speed input field
-    this.speedInput = new JTextField("");
-    this.applyNewSpeed = new JButton("Apply");
-    JLabel speedLabel = new JLabel("Enter new animation speed in ticks per second.");
-    JPanel speedInputPanel = new JPanel(new BorderLayout());
+    GridBagConstraints c = new GridBagConstraints();
+    JPanel speedInputPanel = new JPanel(new GridBagLayout());
 
-    // create speed input panel
-    speedInputPanel.add(speedInput, BorderLayout.CENTER);
-    speedInputPanel.add(speedLabel, BorderLayout.WEST);
-    speedInputPanel.add(applyNewSpeed, BorderLayout.EAST);
+    this.speedInput = new JTextField("");
+    speedInput.setPreferredSize(new Dimension(80, 20));
+    c.gridx = 6;
+    c.gridwidth = 5;
+    c.gridy = 0;
+    speedInputPanel.add(speedInput, c);
+
+    this.applyNewSpeed = new JButton("Apply");
+    c.gridwidth = 1;
+    c.gridx = 11;
+    c.gridy = 0;
+    speedInputPanel.add(applyNewSpeed, c);
+
+    JLabel speedLabel = new JLabel("Enter new animation speed in ticks per second.");
+    c.gridwidth = 5;
+    c.gridx = 0;
+    c.gridy = 0;
+    speedInputPanel.add(speedLabel, c);
+
+    this.addInput = new JTextField("");
+    addInput.setPreferredSize(new Dimension(80, 20));
+    c.gridx = 6;
+    c.gridwidth = 5;
+    c.gridy = 1;
+    speedInputPanel.add(addInput, c);
+
+    this.applyAdd = new JButton("Add Shape");
+    c.gridwidth = 1;
+    c.gridx = 11;
+    c.gridy = 1;
+    speedInputPanel.add(applyAdd,c);
+
+    JLabel addLabel = new JLabel("Choose a shape to add to the animation");
+    c.gridx = 0;
+    c.gridy = 1;
+    speedInputPanel.add(addLabel,c);
 
     // add edit panels to view
     add(speedInputPanel, BorderLayout.NORTH);
@@ -74,6 +103,8 @@ public class EditorView extends AbstractVisualView {
   }
 
   private JButton applyNewSpeed;
+  private JButton applyAdd;
+  private JTextField addInput;
   private JTextField speedInput;
 
   @Override
@@ -95,7 +126,8 @@ public class EditorView extends AbstractVisualView {
 
   @Override
   public void showErrorMessage(String error) {
-    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(this, error, "Error",
+            JOptionPane.ERROR_MESSAGE);
   }
 
   @Override
