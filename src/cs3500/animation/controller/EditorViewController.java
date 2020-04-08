@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
+import java.util.Random;
 
 public class EditorViewController implements IController, ActionListener {
   private AnimationView view;
@@ -43,9 +44,17 @@ public class EditorViewController implements IController, ActionListener {
     if (!shapeString.equals("")) {
       String[] shapeParams = shapeString.split(" ");
       if (shapeParams.length == 2) {
-        this.model.addShape(shapeParams[0], shapeParams[1]);
+        try {
+          this.model.addShape(shapeParams[0], shapeParams[1]);
+          this.addRandomActions(shapeParams[0], shapeParams[1]);
+        }
+        catch (IllegalArgumentException err) {
+          JOptionPane.showMessageDialog(new JDialog(), "Illegal arguments. Should be" +
+                  "a String name and a String [rectangle] OR String [ellipse]");
+        }
       }
     }
+
     if (!frameString.equals("")) {
       String[] frameParams = frameString.split(" ");
       if (frameParams.length == 10) {
@@ -73,6 +82,24 @@ public class EditorViewController implements IController, ActionListener {
         }
       }
     }
+  }
+
+  /**
+   * Assign random actions to the new shape in the model based on the total number of ticks.
+   * in the animation.
+   * @param name the name of the shape.
+   * @param type the type of shape.
+   */
+  private void addRandomActions(String name, String type) {
+    int finalTick = this.model.getFinalTick();
+    Random r = new Random();
+    this.model.addShapeAction(name, 0, finalTick, r.nextInt(100),
+            r.nextInt(100), r.nextInt(200), r.nextInt(200),
+            r.nextInt(255), r.nextInt(255), r.nextInt(255),
+            r.nextInt(255), r.nextInt(255), r.nextInt(255),
+            r.nextInt(50) + 10, r.nextInt(50) + 10,
+            r.nextInt(50) + 10, r.nextInt(50) + 10);
+    this.model.orderByTick();
   }
 
   @Override

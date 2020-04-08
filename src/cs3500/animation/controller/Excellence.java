@@ -1,5 +1,4 @@
 package cs3500.animation.controller;
-
 import cs3500.animation.model.*;
 import cs3500.animation.view.*;
 
@@ -23,6 +22,7 @@ public final class Excellence {
       JOptionPane.showMessageDialog(new JDialog(), "Invalid argument length");
       return;
     }
+
 
     String inFile = "";
     String outFile = "";
