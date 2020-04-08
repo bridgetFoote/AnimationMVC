@@ -73,10 +73,4 @@ public interface AnimationFrameOperations extends AnimationOperations {
    */
   ShapeWithKeyFrames getShape(String name);
 
-  /**
-   * Converts all of the ShapeActions stored in each shape in the animation
-   * to the corresponding key frames.
-   */
-  void convertActionsListToKeyFrames();
-
 }

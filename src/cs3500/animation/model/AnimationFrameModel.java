@@ -30,17 +30,18 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
         KeyFrame kf = (KeyFrame) action;
         orderedActions.put(action.getStartTick(), kf);
       }
-      for (int i = orderedActions.firstKey(); i <= orderedActions.lastKey(); i++) {
-        ShapeDrawParam newShape = this.findShapeParams(shape, i, orderedActions);
-        if (orderedShapes.containsKey(i)) {
-          List<ShapeDrawParam> cShapes = orderedShapes.get(i);
-          cShapes.add(newShape);
-          orderedShapes.put(i,cShapes);
-        }
-        else {
-          List<ShapeDrawParam> nShapes = new ArrayList<>();
-          nShapes.add(newShape);
-          orderedShapes.put(i,nShapes);
+      if (orderedActions.size() != 0) {
+        for (int i = orderedActions.firstKey(); i <= orderedActions.lastKey(); i++) {
+          ShapeDrawParam newShape = this.findShapeParams(shape, i, orderedActions);
+          if (orderedShapes.containsKey(i)) {
+            List<ShapeDrawParam> cShapes = orderedShapes.get(i);
+            cShapes.add(newShape);
+            orderedShapes.put(i, cShapes);
+          } else {
+            List<ShapeDrawParam> nShapes = new ArrayList<>();
+            nShapes.add(newShape);
+            orderedShapes.put(i, nShapes);
+          }
         }
       }
     }
@@ -158,17 +159,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     return (ShapeWithKeyFrames) this.shapes.get(name);
   }
 
-  @Override
-  public void convertActionsListToKeyFrames() {
-    for (IShape shape: this.shapes.values()) {
-      if (!(shape instanceof IShapeWithKeyFrames)) {
-        throw new IllegalStateException();
-      }
-      IShapeWithKeyFrames s = (ShapeWithKeyFrames) shape;
-      s.convertActionsToKeyFrames();
-    }
-  }
-
 
   /**
    * Builds an Animation.
@@ -178,7 +168,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
 
     @Override
     public AnimationFrameOperations build() {
-      this.model.convertActionsListToKeyFrames();
       this.model.orderByTick();
       return this.model;
     }
@@ -201,8 +190,8 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
                                                            int g1, int b1, int t2,
                                                            int x2, int y2, int w2, int h2,
                                                            int r2, int g2, int b2) {
-      this.model.addShapeAction(name, t1, t2, x1, y1, x2, y2 ,r1, g1, b1, r2,
-              g2, b2, w1, h1, w2,h2);
+      this.addKeyframe(name, t1, x1, y1, w1, h1, r1, g1, b1);
+      this.addKeyframe(name, t2, x2, y2, w2, h2, r2, g2, b2);
       return this;
     }
 

@@ -52,10 +52,4 @@ public interface IShapeWithKeyFrames extends IShape {
    * @throws IllegalArgumentException if the shape doesn't have a frame at that tick.
    */
   KeyFrame getTickAt(int tick);
-
-  /**
-   * Converts any ShapeActions stored in this.actions to
-   * the corresponding key frames.
-   */
-  void convertActionsToKeyFrames();
 }
