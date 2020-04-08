@@ -1,5 +1,6 @@
 package cs3500.animation.view;
 
+import cs3500.animation.controller.EditorViewController;
 import cs3500.animation.model.AnimationOperations;
 import cs3500.animation.model.IAction;
 import cs3500.animation.model.IShape;
@@ -91,6 +92,21 @@ public class AbstractTextualView implements AnimationView {
 
   @Override
   public void setFinalTick(int tick) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public int getCurrentTick() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void addClickListener(EditorViewController listener) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void removeShape(String clickedShape) {
     throw new UnsupportedOperationException();
   }
 

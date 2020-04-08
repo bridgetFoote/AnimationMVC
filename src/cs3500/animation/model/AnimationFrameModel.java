@@ -95,7 +95,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
 
 
 
-
   /**
    * Builds an Animation.
    */

@@ -5,6 +5,7 @@ package cs3500.animation.model;
  * to quickly and easily draw the shape at each tick.
  */
 public final class ShapeDrawParam {
+  public String name;
   public ShapeType type;
   public int xPosn;
   public int yPosn;
@@ -21,10 +22,12 @@ public final class ShapeDrawParam {
    * @param h the height
    * @param c the color
    */
-  public ShapeDrawParam(ShapeType type, int x, int y, int w, int h, RGBColor c) {
-    if (w <= 0 || h <= 0) {
-      throw new IllegalArgumentException("Width and height must be greater than zero.");
+  public ShapeDrawParam(String name, ShapeType type, int x, int y, int w, int h, RGBColor c) {
+    if (w <= 0 || h <= 0 || name.equals("")) {
+      throw new IllegalArgumentException("Width and height must be greater than zero. " +
+              "Also, name must not be empty");
     }
+    this.name = name;
     this.type = type;
     this.xPosn = x;
     this.yPosn = y;

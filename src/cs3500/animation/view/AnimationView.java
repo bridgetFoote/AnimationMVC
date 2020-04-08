@@ -1,5 +1,6 @@
 package cs3500.animation.view;
 
+import cs3500.animation.controller.EditorViewController;
 import cs3500.animation.model.IShape;
 
 import java.awt.event.ActionListener;
@@ -106,4 +107,21 @@ public interface AnimationView {
    */
   void setFinalTick(int tick);
 
+  /**
+   * Get the current tick of the animation
+   */
+  int getCurrentTick();
+
+  /**
+   * Set up the controller to handle click events in this view.
+   * @param listener the controller
+   */
+  void addClickListener(EditorViewController listener);
+
+
+  /**
+   * Remove shape from the animation
+   * @param clickedShape the shape to remove
+   */
+  void removeShape(String clickedShape);
 }

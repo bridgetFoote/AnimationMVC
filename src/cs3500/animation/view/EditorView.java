@@ -1,5 +1,7 @@
 package cs3500.animation.view;
 
+import cs3500.animation.controller.EditorViewController;
+import cs3500.animation.controller.MouseHandler;
 import cs3500.animation.model.AnimationOperations;
 import cs3500.animation.model.IShape;
 import cs3500.animation.model.ShapeType;
@@ -140,7 +142,6 @@ public class EditorView extends AbstractVisualView {
     add(buttonPanel, BorderLayout.SOUTH);
     frameFrame.add(frameOperationPanel, BorderLayout.EAST);
     frameFrame.setVisible(true);
-
     this.pack();
   }
 
@@ -150,6 +151,17 @@ public class EditorView extends AbstractVisualView {
   private JTextField addInput;
   private JTextField speedInput;
   private JTextField frameInput;
+
+  @Override
+  public void removeShape(String clickedShape) {
+    this.panel.addDontDraw(clickedShape);
+  }
+
+  @Override
+  public void addClickListener(EditorViewController listener) {
+    MouseHandler m = new MouseHandler(listener, this);
+    this.addMouseListener(m);
+  }
 
   @Override
   public void setButtonListeners(ActionListener actionEvent) {

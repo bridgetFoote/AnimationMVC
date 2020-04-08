@@ -1,5 +1,6 @@
 package cs3500.animation.view;
 
+import cs3500.animation.controller.EditorViewController;
 import cs3500.animation.model.AnimationOperations;
 
 
@@ -116,4 +117,20 @@ public class AbstractVisualView extends JFrame implements AnimationView {
   public void setFinalTick(int tick) {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public int getCurrentTick() {
+    return panel.getCurrentTick();
+  }
+
+  @Override
+  public void addClickListener(EditorViewController listener) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void removeShape(String clickedShape) {
+    throw new UnsupportedOperationException();
+  }
+
 }

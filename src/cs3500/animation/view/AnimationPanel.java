@@ -11,6 +11,8 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,6 +25,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   private Timer timer;
   private int finalTick;
   private boolean enableLooping = false;
+  private List<String> dontDraw;
 
 
   /**
@@ -38,6 +41,36 @@ public class AnimationPanel extends JPanel implements ActionListener {
     this.currentTick = 1;
     this.delay = 1000 / (speed); // Convert from ticks per second to time delay (ms)
     this.timer = new Timer(delay,this);
+    this.dontDraw = new ArrayList<>();
+  }
+
+  /**
+   * Update the don't draw field to stop drawing the shape
+   * @param s the name of the shape to not draw
+   */
+  public void addDontDraw(String s) {
+    this.dontDraw.add(s);
+  }
+
+  /**
+   * Get the current tick of the animation
+   * @return the current tick
+   */
+  public int getCurrentTick() {
+    return currentTick;
+  }
+
+  /**
+   * Determine if you should draw the shape
+   * @param name the name of the shape
+   */
+  private boolean shouldDraw(String name) {
+    for (String s: dontDraw) {
+      if (name.equals(s)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
@@ -49,7 +82,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
       this.currentTick = 1;
     }
     for (ShapeDrawParam s: model.getShapesAtTick(currentTick)) {
-      if (s.type.equals(ShapeType.RECTANGLE)) {
+      if (! this.shouldDraw(s.name)) {
+        // Do nothing
+      }
+      else if (s.type.equals(ShapeType.RECTANGLE)) {
         g2d.setColor(new Color(s.color.getColorGradient("red"),
                 s.color.getColorGradient("green"),
                 s.color.getColorGradient("blue")));

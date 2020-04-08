@@ -3,23 +3,28 @@ package cs3500.animation.controller;
 import cs3500.animation.model.AnimationFrameOperations;
 import cs3500.animation.model.AnimationOperations;
 import cs3500.animation.model.IShape;
+import cs3500.animation.model.ShapeDrawParam;
 import cs3500.animation.view.AnimationView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class EditorViewController implements IController, ActionListener {
   private AnimationView view;
   private AnimationFrameOperations model;
+  private List<Integer> canvas;
 
   public EditorViewController(AnimationFrameOperations model, AnimationView view) {
     if (!Objects.isNull(model) && !Objects.isNull(view)) {
       this.view = view;
       view.setFinalTick(model.getFinalTick());
       this.model = model;
+      String[] canvasString= this.model.toString().split("\n")[0].split(" ");
+      canvas = new ArrayList<>();
+      canvas.add(Integer.parseInt(canvasString[1]));
+      canvas.add(Integer.parseInt(canvasString[2]));
     }
     else {
       throw new IllegalArgumentException("Model and view must not be null");
@@ -105,6 +110,31 @@ public class EditorViewController implements IController, ActionListener {
   @Override
   public void go() {
     this.view.setButtonListeners(this);
+    view.addClickListener(this);
     this.view.makeVisible();
+  }
+
+  @Override
+  public void handleMouseClick(int xPixel, int yPixel) {
+    int tick = view.getCurrentTick();
+    System.out.println(xPixel);
+    System.out.println(yPixel);
+    String clickedShape = "";
+    List<ShapeDrawParam> shapes = model.getShapesAtTick(tick);
+
+    // Determine if the click occurred within a shape.
+    for (int i = 0; i < shapes.size(); i++) {
+      ShapeDrawParam s = shapes.get(i);
+      if ((xPixel >= s.xPosn) && (xPixel <= s.xPosn + s.width) &&
+              (yPixel >= s.yPosn + canvas.get(1)) && (yPixel <= s.yPosn + s.height
+              + canvas.get(1))) {
+        clickedShape = s.name;
+      }
+    }
+
+    if (! clickedShape.equals("")) {
+      this.view.removeShape(clickedShape);
+      this.model.orderByTick();
+    }
   }
 }

@@ -154,7 +154,7 @@ public class AnimationModel implements AnimationOperations {
     int newB = linearInterpolation(a.getStartTick(), a.getEndTick(), t,
             a.getColor("start").getColorGradient("blue"),
             a.getColor("end").getColorGradient("blue"));
-    return new ShapeDrawParam(s.getType(), newX, newY, newWidth, newHeight,
+    return new ShapeDrawParam(s.getName(), s.getType(), newX, newY, newWidth, newHeight,
             new RGBColor(newR, newG, newB));
 
   }
