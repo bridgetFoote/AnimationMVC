@@ -124,7 +124,10 @@ public class AnimationModel implements AnimationOperations {
 
   @Override
   public int getFinalTick() {
-    return this.orderedShapes.lastKey();
+    if (this.orderedShapes.size() != 0) {
+      return this.orderedShapes.lastKey();
+    }
+    return 0;
   }
 
   /**
@@ -134,7 +137,7 @@ public class AnimationModel implements AnimationOperations {
    * @param t the tick to draw the shape at
    * @return a {@link ShapeDrawParam} to be added to orderedShapes.
    */
-  private ShapeDrawParam findShapeParams(IShape s, Integer t) {
+  protected ShapeDrawParam findShapeParams(IShape s, Integer t) {
     IAction a = this.findCurrentAction(s, t);
 
     int newX = linearInterpolation(a.getStartTick(), a.getEndTick(), t, a.getCoord("x", "start"),
@@ -200,7 +203,7 @@ public class AnimationModel implements AnimationOperations {
    * @param s the shape
    * @return an array of all ticks that the shape is active
    */
-  private int[] findTicks(IShape s) {
+  protected int[] findTicks(IShape s) {
     List<IAction> actions = s.getActions();
     int start = actions.get(0).getStartTick();
     int end = actions.get(actions.size() - 1).getEndTick();

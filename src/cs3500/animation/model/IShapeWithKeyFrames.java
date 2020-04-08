@@ -1,6 +1,15 @@
 package cs3500.animation.model;
 
+import java.util.TreeMap;
+
 public interface IShapeWithKeyFrames extends IShape {
+
+  /**
+   * Puts this shapes actions into a tree map with tick as the key.
+   *
+   * @return the tree map with the ordered actions.
+   */
+  public TreeMap<Integer, KeyFrame> orderActions();
 
   /**
    * Adds the given keyframe to this shape.

@@ -3,6 +3,7 @@ package cs3500.animation.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.TreeMap;
 
 public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
 
@@ -12,6 +13,17 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
   }
 
 
+  @Override
+  public TreeMap<Integer, KeyFrame> orderActions() {
+    TreeMap<Integer, KeyFrame> orderedActions = new TreeMap<Integer, KeyFrame>();
+    for (IAction action : this.actions) {
+      if (!(action instanceof KeyFrame)) {
+        throw new IllegalStateException();
+      }
+      orderedActions.put(action.getStartTick(), (KeyFrame) action);
+    }
+    return orderedActions;
+  }
 
   @Override
   public void addKeyFrame(KeyFrame frame) {

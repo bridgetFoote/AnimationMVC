@@ -19,6 +19,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     super();
   }
 
+  /*
   @Override
   public void orderByTick() {
     for (IShape shape : this.shapes.values()) {
@@ -46,8 +47,42 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
       }
     }
   }
+   */
 
-  private ShapeDrawParam findShapeParams(IShape shape, int tick, TreeMap<Integer, KeyFrame> orderedActions) {
+  @Override
+  protected int[] findTicks(IShape s) {
+    if (!(s instanceof ShapeWithKeyFrames)) {
+      throw new IllegalStateException();
+    }
+    List<IAction> actions = s.getActions();
+    int start = 0;
+    int end = 0;
+    for (IAction action : actions) {
+      if (!(action instanceof KeyFrame)) {
+        throw new IllegalStateException();
+      }
+      if (action.getStartTick() < start) {
+        start = action.getStartTick();
+      } else if (action.getStartTick() > end) {
+        end = action.getStartTick();
+      }
+    }
+    int[] outArr = new int[end - start];
+    int j = 0;
+    for (int i = start; i < end; i++) {
+      outArr[j] = i;
+      j++;
+    }
+    return outArr;
+  }
+
+  @Override
+  protected ShapeDrawParam findShapeParams(IShape s, Integer tick) {
+    if (!(s instanceof ShapeWithKeyFrames)) {
+      throw new IllegalStateException();
+    }
+    IShapeWithKeyFrames shape = (ShapeWithKeyFrames) s;
+    TreeMap<Integer, KeyFrame> orderedActions = shape.orderActions();
     if (orderedActions.containsKey(tick)) {
       KeyFrame kf = orderedActions.get(tick);
       return new ShapeDrawParam(shape.getType(), kf.getCoord("x", ""),
