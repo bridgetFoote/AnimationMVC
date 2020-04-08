@@ -170,7 +170,7 @@ public class AnimationModel implements AnimationOperations {
    * @param endVal b
    * @return f(t)
    */
-  private int linearInterpolation(int startTick, int endTick, Integer t,
+  protected int linearInterpolation(int startTick, int endTick, Integer t,
                                   int startVal, int endVal) {
     if (startTick == endTick) {
       return startVal;

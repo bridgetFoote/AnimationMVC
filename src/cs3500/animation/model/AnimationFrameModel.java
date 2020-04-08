@@ -1,5 +1,6 @@
 package cs3500.animation.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -16,6 +17,66 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
    */
   public AnimationFrameModel() {
     super();
+  }
+
+  @Override
+  public void orderByTick() {
+    for (IShape shape : this.shapes.values()) {
+      TreeMap<Integer, KeyFrame> orderedActions = new TreeMap<Integer, KeyFrame>();
+      for (IAction action : shape.getActions()) {
+        if (!(action instanceof KeyFrame)) {
+          throw new IllegalStateException();
+        }
+        KeyFrame kf = (KeyFrame) action;
+        orderedActions.put(action.getStartTick(), kf);
+      }
+      for (int i = orderedActions.firstKey(); i <= orderedActions.lastKey(); i++) {
+        ShapeDrawParam newShape = this.findShapeParams(shape, i, orderedActions);
+        if (orderedShapes.containsKey(i)) {
+          List<ShapeDrawParam> cShapes = orderedShapes.get(i);
+          cShapes.add(newShape);
+          orderedShapes.put(i,cShapes);
+        }
+        else {
+          List<ShapeDrawParam> nShapes = new ArrayList<>();
+          nShapes.add(newShape);
+          orderedShapes.put(i,nShapes);
+        }
+      }
+    }
+  }
+
+  private ShapeDrawParam findShapeParams(IShape shape, int tick, TreeMap<Integer, KeyFrame> orderedActions) {
+    if (orderedActions.containsKey(tick)) {
+      KeyFrame kf = orderedActions.get(tick);
+      return new ShapeDrawParam(shape.getType(), kf.getCoord("x", ""),
+              kf.getCoord("y", ""), kf.getWidth(""), kf.getHeight(""),
+              kf.getColor(""));
+    } else {
+      KeyFrame before = orderedActions.get(orderedActions.floorEntry(tick));
+      KeyFrame after = orderedActions.get(orderedActions.ceilingEntry(tick));
+      int newX = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getCoord("x", "start"),
+              after.getCoord("x", "end"));
+      int newY = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getCoord("y", "start"),
+              after.getCoord("y", "end"));
+      int newWidth = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getWidth("start"), after.getWidth("end"));
+      int newHeight = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getHeight("start"), after.getHeight("end"));
+      int newR = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getColor("start").getColorGradient("red"),
+              after.getColor("end").getColorGradient("red"));
+      int newG = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getColor("start").getColorGradient("green"),
+              after.getColor("end").getColorGradient("green"));
+      int newB = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getColor("start").getColorGradient("blue"),
+              after.getColor("end").getColorGradient("blue"));
+      return new ShapeDrawParam(shape.getType(), newX, newY, newWidth, newHeight,
+              new RGBColor(newR, newG, newB));
+    }
   }
 
   @Override
@@ -44,6 +105,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     if (this.shapes.containsKey(name)) {
       this.shapes.get(name).addKeyFrame(new KeyFrame(tick, xCoord, yCoord,
               width, height, redGradient, greenGradient, blueGradient));
+      this.orderByTick();
     } else {
       throw new IllegalArgumentException("Shape doesn't exist in the model");
     }
@@ -56,6 +118,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     } else {
       throw new IllegalArgumentException("Invalid inputs.");
     }
+    this.orderByTick();
   }
 
   @Override
@@ -65,6 +128,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     } else {
       this.shapes.remove(name);
     }
+    this.orderByTick();
   }
 
   @Override
@@ -83,6 +147,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     else {
       throw new IllegalArgumentException("Shape doesn't exist in the animation.");
     }
+    this.orderByTick();
   }
 
   @Override
@@ -93,7 +158,16 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     return (ShapeWithKeyFrames) this.shapes.get(name);
   }
 
-
+  @Override
+  public void convertActionsListToKeyFrames() {
+    for (IShape shape: this.shapes.values()) {
+      if (!(shape instanceof IShapeWithKeyFrames)) {
+        throw new IllegalStateException();
+      }
+      IShapeWithKeyFrames s = (ShapeWithKeyFrames) shape;
+      s.convertActionsToKeyFrames();
+    }
+  }
 
 
   /**
@@ -104,6 +178,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
 
     @Override
     public AnimationFrameOperations build() {
+      this.model.convertActionsListToKeyFrames();
       this.model.orderByTick();
       return this.model;
     }

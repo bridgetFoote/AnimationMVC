@@ -80,6 +80,7 @@ public final class Excellence {
       AnimationReader reader = new AnimationReader();
 
       AnimationFrameOperations model = reader.parseFile(inFileReader, b);
+      model.convertActionsListToKeyFrames();
       AnimationView view;
       // Check the view type, construct it, and launch the relevant method!
       if (vType.equals(ViewType.TEXTVIEW)) {
