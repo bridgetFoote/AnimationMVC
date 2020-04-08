@@ -141,7 +141,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     if (this.shapes.containsKey(name)) {
       this.shapes.get(name).addKeyFrame(new KeyFrame(tick, xCoord, yCoord,
               width, height, redGradient, greenGradient, blueGradient));
-      this.orderByTick();
     } else {
       throw new IllegalArgumentException("Shape doesn't exist in the model");
     }
@@ -154,7 +153,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     } else {
       throw new IllegalArgumentException("Invalid inputs.");
     }
-    this.orderByTick();
   }
 
   @Override
@@ -164,7 +162,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     } else {
       this.shapes.remove(name);
     }
-    this.orderByTick();
   }
 
   @Override
@@ -183,7 +180,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     else {
       throw new IllegalArgumentException("Shape doesn't exist in the animation.");
     }
-    this.orderByTick();
   }
 
   @Override
@@ -203,7 +199,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
 
     @Override
     public AnimationFrameOperations build() {
-      this.model.orderByTick();
       return this.model;
     }
 
