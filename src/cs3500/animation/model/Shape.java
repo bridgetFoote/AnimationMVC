@@ -1,5 +1,7 @@
 package cs3500.animation.model;
 
+import cs3500.animation.provider.view.Posn;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

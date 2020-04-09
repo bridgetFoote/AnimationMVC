@@ -1,5 +1,8 @@
 package cs3500.animation.model;
 
+import cs3500.animation.provider.view.Posn;
+
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -69,5 +72,4 @@ public interface IShape {
    *                                  an action this shape already has.
    */
   void addShapeAction(IAction action);
-
 }

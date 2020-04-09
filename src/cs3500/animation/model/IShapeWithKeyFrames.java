@@ -52,4 +52,45 @@ public interface IShapeWithKeyFrames extends IShape {
    * @throws IllegalArgumentException if the shape doesn't have a frame at that tick.
    */
   KeyFrame getTickAt(int tick);
+
+  /**
+   * Returns the first tick that this shape has a motion.
+   *
+   * @return integer of the first tick or 0 if this shape has no actions.
+   */
+  int getFirstTick();
+
+  /**
+   * Returns the last tick that this shape has a motion.
+   *
+   * @return integer of the last tick or 0 of this shape has no actions.
+   */
+  int getLastTick();
+
+  /**
+   * Returns a copy of the frame the shape has at the given tick.
+   *
+   * @param tick the tick of the frame.
+   * @return the keyframe at the given tick.
+   * @throws IllegalArgumentException if the shape doesn't have a frame at the tick.
+   */
+  KeyFrame getFrame(int tick);
+
+  /**
+   * Returns a copy of the last frame whose tick is less than the given tick.
+   *
+   * @param tick is the tick to compare.
+   * @return the KeyFrame that fits the above description.
+   * @throws IllegalArgumentException if no such frame exists.
+   */
+  KeyFrame getFrameBefore(int tick);
+
+  /**
+   * Returns a copy of the first frame whose tick is greater than the given tick.
+   *
+   * @param tick is the tick to compare.
+   * @return the KeyFrame that fits the above description.
+   * @throws IllegalArgumentException if no such frame exists.
+   */
+  KeyFrame getFrameAfter(int tick);
 }

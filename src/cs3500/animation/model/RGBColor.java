@@ -79,6 +79,33 @@ public class RGBColor {
     }
   }
 
+  /**
+   * Returns the red gradient of this color.
+   *
+   * @return the red value for this color.
+   */
+  public int getRed() {
+    return this.redGradient;
+  }
+
+  /**
+   * Returns the green gradient of this color.
+   *
+   * @return the green value for this color.
+   */
+  public int getGreen() {
+    return this.greenGradient;
+  }
+
+  /**
+   * Returns the blue gradient of this color.
+   *
+   * @return the blue value for this color.
+   */
+  public int getBlue() {
+    return this.blueGradient;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (!(other instanceof RGBColor)) {

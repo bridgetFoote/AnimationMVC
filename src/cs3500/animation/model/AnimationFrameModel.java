@@ -1,8 +1,6 @@
 package cs3500.animation.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Represents an animation where the motions of the shapes are represented by
@@ -16,6 +14,89 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
    */
   public AnimationFrameModel() {
     super();
+  }
+
+  @Override
+  public void orderByTick() {
+    int[] ticksActive;
+    for (IShape s: shapes.values()) {
+      ticksActive = this.findTicks(s);
+      for (Integer t: ticksActive) {
+        ShapeDrawParam newShape = this.findShapeParams(s,t);
+        if (orderedShapes.containsKey(t)) {
+          List<ShapeDrawParam> cShapes = orderedShapes.get(t);
+          cShapes.add(newShape);
+          orderedShapes.put(t,cShapes);
+        }
+        else {
+          List<ShapeDrawParam> nShapes = new ArrayList<>();
+          nShapes.add(newShape);
+          orderedShapes.put(t,nShapes);
+        }
+      }
+    }
+  }
+
+  @Override
+  protected ShapeDrawParam findShapeParams(IShape s, Integer tick) {
+    if (!(s instanceof IShapeWithKeyFrames)) {
+      throw new IllegalStateException();
+    }
+    IShapeWithKeyFrames shape = (ShapeWithKeyFrames) s;
+    if (shape.hasFrameAt(tick)) {
+      KeyFrame frame = shape.getFrame(tick);
+      return new ShapeDrawParam(shape.getName(), shape.getType(),
+              frame.getCoord("x", ""),
+              frame.getCoord("y", ""),
+              frame.getWidth(""), frame.getHeight(""),
+              frame.getColor("start"));
+    } else if (tick > shape.getLastTick()) {
+      KeyFrame frame = shape.getFrame(shape.getLastTick());
+      return new ShapeDrawParam(shape.getName(), shape.getType(),
+              frame.getCoord("x", ""),
+              frame.getCoord("y", ""),
+              frame.getWidth(""), frame.getHeight(""),
+              frame.getColor("start"));
+    } else {
+      KeyFrame before = shape.getFrameBefore(tick);
+      KeyFrame after = shape.getFrameAfter(tick);
+      int newX = linearInterpolation(before.getStartTick(), after.getEndTick(), tick, before.getCoord("x", "start"),
+              after.getCoord("x", "end"));
+      int newY = linearInterpolation(before.getStartTick(), after.getEndTick(), tick, before.getCoord("y", "start"),
+              after.getCoord("y", "end"));
+      int newWidth = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getWidth("start"), after.getWidth("end"));
+      int newHeight = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getHeight("start"), after.getHeight("end"));
+      int newR = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getColor("start").getColorGradient("red"),
+              after.getColor("end").getColorGradient("red"));
+      int newG = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getColor("start").getColorGradient("green"),
+              after.getColor("end").getColorGradient("green"));
+      int newB = linearInterpolation(before.getStartTick(), after.getEndTick(), tick,
+              before.getColor("start").getColorGradient("blue"),
+              after.getColor("end").getColorGradient("blue"));
+      return new ShapeDrawParam(s.getName(), s.getType(), newX, newY, newWidth, newHeight,
+              new RGBColor(newR, newG, newB));
+    }
+  }
+
+  @Override
+  protected int[] findTicks(IShape shape) {
+    if (!(shape instanceof IShapeWithKeyFrames)) {
+      throw new IllegalStateException();
+    }
+    IShapeWithKeyFrames s = (ShapeWithKeyFrames) shape;
+    int firstTick = s.getFirstTick();
+    int lastTick = s.getLastTick();
+    int[] outArr = new int[lastTick - firstTick];
+    int j = 0;
+    for (int i = firstTick; i < lastTick; i++) {
+      outArr[j] = i;
+      j++;
+    }
+    return outArr;
   }
 
   @Override
