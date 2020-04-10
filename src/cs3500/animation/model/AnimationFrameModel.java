@@ -167,7 +167,7 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
   }
 
   @Override
-  public ShapeWithKeyFrames getShape(String name) {
+  public ShapeWithKeyFrames getShapeWithName(String name) {
     if (! (shapes.containsKey(name))) {
       throw new IllegalArgumentException("This shape doesn't exist");
     }

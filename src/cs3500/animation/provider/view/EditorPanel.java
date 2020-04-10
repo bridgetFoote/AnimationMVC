@@ -1,5 +1,7 @@
 package cs3500.animation.provider.view;
 
+import cs3500.animation.model.KeyFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -60,7 +62,7 @@ public class EditorPanel extends JPanel {
     // and loop box is checked, restart the animation
     int lastTick = 0;
     for (IShape s : this.model.getShapes().values()) {
-      for (Keyframe k : s.getKeyframes()) {
+      for (KeyFrame k : s.getKeyframes()) {
         if (k.getTime() > lastTick) {
           lastTick = k.getTime();
         }

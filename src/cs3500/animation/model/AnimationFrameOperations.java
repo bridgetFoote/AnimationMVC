@@ -71,6 +71,6 @@ public interface AnimationFrameOperations extends AnimationOperations {
    * @return the shape
    * @throws IllegalArgumentException if the shape is not in the model.
    */
-  ShapeWithKeyFrames getShape(String name);
+  ShapeWithKeyFrames getShapeWithName(String name);
 
 }

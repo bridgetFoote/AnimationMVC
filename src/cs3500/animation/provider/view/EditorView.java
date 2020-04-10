@@ -1,7 +1,6 @@
 package cs3500.animation.provider.view;
 
-import cs3500.animator.model.IShape;
-import cs3500.animator.model.Keyframe;
+import cs3500.animation.model.KeyFrame;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -244,7 +243,7 @@ public class EditorView extends JFrame implements IView {
   private void fillList(DefaultListModel<String> model) {
     for (IShape s : this.model.getShapes().values()) {
       model.addElement(s.toString());
-      for (Keyframe k : s.getKeyframes()) {
+      for (KeyFrame k : s.getKeyframes()) {
         model.addElement(k.toString());
       }
     }

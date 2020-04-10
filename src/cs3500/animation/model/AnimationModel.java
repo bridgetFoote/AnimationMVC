@@ -17,7 +17,7 @@ public class AnimationModel implements AnimationOperations {
    * Creates a new AnimationModel with an empty list of shapes.
    */
   public AnimationModel() {
-    shapes = new HashMap<String, IShapeWithKeyFrames>();
+    shapes = new HashMap<String, IShape>();
     orderedShapes = new TreeMap<Integer,List<ShapeDrawParam>>();
     // Default values for now
     topX = 0;
@@ -26,7 +26,7 @@ public class AnimationModel implements AnimationOperations {
     canvasWidth = 0;
   }
 
-  protected HashMap<String, IShapeWithKeyFrames> shapes;
+  protected HashMap<String, IShape> shapes;
   protected TreeMap<Integer, List<ShapeDrawParam>> orderedShapes;
   protected int topX;
   protected int topY;

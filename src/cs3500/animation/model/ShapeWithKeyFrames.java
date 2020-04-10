@@ -100,6 +100,15 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
   }
 
   @Override
+  public List<KeyFrame> getKeyframes() {
+    List<KeyFrame> list = new ArrayList<KeyFrame>();
+    for (KeyFrame kf : this.keyFrames.values()) {
+      list.add(kf);
+    }
+    return list;
+  }
+
+  @Override
   public List<Integer> getPosition(int tick) {
     if (this.keyFrames.containsKey(tick)) {
       return Arrays.asList(this.keyFrames.get(tick).getCoord("x", ""),

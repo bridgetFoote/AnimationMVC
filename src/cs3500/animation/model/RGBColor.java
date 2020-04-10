@@ -1,11 +1,13 @@
 package cs3500.animation.model;
 
+import cs3500.animation.provider.view.IColor;
+
 /**
  * Class to represent the RGB color of a shape in an animation.
  * Red, green, and blue gradient values are integers in range 0
  * to 255, inclusive.
  */
-public class RGBColor {
+public class RGBColor implements IColor {
 
   /**
    * Constructs a color with the given RGB gradient values.
@@ -59,13 +61,7 @@ public class RGBColor {
     }
   }
 
-  /**
-   * Returns the value for the indicated color gradient.
-   *
-   * @param gradientType is the gradient value to return.
-   * @return the integer value for the requested gradient type.
-   * @throws IllegalArgumentException if the gradient type is not valid.
-   */
+  @Override
   public int getColorGradient(String gradientType) {
     switch (gradientType) {
       case "red":
@@ -79,29 +75,17 @@ public class RGBColor {
     }
   }
 
-  /**
-   * Returns the red gradient of this color.
-   *
-   * @return the red value for this color.
-   */
+  @Override
   public int getRed() {
     return this.redGradient;
   }
 
-  /**
-   * Returns the green gradient of this color.
-   *
-   * @return the green value for this color.
-   */
+  @Override
   public int getGreen() {
     return this.greenGradient;
   }
 
-  /**
-   * Returns the blue gradient of this color.
-   *
-   * @return the blue value for this color.
-   */
+  @Override
   public int getBlue() {
     return this.blueGradient;
   }

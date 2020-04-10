@@ -1,5 +1,7 @@
 package cs3500.animation.provider.view;
 
+import cs3500.animation.model.KeyFrame;
+
 import java.util.ArrayList;
 
 
@@ -55,7 +57,7 @@ public interface ExCELlenceOperations extends ExCELlenceOperationsReadOnly {
    * @param k    the keyframe to be added
    * @throws IllegalArgumentException if shape does not exist
    */
-  void addKeyframe(String name, Keyframe k);
+  void addKeyframe(String name, KeyFrame k);
 
   /**
    * removes given motion of the given shape and parameters to shape's list of motions.
@@ -64,7 +66,7 @@ public interface ExCELlenceOperations extends ExCELlenceOperationsReadOnly {
    * @param k    the keyframe to be removed
    * @throws IllegalArgumentException if shape does not exist, or shape doesn't have motion
    */
-  void removeKeyframe(String name, Keyframe k);
+  void removeKeyframe(String name, KeyFrame k);
 
 
   /**
@@ -73,7 +75,7 @@ public interface ExCELlenceOperations extends ExCELlenceOperationsReadOnly {
    * @return an ArrayList<Keyframe></Keyframe> holding specified keyframes.
    * @throws IllegalArgumentException if shape does not exist.
    */
-  ArrayList<Keyframe> getKeyframes(String name);
+  ArrayList<KeyFrame> getKeyframes(String name);
 
   /**
    * Obtains a list of all shapes in the model at given tick, interpolating their motions.

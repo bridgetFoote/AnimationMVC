@@ -1,5 +1,7 @@
 package cs3500.animation.model;
 
+import java.util.List;
+
 public interface IShapeWithKeyFrames extends IShape {
 
   /**
@@ -93,4 +95,11 @@ public interface IShapeWithKeyFrames extends IShape {
    * @throws IllegalArgumentException if no such frame exists.
    */
   KeyFrame getFrameAfter(int tick);
+
+  /**
+   * Returns the list of keyframes for this shape.
+   *
+   * @return list of keyframes for this shape.
+   */
+  List<KeyFrame> getKeyframes();
 }
