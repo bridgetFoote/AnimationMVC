@@ -114,7 +114,7 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
 
   @Override
   public IShape getShape(String name) {
-    return this.shapes.get(name);
+    return (IShape) this.shapes.get(name);
   }
 
   @Override
