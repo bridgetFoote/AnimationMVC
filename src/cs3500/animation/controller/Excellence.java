@@ -118,7 +118,7 @@ public final class Excellence {
       }
       else if (vType.equals(ViewType.PROVIDERVIEW)) {
         cs3500.animation.provider.view.EditorView view2 = new cs3500.animation.provider.view.EditorView(String.format("User's animation for %s", inFile),
-                model.translateModel());
+                model2);
         view2.showView();
       }
       else {
