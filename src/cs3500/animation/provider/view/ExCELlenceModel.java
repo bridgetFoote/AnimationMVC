@@ -3,6 +3,7 @@ package cs3500.animation.provider.view;
 import cs3500.animation.model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -96,7 +97,8 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
     ArrayList<IShape> sl = new ArrayList<IShape>();
     for (ShapeDrawParam p : params) {
       String name = p.name;
-      sl.add(this.shapes.get(name));
+      IShape shape = (IShape) this.shapes.get(name);
+      sl.add(shape);
     }
     return sl;
   }
@@ -107,7 +109,8 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
     ArrayList<IShape> sl = new ArrayList<IShape>();
     for (ShapeDrawParam p : params) {
       String name = p.name;
-      sl.add(this.shapes.get(name));
+      IShape shape = (IShape) this.shapes.get(name);
+      sl.add(shape);
     }
     return sl;
   }
@@ -153,12 +156,12 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
 
   @Override
   public void sortMotions(String name) {
-    // not needed
+    this.orderByTick();
   }
 
   @Override
   public void sortKeyframes(String name) {
-    // not needed
+    this.orderByTick();
   }
 
   @Override
@@ -186,5 +189,54 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
       throw new IllegalArgumentException("Canvas height must be greater than 0");
     }
     this.canvasHeight = h;
+  }
+
+  /**
+   * Builds an Animation.
+   */
+  public static final class Builder implements AnimationBuilder<ExCELlenceOperations> {
+    private ExCELlenceOperations model = new ExCELlenceModel();
+
+    @Override
+    public ExCELlenceOperations build() {
+      this.model.sortKeyframes("");
+      return this.model;
+    }
+
+    @Override
+    public AnimationBuilder<ExCELlenceOperations> setBounds(int x, int y, int width, int height) {
+      this.model.setTopLeft(new Posn(x, y));
+      this.model.setWindowWidth(width);
+      this.model.setWindowHeight(height);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<ExCELlenceOperations> declareShape(String name, String type) {
+      this.model.create(name, type, null, 0, 0, null);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<ExCELlenceOperations> addMotion(String name, int t1, int x1, int y1,
+                                                                int w1, int h1, int r1,
+                                                                int g1, int b1, int t2,
+                                                                int x2, int y2, int w2, int h2,
+                                                                int r2, int g2, int b2) {
+      if ((x1 == x2) && (y1 == y2)) {
+        this.model.addMotion(name, (IMotion) new Stay(t1, t2, Arrays.asList(x1, y1),
+                Arrays.asList(x2, y2), new RGBColor(r1, g1, b1), new RGBColor(r2, g2, b2), w1, h1, w2, h2));
+      }
+      this.model.addMotion(name, (IMotion) new Move(t1, t2, Arrays.asList(x1, y1),
+              Arrays.asList(x2, y2), new RGBColor(r1, g1, b1), new RGBColor(r2, g2, b2), w1, h1, w2, h2));
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<ExCELlenceOperations> addKeyframe(String name, int t, int x, int y,
+                                                                  int w, int h, int r, int g, int b) {
+      this.model.addKeyframe(name, new KeyFrame(t, x, y, w, h, r, g, b));
+      return this;
+    }
   }
 }

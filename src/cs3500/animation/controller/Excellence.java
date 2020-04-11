@@ -1,6 +1,9 @@
 package cs3500.animation.controller;
 
 import cs3500.animation.model.*;
+import cs3500.animation.provider.view.ExCELlenceModel;
+import cs3500.animation.provider.view.ExCELlenceOperations;
+import cs3500.animation.provider.view.ExCELlenceOperationsReadOnly;
 import cs3500.animation.view.*;
 
 import javax.swing.JOptionPane;
@@ -51,6 +54,9 @@ public final class Excellence {
           else if (args[i + 1].equals("edit")) {
             vType = ViewType.EDITORVIEW;
           }
+          else if (args[i + 1].equals("provider")) {
+            vType = ViewType.PROVIDERVIEW;
+          }
           else {
             JOptionPane.showMessageDialog(new JDialog(), "Invalid view type");
             return;
@@ -74,12 +80,15 @@ public final class Excellence {
     }
     // ------------ Launch the program ----------------------
     AnimationFrameModel.Builder b = new AnimationFrameModel.Builder();
+    ExCELlenceModel.Builder b2 = new ExCELlenceModel.Builder();
     try {
       // Use parseFile to build the model (complete with shapes).
       FileReader inFileReader = new FileReader(inFile);
       AnimationReader reader = new AnimationReader();
 
       AnimationFrameOperations model = reader.parseFile(inFileReader, b);
+      ExCELlenceOperations model2 = reader.parseFile(inFileReader, b2);
+
       AnimationView view;
       // Check the view type, construct it, and launch the relevant method!
       if (vType.equals(ViewType.TEXTVIEW)) {
@@ -106,6 +115,11 @@ public final class Excellence {
         IController controller = new EditorViewController(model, view);
         controller.go();
         // view.makeVisible();
+      }
+      else if (vType.equals(ViewType.PROVIDERVIEW)) {
+        cs3500.animation.provider.view.EditorView view2 = new cs3500.animation.provider.view.EditorView(String.format("User's animation for %s", inFile),
+                model.translateModel());
+        view2.showView();
       }
       else {
         System.out.println("Invalid view");

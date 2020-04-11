@@ -1,9 +1,5 @@
 package cs3500.animation.provider.view;
 
-import cs3500.animator.model.Ellipse;
-import cs3500.animator.model.IShape;
-import cs3500.animator.model.Rectangle;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;

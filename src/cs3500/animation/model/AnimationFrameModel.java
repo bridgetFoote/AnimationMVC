@@ -1,5 +1,7 @@
 package cs3500.animation.model;
 
+import cs3500.animation.provider.view.ExCELlenceOperations;
+
 import java.util.*;
 
 /**
@@ -185,7 +187,6 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
     }
     return (ShapeWithKeyFrames) this.shapes.get(name);
   }
-
 
 
   /**

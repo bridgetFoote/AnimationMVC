@@ -2,6 +2,7 @@ package cs3500.animation.view;
 
 import cs3500.animation.controller.EditorViewController;
 import cs3500.animation.model.IShape;
+import cs3500.animation.provider.view.IView;
 
 import java.awt.event.ActionListener;
 

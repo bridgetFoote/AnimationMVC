@@ -1,5 +1,7 @@
 package cs3500.animation.provider.view;
 
+import cs3500.animation.view.AnimationView;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
