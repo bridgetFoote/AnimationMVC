@@ -97,4 +97,12 @@ public interface IAction {
    * @return the string representing this action, only relevant for ShapeAction.
    */
   String toString(IShape shape);
+
+  /**
+   * Returns the tick of this action, only implemented in keyframe not ShapeAction.
+   *
+   * @return the tick of this key frame.
+   * @throws UnsupportedOperationException if this is a shapeAction
+   */
+  int getTime();
 }

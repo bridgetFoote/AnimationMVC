@@ -311,4 +311,9 @@ public abstract class ShapeAction implements IAction {
     throw new IllegalArgumentException("The given tick does not occur within this action.");
   }
 
+  @Override
+  public int getTime() {
+    throw new UnsupportedOperationException();
+  }
+
 }

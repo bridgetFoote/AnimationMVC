@@ -115,6 +115,11 @@ public class KeyFrame implements IAction {
   }
 
   @Override
+  public int getTime() {
+    return this.tick;
+  }
+
+  @Override
   public boolean equals(Object other) {
     if (!(other instanceof KeyFrame)) {
       return false;

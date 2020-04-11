@@ -1,12 +1,10 @@
 package cs3500.animation.provider.view;
 
-import cs3500.animation.model.AnimationFrameModel;
-import cs3500.animation.model.IAction;
-import cs3500.animation.model.KeyFrame;
-import cs3500.animation.model.ShapeType;
+import cs3500.animation.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOperations {
 
@@ -94,71 +92,99 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
 
   @Override
   public ArrayList<IShape> getShapesAt(int tick) {
-    throw new UnsupportedOperationException();
+    List<ShapeDrawParam> params = this.getShapesAtTick(tick);
+    ArrayList<IShape> sl = new ArrayList<IShape>();
+    for (ShapeDrawParam p : params) {
+      String name = p.name;
+      sl.add(this.shapes.get(name));
+    }
+    return sl;
   }
 
   @Override
   public ArrayList<IShape> getShapesAtKeyframe(int tick) {
+    List<ShapeDrawParam> params = this.getShapesAtTick(tick);
+    ArrayList<IShape> sl = new ArrayList<IShape>();
+    for (ShapeDrawParam p : params) {
+      String name = p.name;
+      sl.add(this.shapes.get(name));
+    }
+    return sl;
+  }
 
+  @Override
+  public IShape getShape(String name) {
+    return this.shapes.get(name);
   }
 
   @Override
   public HashMap<String, IShape> getShapes() {
-    return null;
+    HashMap<String, IShape> rl = new HashMap<String, IShape>();
+    for (String name : this.shapes.keySet()) {
+      rl.put(name, (cs3500.animation.provider.view.IShape) this.shapes.get(name));
+    }
+    return rl;
   }
 
   @Override
   public String getState() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Posn getTopLeft() {
-    return null;
+    return new Posn(this.topX, this.topY);
   }
 
   @Override
   public int getWindowWidth() {
-    return 0;
+    return this.canvasWidth;
   }
 
   @Override
   public int getWindowHeight() {
-    return 0;
+    return this.canvasHeight;
   }
 
   @Override
   public String getKey(IShape s) {
-    return null;
+    return s.getName();
   }
 
   @Override
   public void sortMotions(String name) {
-
+    // not needed
   }
 
   @Override
   public void sortKeyframes(String name) {
-
+    // not needed
   }
 
   @Override
   public void validateMotions(String name) {
-
+    // not needed
   }
 
   @Override
   public void setTopLeft(Posn p) {
-
+    this.topX = p.getX();
+    this.topY = p.getY();
   }
 
   @Override
   public void setWindowWidth(int w) {
-
+    if (w <= 0) {
+      throw new IllegalArgumentException("Canvas width must be greater than 0.");
+    }
+    this.canvasWidth = w;
   }
 
   @Override
   public void setWindowHeight(int h) {
-
+    if (h <= 0) {
+      throw new IllegalArgumentException("Canvas height must be greater than 0");
+    }
+    this.canvasHeight = h;
   }
 }

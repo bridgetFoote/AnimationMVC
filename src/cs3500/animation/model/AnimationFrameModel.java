@@ -123,7 +123,11 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
                           int yCoord, int width, int height, int redGradient,
                           int greenGradient, int blueGradient) {
     if (this.shapes.containsKey(name)) {
-      this.shapes.get(name).addKeyFrame(new KeyFrame(tick, xCoord, yCoord,
+      if (!(this.shapes.get(name) instanceof IShapeWithKeyFrames)) {
+        throw new IllegalStateException();
+      }
+      IShapeWithKeyFrames shape = (ShapeWithKeyFrames) this.shapes.get(name);
+      shape.addKeyFrame(new KeyFrame(tick, xCoord, yCoord,
               width, height, redGradient, greenGradient, blueGradient));
     } else {
       throw new IllegalArgumentException("Shape doesn't exist in the model");
@@ -133,7 +137,11 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
   @Override
   public void removeKeyFrame(String name, int tick) {
     if (this.shapes.containsKey(name)) {
-      this.shapes.get(name).removeKeyFrame(tick);
+      if (!(this.shapes.get(name) instanceof IShapeWithKeyFrames)) {
+        throw new IllegalStateException();
+      }
+      IShapeWithKeyFrames shape = (ShapeWithKeyFrames) this.shapes.get(name);
+      shape.removeKeyFrame(tick);
     } else {
       throw new IllegalArgumentException("Invalid inputs.");
     }
@@ -153,8 +161,12 @@ public class AnimationFrameModel extends AnimationModel implements AnimationFram
                            int yCoord, int width, int height,
                            int redGradient, int greenGradient, int blueGradient) {
     if (this.shapes.containsKey(name)) {
-      if (this.shapes.get(name).hasFrameAt(tick)) {
-        this.shapes.get(name).editKeyFrame(tick, xCoord, yCoord, width, height,
+      if (!(this.shapes.get(name) instanceof IShapeWithKeyFrames)) {
+        throw new IllegalStateException();
+      }
+      IShapeWithKeyFrames shape = (ShapeWithKeyFrames) this.shapes.get(name);
+      if (shape.hasFrameAt(tick)) {
+        shape.editKeyFrame(tick, xCoord, yCoord, width, height,
                 redGradient, greenGradient, blueGradient);
       }
       else {

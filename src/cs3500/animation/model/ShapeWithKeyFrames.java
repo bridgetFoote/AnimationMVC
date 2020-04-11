@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
 
-  private TreeMap<Integer, KeyFrame> keyFrames;
+  protected TreeMap<Integer, KeyFrame> keyFrames;
 
   public ShapeWithKeyFrames(String name, ShapeType type) {
     super(name, type);
@@ -139,7 +139,7 @@ public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
    * @param endVal b
    * @return f(t)
    */
-  private int linearInterpolation(int startTick, int endTick, Integer t,
+  protected int linearInterpolation(int startTick, int endTick, Integer t,
                                   int startVal, int endVal) {
     if (startTick == endTick) {
       return startVal;
