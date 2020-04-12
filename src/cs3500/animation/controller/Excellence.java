@@ -84,10 +84,11 @@ public final class Excellence {
     try {
       // Use parseFile to build the model (complete with shapes).
       FileReader inFileReader = new FileReader(inFile);
+      FileReader inFileReader2 = new FileReader(inFile);
       AnimationReader reader = new AnimationReader();
 
       AnimationFrameOperations model = reader.parseFile(inFileReader, b);
-      ExCELlenceOperations model2 = reader.parseFile(inFileReader, b2);
+      ExCELlenceOperations model2 = reader.parseFile(inFileReader2, b2);
 
       AnimationView view;
       // Check the view type, construct it, and launch the relevant method!
@@ -117,7 +118,8 @@ public final class Excellence {
         // view.makeVisible();
       }
       else if (vType.equals(ViewType.PROVIDERVIEW)) {
-        cs3500.animation.provider.view.EditorView view2 = new cs3500.animation.provider.view.EditorView(String.format("User's animation for %s", inFile),
+        cs3500.animation.provider.view.EditorView view2 =
+                new cs3500.animation.provider.view.EditorView(String.format("User's animation for %s", inFile),
                 model2);
         view2.showView();
       }

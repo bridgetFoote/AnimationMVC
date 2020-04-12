@@ -28,7 +28,16 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
       } else {
         throw new IllegalArgumentException("Shape type is not valid.");
       }
-      this.shapes.put(name, new Shape(name, t, c, (int) w, (int) h, p));
+      ShapeType type;
+      if (shape.equals("rectangle")) {
+        type = ShapeType.RECTANGLE;
+      } else if (shape.equals("ellipse")) {
+        type = ShapeType.ELLIPSE;
+      } else {
+        throw new IllegalArgumentException("Shape type is not valid");
+      }
+      IShape s = new Shape(name, type);
+      this.shapes.put(name, s);
     }
   }
 
@@ -224,10 +233,10 @@ public class ExCELlenceModel extends AnimationFrameModel implements ExCELlenceOp
                                                                 int x2, int y2, int w2, int h2,
                                                                 int r2, int g2, int b2) {
       if ((x1 == x2) && (y1 == y2)) {
-        this.model.addMotion(name, (IMotion) new Stay(t1, t2, Arrays.asList(x1, y1),
+        this.model.addMotion(name, new Stay(t1, t2, Arrays.asList(x1, y1),
                 Arrays.asList(x2, y2), new RGBColor(r1, g1, b1), new RGBColor(r2, g2, b2), w1, h1, w2, h2));
       }
-      this.model.addMotion(name, (IMotion) new Move(t1, t2, Arrays.asList(x1, y1),
+      this.model.addMotion(name, new Move(t1, t2, Arrays.asList(x1, y1),
               Arrays.asList(x2, y2), new RGBColor(r1, g1, b1), new RGBColor(r2, g2, b2), w1, h1, w2, h2));
       return this;
     }
