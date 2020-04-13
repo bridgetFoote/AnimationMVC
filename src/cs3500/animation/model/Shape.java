@@ -1,9 +1,6 @@
 package cs3500.animation.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Abstract class to represent a shape. Has fields for the
@@ -192,4 +189,13 @@ public class Shape implements IShape {
     }
     throw new IllegalArgumentException("This shape does not have an action at the given tick.");
   }
+
+  public class CompareActions implements Comparator<IAction> {
+
+    @Override
+    public int compare(IAction o1, IAction o2) {
+      return Integer.compare(o1.getStartTick(), o2.getStartTick());
+    }
+  }
+
 }

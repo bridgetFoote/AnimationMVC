@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ShapeWithKeyFrames extends Shape implements IShapeWithKeyFrames {
-  private List<KeyFrame> actions;
+  protected List<KeyFrame> actions;
 
   public ShapeWithKeyFrames(String name, ShapeType type) {
     super(name, type);

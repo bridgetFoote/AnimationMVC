@@ -46,7 +46,7 @@ public class ModelTests {
     m.addShape("r",ShapeType.RECTANGLE.toString());
     m.addKeyFrame("r", 0, 100, 100, 100, 100,
             255, 0, 0);
-    assertTrue(m.getShape("r").hasFrameAt(0));
+    assertTrue(m.getShapeWithKeyFrames("r").hasFrameAt(0));
 
   }
 
@@ -67,7 +67,7 @@ public class ModelTests {
     m.addKeyFrame("r", 1, 101, 100, 100, 100,
             255, 0, 0);
     m.removeKeyFrame("r", 1);
-    assertFalse(m.getShape("r").hasFrameAt(1));
+    assertFalse(m.getShapeWithKeyFrames("r").hasFrameAt(1));
   }
 
   // Test remove key frame where a frame DNE
@@ -80,7 +80,7 @@ public class ModelTests {
     m.addKeyFrame("r", 1, 101, 100, 100, 100,
             255, 0, 0);
     m.removeKeyFrame("r", 2);
-    assertFalse(m.getShape("r").hasFrameAt(1));
+    assertFalse(m.getShapeWithKeyFrames("r").hasFrameAt(1));
   }
 
   // Test that two key frames are the same
@@ -107,7 +107,7 @@ public class ModelTests {
     ShapeWithKeyFrames r = new ShapeWithKeyFrames("r", ShapeType.RECTANGLE);
     m.addShape("r",ShapeType.RECTANGLE.toString());
     m.removeShape("r");
-    m.getShape("r");
+    m.getShapeWithKeyFrames("r");
   }
 
   // Test remove shape that DNE
@@ -127,7 +127,7 @@ public class ModelTests {
             255, 0, 0);
     m.editKeyFrame("r", 1, 200, 100, 100, 100,
             255, 0, 0);
-    KeyFrame newFrame = m.getShape("r").getTickAt(1);
+    KeyFrame newFrame = m.getShapeWithKeyFrames("r").getTickAt(1);
     KeyFrame changedFrame = new KeyFrame(1, 200, 100, 100, 100,
             255, 0, 0);
     assertEquals(newFrame, changedFrame);
@@ -164,7 +164,7 @@ public class ModelTests {
   public void testGetShape() {
     ShapeWithKeyFrames r = new ShapeWithKeyFrames("r", ShapeType.RECTANGLE);
     m.addShape("r", ShapeType.RECTANGLE.toString());
-    assertEquals(r, m.getShape("r"));
+    assertEquals(r, m.getShapeWithKeyFrames("r"));
   }
 
 }
